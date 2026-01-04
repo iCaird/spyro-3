@@ -1,0 +1,6 @@
+.section .rodata
+
+dlabel D_level_45_80074670
+/* 8D30BA0 80074670 00000101 */ .word 0x01010000
+/* 8D30BA4 80074674 02030400 */ .word 0x00040302
+.size D_level_45_80074670, . - D_level_45_80074670

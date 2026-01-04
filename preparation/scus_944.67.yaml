@@ -1,0 +1,123 @@
+name: SCUS_944.67
+sha1: 31ad35fd03539910b5b3d9309ae52f5acaf3612e
+options:
+  basename: scus_944.67
+  target_path: SCUS_944.67
+  base_path: .
+  platform: psx
+  compiler: GCC
+
+  # asm_path: asm
+  # src_path: src
+  # build_path: build
+  # create_asm_dependencies: True
+
+  ld_script_path: scus_944.67.ld
+
+  find_file_boundaries: False
+  gp_value: 0x8006C3B0
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - symbol_addrs.txt
+  reloc_addrs_path:
+    - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
+
+  extensions_path: tools/splat_ext
+
+  ld_bss_is_noload: True
+  auto_decompile_empty_functions: False
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80010000
+    bss_size: 0x7ADC
+    subsegments:
+      # rdata
+      - [0x800, .rodata, camera]
+      - [0xA20, .rodata, cheat]
+      - [0xA50, .rodata, draw]
+      - [0xB3C, .rodata, drawutil]
+      - [0xB58, .rodata, hud]
+      - [0xB70, .rodata, loaders]
+      - [0xBA4, .rodata, mobyutil]
+      - [0xD28, .rodata, spu]
+      - [0xD40, .rodata, spyroupdate]
+      - [0x1474, .rodata, str]
+      - [0x149C, .rodata, update]
+      - [0x1A54, rodata, overlaypointer] # ?
+      - [0x1A58, .rodata, updatepause]
+      - [0x1B88, .rodata, warp]
+      - [0x1E5C, rodata, psyq]
+
+      # text
+      - [0x280C, c, main]
+      - [0x284C, c, camera]
+      - [0x8204, c, cheat]
+      - [0x8B0C, asm, collision]
+      - [0xCB68, asm, cyclorama]
+      - [0xDA74, c, draw]
+      - [0xF3AC, c, drawutil]
+      - [0x11674, asm, environment]
+      - [0x18134, c, hud]
+      - [0x1AF94, c, init]
+      - [0x1B600, c, loaders]
+      - [0x1D8D8, asm, mobyfunc]
+      - [0x20B8C, c, mobyupdate] # ?? not sure why this is its own file
+      - [0x20C78, asm, mobydraw] # ??
+      - [0x255AC, c, mobyutil] # possibly more files
+      - [0x2A634, c, pad]
+      #- [0x2B1EC, c, parts] # oops, this was pad
+      - [0x2B238, asm, partsdraw]
+      - [0x2BE34, c, savepoint]
+      - [0x2C2BC, c, spu]
+      - [0x2D5A0, asm, spyrodraw]
+      - [0x2F03C, c, spyroupdate]
+      - [0x3EE64, asm, stdutil]
+      - [0x400EC, c, str]
+      - [0x41044, c, unknown] # moby shit?? possibly in update
+      - [0x411F0, c, update]
+      - [0x45DC0, c, updateabilities] # ??
+      - [0x45E80, asm, updatemobys] # ??
+      - [0x46DA0, c, updatepause]
+      - [0x48CBC, c, warp]
+      - [0x49C44, asm, psyq] # ?
+
+      # data
+      - [0x5579C, data, game] # Not sure how to split this up yet
+      - [0x5A6FC, data, psyq]
+
+      # sdata
+      - [0x5CBB0, sdata, game] # Not sure how to split this up yet
+
+      # sbss
+      - { start: 0x5CFF4, type: sbss, name: psyq, vram: 0x8006C7F4 } # Not sure how to split this up yet
+
+      # bss
+      - { start: 0x5CFF8, type: bss, name: game, vram: 0x8006C7F8 } # Not sure how to split this up yet
+      - { start: 0x62DEC, type: bss, name: psyq, vram: 0x800725EC } # This contained overlay stuff which needed to be moved out
+  - [0x64AD0] # file length 5d000

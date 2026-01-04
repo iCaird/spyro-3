@@ -1,0 +1,16 @@
+Overlay functions referenced in exe: Title, Loading, Options, Atlas, Credits.
+
+There are likely cases of scans which use main instead of main_TEXT_START, this should really be changed long-term.
+
+In addition, (at least some of) the 80074dec and 8007EC9C references in initialise should actually be title_text and title_data.
+However, as there's already a decomp.me instance for this, it may not be important to change right now.
+
+The unused symbols file should be checked for any references to any artificial variables that are now no longer present.
+
+---
+
+Additionally, these are weird:
+
+* According to Ghidra, DAT_80076e08 (and some others in the area), DAT_80078b18, and  DAT_8007c718 are called by the credits overlay.
+  I haven't seen any obvious place in any overlay that these are supposed to be pointing to, but they seem to be pointing to some
+  level data loaded relative to the end of the credits overlay.

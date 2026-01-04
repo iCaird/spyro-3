@@ -1,0 +1,2057 @@
+name: WAD.WAD
+#sha1: de41cc284e5c7f2e4da5d26320551fe85853cd5f # Decrypted WAD.WAD
+options:
+  basename: wad.wad
+  target_path: WAD.WAD
+  base_path: .
+  platform: psx
+  compiler: GCC
+
+  # asm_path: asm
+  # src_path: src
+  # build_path: build
+  # create_asm_dependencies: True
+
+  ld_script_path: overlays.ld
+
+  find_file_boundaries: False
+  gp_value: 0x8006C3B0
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - symbol_addrs.txt
+  reloc_addrs_path:
+    - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
+
+  extensions_path: tools/splat_ext
+
+  ld_bss_is_noload: True
+  auto_decompile_empty_functions: False
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+segments:
+# credits
+  - name: credits
+    type: code
+    symbol_name_format: credits_$VRAM
+    symbol_name_format_no_rom: credits_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x97A9000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x97A91C0, .rodata, overlays/credits/credits]
+
+      # text
+      - [0x97A91EC, c, overlays/credits/credits]
+
+      # data
+      - [0x97AB048, data, overlays/credits/credits]
+  - [0x97AB050]
+
+# loading
+  - name: loading
+    type: code
+    symbol_name_format: loading_$VRAM
+    symbol_name_format_no_rom: loading_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x322C800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x322C9C0, .rodata, overlays/loading/loading1]
+      - [0x322CA34, .rodata, overlays/loading/loading2]
+      - [0x322CA40, .rodata, overlays/loading/loading3]
+      - [0x322CA5C, .rodata, overlays/loading/loading4]
+      - [0x322CB3C, .rodata, overlays/loading/loading5]
+      - [0x322CB6C, .rodata, overlays/loading/loading6]
+      - [0x322CBBC, rodata, overlays/loading/lib]
+
+      # text
+      - [0x322CE7C, c, overlays/loading/loading1]
+      - [0x322D890, c, overlays/loading/loading2]
+      - [0x322F418, c, overlays/loading/loading3]
+      - [0x3230BA8, c, overlays/loading/loading4]
+      - [0x32314B8, c, overlays/loading/loading5]
+      - [0x3231AEC, c, overlays/loading/loading6]
+      - [0x32320D8, asm, overlays/loading/lib]
+
+      # data
+      - [0x3233C14, data, overlays/loading/loading1]
+      - [0x3233C38, data, overlays/loading/loading3]
+      - [0x3233C40, data, overlays/loading/loading5]
+      - [0x3233C44, data, overlays/loading/lib]
+      - [0x3233E84, data, overlays/loading/loadingX] # Goes after the lib data, not sure what this shit is
+      - [0x3235C2C, data, overlays/loading/libX]
+  - [0x323602C]
+
+# title
+  - name: title
+    type: code
+    symbol_name_format: title_$VRAM
+    symbol_name_format_no_rom: title_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x23000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x231C0, .rodata, overlays/title/title1]
+      - [0x23334, .rodata, overlays/title/crash]
+      - [0x2337C, .rodata, overlays/title/title2]
+      - [0x233AC, .rodata, overlays/title/title3]
+      - [0x233FC, .rodata, overlays/title/title4]
+      - [0x2376C, rodata, overlays/title/lib]
+
+      # text
+      - [0x23B1C, c, overlays/title/title1]
+      - [0x27868, c, overlays/title/crash]
+      - [0x27924, c, overlays/title/title2]
+      - [0x28474, c, overlays/title/title3]
+      - [0x29784, c, overlays/title/title4]
+      - [0x29C08, asm, overlays/title/lib]
+
+      # data
+      - [0x2D9CC, data, overlays/title/title1] # all data seems to be used in title1
+      - [0x2DD64, data, overlays/title/lib]
+      - [0x2DE5C, data, overlays/title/titleX] # sdata?
+      - [0x2FC04, data, overlays/title/libX]
+  - [0x30014]
+
+# atlas
+  - name: atlas
+    type: code
+    symbol_name_format: atlas_$VRAM
+    symbol_name_format_no_rom: atlas_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x962C800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x962C9C0, .rodata, overlays/atlas/atlas1]
+      - [0x962DCE8, .rodata, overlays/atlas/atlas2]
+
+      # text
+      - [0x962DD54, c, overlays/atlas/atlas1]
+      - [0x963072C, c, overlays/atlas/atlas2] # tentative tbh
+
+      # data
+      - [0x9632EC8, data, overlays/atlas/atlas] # temp
+      - [0x963370C, data, overlays/atlas/graphics] # array + vram data
+  - [0x9653C28]
+
+# options
+  - name: options
+    type: code
+    symbol_name_format: options_$VRAM
+    symbol_name_format_no_rom: options_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x9654000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x96541C0, .rodata, overlays/options/options1]
+      - [0x96542D0, .rodata, overlays/options/options2]
+      - [0x9654300, .rodata, overlays/options/options3]
+      - [0x9654670, rodata, overlays/options/lib]
+
+      # text
+      - [0x9654930, c, overlays/options/options1]
+      - [0x96575D0, c, overlays/options/options2]
+      - [0x9657D40, c, overlays/options/options3]
+      - [0x96581C4, asm, overlays/options/lib]
+
+      # data
+      - [0x965A910, data, overlays/options/options1] # all data seems to be used in options1
+      - [0x965ACA4, data, overlays/options/lib]
+      - [0x965ACE4, data, overlays/options/optionsX] # dunno, extra data section??
+      - [0x965CA8C, data, overlays/options/libX]
+      - [0x965CE8C, data, overlays/options/graphics] # overlay ends here, graphics will be included as a data bin
+  - [0x966CB58]
+
+# levels
+  - name: level_10
+    type: code
+    symbol_name_format: level_10_$VRAM
+    symbol_name_format_no_rom: level_10_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x3AD9000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x3AD91C0, .rodata, overlays/level_10/moby]
+      - [0x3AD9484, .rodata, overlays/level_10/level]
+      - [0x3AD9484, .rodata, overlays/level_10/parts_update]
+      - [0x3AD95D8, .rodata, overlays/level_10/parts_spawn]
+      - [0x3AD9750, .rodata, overlays/level_10/animation]
+      - [0x3AD9980, .rodata, overlays/level_10/camera]
+
+      # text
+      - [0x3AD9980, c, overlays/level_10/moby]
+      - [0x3AE8D64, c, overlays/level_10/level]
+      - [0x3AEA0CC, c, overlays/level_10/parts_update]
+      - [0x3AEB690, c, overlays/level_10/parts_spawn]
+      - [0x3AECF28, data, overlays/level_10/check] # not to be used in ld
+      - [0x3AECF2C, c, overlays/level_10/animation]
+      - [0x3AEFA74, c, overlays/level_10/camera]
+
+      # data
+      - [0x3AF03B8, data, overlays/level_10/level]
+  - [0x3AF1604]
+
+  - name: level_11
+    type: code
+    symbol_name_format: level_11_$VRAM
+    symbol_name_format_no_rom: level_11_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x3E18800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x3E189C0, .rodata, overlays/level_11/moby]
+      - [0x3E18F10, .rodata, overlays/level_11/level]
+      - [0x3E18F50, .rodata, overlays/level_11/parts_update]
+      - [0x3E190A4, .rodata, overlays/level_11/parts_spawn]
+      - [0x3E1921C, .rodata, overlays/level_11/animation]
+      - [0x3E196F0, .rodata, overlays/level_11/camera]
+
+      # text
+      - [0x3E196F0, c, overlays/level_11/moby]
+      - [0x3E299C8, c, overlays/level_11/level]
+      - [0x3E2D07C, c, overlays/level_11/parts_update]
+      - [0x3E2E504, c, overlays/level_11/parts_spawn]
+      - [0x3E2FBCC, data, overlays/level_11/check] # not to be used in ld
+      - [0x3E2FBD0, c, overlays/level_11/animation]
+      - [0x3E35AF8, c, overlays/level_11/camera]
+
+      # data
+      - [0x3E36404, data, overlays/level_11/level]
+  - [0x3E375C0]
+
+  - name: level_12
+    type: code
+    symbol_name_format: level_12_$VRAM
+    symbol_name_format_no_rom: level_12_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x4161000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x41611C0, .rodata, overlays/level_12/moby]
+      - [0x41615A4, .rodata, overlays/level_12/level]
+      - [0x41615A4, .rodata, overlays/level_12/parts_update]
+      - [0x41616F8, .rodata, overlays/level_12/parts_spawn]
+      - [0x4161870, .rodata, overlays/level_12/animation]
+      - [0x4161C80, .rodata, overlays/level_12/camera]
+
+      # text
+      - [0x4161C80, c, overlays/level_12/moby]
+      - [0x417181C, c, overlays/level_12/level]
+      - [0x41726B4, c, overlays/level_12/parts_update]
+      - [0x4173C80, c, overlays/level_12/parts_spawn]
+      - [0x4175378, data, overlays/level_12/check] # not to be used in ld
+      - [0x417537C, c, overlays/level_12/animation]
+      - [0x41781B0, c, overlays/level_12/camera]
+
+      # data
+      - [0x4178A48, data, overlays/level_12/level]
+  - [0x4179B2C]
+
+  - name: level_13
+    type: code
+    symbol_name_format: level_13_$VRAM
+    symbol_name_format_no_rom: level_13_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x4412800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x44129C0, .rodata, overlays/level_13/moby]
+      - [0x4412BBC, .rodata, overlays/level_13/level]
+      - [0x4412BDC, .rodata, overlays/level_13/parts_update]
+      - [0x4412D1C, .rodata, overlays/level_13/parts_spawn]
+      - [0x4412E7C, .rodata, overlays/level_13/animation]
+      - [0x44135AC, .rodata, overlays/level_13/camera]
+
+      # text
+      - [0x44135AC, c, overlays/level_13/moby]
+      - [0x4423358, c, overlays/level_13/level]
+      - [0x4424EDC, c, overlays/level_13/parts_update]
+      - [0x44260D4, c, overlays/level_13/parts_spawn]
+      - [0x4427108, data, overlays/level_13/check] # not to be used in ld
+      - [0x442710C, c, overlays/level_13/animation]
+      - [0x442A354, c, overlays/level_13/camera]
+
+      # data
+      - [0x442AAFC, data, overlays/level_13/level]
+  - [0x442BBEC]
+
+  - name: level_14
+    type: code
+    symbol_name_format: level_14_$VRAM
+    symbol_name_format_no_rom: level_14_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x47B3800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x47B39C0, .rodata, overlays/level_14/moby]
+      - [0x47B41BC, .rodata, overlays/level_14/level]
+      - [0x47B41DC, .rodata, overlays/level_14/parts_update]
+      - [0x47B4334, .rodata, overlays/level_14/parts_spawn]
+      - [0x47B44AC, .rodata, overlays/level_14/animation]
+      - [0x47B4984, .rodata, overlays/level_14/camera]
+
+      # text
+      - [0x47B4984, c, overlays/level_14/moby]
+      - [0x47CCED4, c, overlays/level_14/level]
+      - [0x47CFC84, c, overlays/level_14/parts_update]
+      - [0x47D1BA0, c, overlays/level_14/parts_spawn]
+      - [0x47D34AC, data, overlays/level_14/check] # not to be used in ld
+      - [0x47D34B0, c, overlays/level_14/animation]
+      - [0x47D85D4, c, overlays/level_14/camera]
+
+      # data
+      - [0x47D8C1C, data, overlays/level_14/level]
+  - [0x47D9D6C]
+
+  - name: level_15
+    type: code
+    symbol_name_format: level_15_$VRAM
+    symbol_name_format_no_rom: level_15_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x49AE800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x49AE9C0, .rodata, overlays/level_15/moby]
+      - [0x49AEB7C, .rodata, overlays/level_15/level]
+      - [0x49AEC18, .rodata, overlays/level_15/parts_update]
+      - [0x49AED58, .rodata, overlays/level_15/parts_spawn]
+      - [0x49AEEB8, .rodata, overlays/level_15/animation]
+      - [0x49AEEDC, .rodata, overlays/level_15/camera]
+
+      # text
+      - [0x49AEEDC, c, overlays/level_15/moby]
+      - [0x49B9A6C, c, overlays/level_15/level]
+      - [0x49BE82C, c, overlays/level_15/parts_update]
+      - [0x49BFD84, c, overlays/level_15/parts_spawn]
+      - [0x49C1280, data, overlays/level_15/check] # not to be used in ld
+      - [0x49C1284, c, overlays/level_15/animation]
+      - [0x49C3E98, c, overlays/level_15/camera]
+
+      # data
+      - [0x49C4254, data, overlays/level_15/level]
+  - [0x49C5314]
+
+  - name: level_16
+    type: code
+    symbol_name_format: level_16_$VRAM
+    symbol_name_format_no_rom: level_16_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x4B95800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x4B959C0, .rodata, overlays/level_16/moby]
+      - [0x4B95BBC, .rodata, overlays/level_16/level]
+      - [0x4B95BDC, .rodata, overlays/level_16/parts_update]
+      - [0x4B95D30, .rodata, overlays/level_16/parts_spawn]
+      - [0x4B95EA8, .rodata, overlays/level_16/animation]
+      - [0x4B95FE4, .rodata, overlays/level_16/camera]
+
+      # text
+      - [0x4B95FE4, c, overlays/level_16/moby]
+      - [0x4BA0DDC, c, overlays/level_16/level]
+      - [0x4BA22A8, c, overlays/level_16/parts_update]
+      - [0x4BA3478, c, overlays/level_16/parts_spawn]
+      - [0x4BA4880, data, overlays/level_16/check] # not to be used in ld
+      - [0x4BA4884, c, overlays/level_16/animation]
+      - [0x4BA7790, c, overlays/level_16/camera]
+
+      # data
+      - [0x4BA7C28, data, overlays/level_16/level]
+  - [0x4BA8D30]
+
+  - name: level_17
+    type: code
+    symbol_name_format: level_17_$VRAM
+    symbol_name_format_no_rom: level_17_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x4D01800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x4D019C0, .rodata, overlays/level_17/moby]
+      - [0x4D01C44, .rodata, overlays/level_17/level]
+      - [0x4D01C44, .rodata, overlays/level_17/parts_update]
+      - [0x4D01D84, .rodata, overlays/level_17/parts_spawn]
+      - [0x4D01EE4, .rodata, overlays/level_17/animation]
+      - [0x4D02228, .rodata, overlays/level_17/camera]
+
+      # text
+      - [0x4D02228, c, overlays/level_17/moby]
+      - [0x4D0C918, c, overlays/level_17/level]
+      - [0x4D0DB0C, c, overlays/level_17/parts_update]
+      - [0x4D0EB6C, c, overlays/level_17/parts_spawn]
+      - [0x4D0FA54, data, overlays/level_17/check] # not to be used in ld
+      - [0x4D0FA58, c, overlays/level_17/animation]
+      - [0x4D10F38, c, overlays/level_17/camera]
+
+      # data
+      - [0x4D1141C, data, overlays/level_17/level]
+  - [0x4D12440]
+
+  - name: level_18
+    type: code
+    symbol_name_format: level_18_$VRAM
+    symbol_name_format_no_rom: level_18_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x4EA7000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x4EA71C0, .rodata, overlays/level_18/moby]
+      - [0x4EA74C4, .rodata, overlays/level_18/level]
+      - [0x4EA74E4, .rodata, overlays/level_18/parts_update]
+      - [0x4EA7624, .rodata, overlays/level_18/parts_spawn]
+      - [0x4EA7784, .rodata, overlays/level_18/animation]
+      - [0x4EA7784, .rodata, overlays/level_18/camera]
+
+      # text
+      - [0x4EA7784, c, overlays/level_18/moby]
+      - [0x4EB67FC, c, overlays/level_18/level]
+      - [0x4EB85E8, c, overlays/level_18/parts_update]
+      - [0x4EB9650, c, overlays/level_18/parts_spawn]
+      - [0x4EBA58C, data, overlays/level_18/check] # not to be used in ld
+      - [0x4EBA590, c, overlays/level_18/animation]
+      - [0x4EBAC74, c, overlays/level_18/camera]
+
+      # data
+      - [0x4EBAEB4, data, overlays/level_18/level]
+  - [0x4EBBF44]
+
+  - name: level_20
+    type: code
+    symbol_name_format: level_20_$VRAM
+    symbol_name_format_no_rom: level_20_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x50C4000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x50C41C0, .rodata, overlays/level_20/moby]
+      - [0x50C442C, .rodata, overlays/level_20/level]
+      - [0x50C442C, .rodata, overlays/level_20/parts_update]
+      - [0x50C4580, .rodata, overlays/level_20/parts_spawn]
+      - [0x50C46F8, .rodata, overlays/level_20/animation]
+      - [0x50C4B5C, .rodata, overlays/level_20/camera]
+
+      # text
+      - [0x50C4B5C, c, overlays/level_20/moby]
+      - [0x50D4EEC, c, overlays/level_20/level]
+      - [0x50D6254, c, overlays/level_20/parts_update]
+      - [0x50D7A58, c, overlays/level_20/parts_spawn]
+      - [0x50D92CC, data, overlays/level_20/check] # not to be used in ld
+      - [0x50D92D0, c, overlays/level_20/animation]
+      - [0x50DBCBC, c, overlays/level_20/camera]
+
+      # data
+      - [0x50DC280, data, overlays/level_20/level]
+  - [0x50DD3E8]
+
+  - name: level_21
+    type: code
+    symbol_name_format: level_21_$VRAM
+    symbol_name_format_no_rom: level_21_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x53F0800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x53F09C0, .rodata, overlays/level_21/moby]
+      - [0x53F0D24, .rodata, overlays/level_21/level]
+      - [0x53F0D24, .rodata, overlays/level_21/parts_update]
+      - [0x53F0E78, .rodata, overlays/level_21/parts_spawn]
+      - [0x53F0FF0, .rodata, overlays/level_21/animation]
+      - [0x53F1428, .rodata, overlays/level_21/camera]
+
+      # text
+      - [0x53F1590, c, overlays/level_21/moby]
+      - [0x540283C, c, overlays/level_21/level]
+      - [0x5403BC0, c, overlays/level_21/parts_update]
+      - [0x5405740, c, overlays/level_21/parts_spawn]
+      - [0x54075E8, data, overlays/level_21/check] # not to be used in ld
+      - [0x54075EC, c, overlays/level_21/animation]
+      - [0x540AEB8, c, overlays/level_21/camera]
+
+      # data
+      - [0x540BBD0, data, overlays/level_21/level]
+  - [0x540CCD8]
+
+  - name: level_22
+    type: code
+    symbol_name_format: level_22_$VRAM
+    symbol_name_format_no_rom: level_22_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x5764000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x57641C0, .rodata, overlays/level_22/moby]
+      - [0x5764880, .rodata, overlays/level_22/level]
+      - [0x57648C0, .rodata, overlays/level_22/parts_update]
+      - [0x5764A0C, .rodata, overlays/level_22/parts_spawn]
+      - [0x5764B7C, .rodata, overlays/level_22/animation]
+      - [0x57652D0, .rodata, overlays/level_22/camera]
+
+      # text
+      - [0x576547C, c, overlays/level_22/moby]
+      - [0x577F650, c, overlays/level_22/level]
+      - [0x57837F4, c, overlays/level_22/parts_update]
+      - [0x5784D84, c, overlays/level_22/parts_spawn]
+      - [0x5786160, data, overlays/level_22/check] # not to be used in ld
+      - [0x5786164, c, overlays/level_22/animation]
+      - [0x5789F84, c, overlays/level_22/camera]
+
+      # data
+      - [0x578ADC0, data, overlays/level_22/level]
+  - [0x578BFD0]
+
+  - name: level_23
+    type: code
+    symbol_name_format: level_23_$VRAM
+    symbol_name_format_no_rom: level_23_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x5A90800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x5A909C0, .rodata, overlays/level_23/moby]
+      - [0x5A911E4, .rodata, overlays/level_23/level]
+      - [0x5A91204, .rodata, overlays/level_23/parts_update]
+      - [0x5A91358, .rodata, overlays/level_23/parts_spawn]
+      - [0x5A914D0, .rodata, overlays/level_23/animation]
+      - [0x5A919A4, .rodata, overlays/level_23/camera]
+
+      # text
+      - [0x5A91AA8, c, overlays/level_23/moby]
+      - [0x5AA8A10, c, overlays/level_23/level]
+      - [0x5AAA450, c, overlays/level_23/parts_update]
+      - [0x5AABF4C, c, overlays/level_23/parts_spawn]
+      - [0x5AADA68, data, overlays/level_23/check] # not to be used in ld
+      - [0x5AADA6C, c, overlays/level_23/animation]
+      - [0x5AB1FD4, c, overlays/level_23/camera]
+
+      # data
+      - [0x5AB2914, data, overlays/level_23/level]
+  - [0x5AB3A94]
+
+  - name: level_24
+    type: code
+    symbol_name_format: level_24_$VRAM
+    symbol_name_format_no_rom: level_24_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x5DEF000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x5DEF1C0, .rodata, overlays/level_24/moby]
+      - [0x5DEFB30, .rodata, overlays/level_24/level]
+      - [0x5DEFB50, .rodata, overlays/level_24/parts_update]
+      - [0x5DEFCA4, .rodata, overlays/level_24/parts_spawn]
+      - [0x5DEFE1C, .rodata, overlays/level_24/animation]
+      - [0x5DF045C, .rodata, overlays/level_24/camera]
+
+      # text
+      - [0x5DF045C, c, overlays/level_24/moby]
+      - [0x5E08374, c, overlays/level_24/level]
+      - [0x5E09F0C, c, overlays/level_24/parts_update]
+      - [0x5E0B6E0, c, overlays/level_24/parts_spawn]
+      - [0x5E0CFDC, data, overlays/level_24/check] # not to be used in ld
+      - [0x5E0CFE0, c, overlays/level_24/animation]
+      - [0x5E111B0, c, overlays/level_24/camera]
+
+      # data
+      - [0x5E11898, data, overlays/level_24/level]
+  - [0x5E12A84]
+
+  - name: level_25
+    type: code
+    symbol_name_format: level_25_$VRAM
+    symbol_name_format_no_rom: level_25_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x600A800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x600A9C0, .rodata, overlays/level_25/moby]
+      - [0x600ABAC, .rodata, overlays/level_25/level]
+      - [0x600AC28, .rodata, overlays/level_25/parts_update]
+      - [0x600AD7C, .rodata, overlays/level_25/parts_spawn]
+      - [0x600AEF4, .rodata, overlays/level_25/animation]
+      - [0x600B210, .rodata, overlays/level_25/camera]
+
+      # text
+      - [0x600B210, c, overlays/level_25/moby]
+      - [0x601676C, c, overlays/level_25/level]
+      - [0x601AC88, c, overlays/level_25/parts_update]
+      - [0x601C090, c, overlays/level_25/parts_spawn]
+      - [0x601D5E0, data, overlays/level_25/check] # not to be used in ld
+      - [0x601D5E4, c, overlays/level_25/animation]
+      - [0x601F82C, c, overlays/level_25/camera]
+
+      # data
+      - [0x601FE04, data, overlays/level_25/level]
+  - [0x6020EC4]
+
+  - name: level_26
+    type: code
+    symbol_name_format: level_26_$VRAM
+    symbol_name_format_no_rom: level_26_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x6224000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x62241C0, .rodata, overlays/level_26/moby]
+      - [0x6224748, .rodata, overlays/level_26/level]
+      - [0x6224768, .rodata, overlays/level_26/parts_update]
+      - [0x62248A8, .rodata, overlays/level_26/parts_spawn]
+      - [0x6224A08, .rodata, overlays/level_26/animation]
+      - [0x6224AF8, .rodata, overlays/level_26/camera]
+
+      # text
+      - [0x6224AF8, c, overlays/level_26/moby]
+      - [0x62351EC, c, overlays/level_26/level]
+      - [0x62364D4, c, overlays/level_26/parts_update]
+      - [0x6237744, c, overlays/level_26/parts_spawn]
+      - [0x6238804, data, overlays/level_26/check] # not to be used in ld
+      - [0x6238808, c, overlays/level_26/animation]
+      - [0x623A558, c, overlays/level_26/camera]
+
+      # data
+      - [0x623AB08, data, overlays/level_26/level]
+  - [0x623BCAC]
+
+  - name: level_27
+    type: code
+    symbol_name_format: level_27_$VRAM
+    symbol_name_format_no_rom: level_27_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x63E8800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x63E89C0, .rodata, overlays/level_27/moby]
+      - [0x63E8C6C, .rodata, overlays/level_27/level]
+      - [0x63E8C6C, .rodata, overlays/level_27/parts_update]
+      - [0x63E8DAC, .rodata, overlays/level_27/parts_spawn]
+      - [0x63E8F0C, .rodata, overlays/level_27/animation]
+      - [0x63E931C, .rodata, overlays/level_27/camera]
+
+      # text
+      - [0x63E931C, c, overlays/level_27/moby]
+      - [0x63F912C, c, overlays/level_27/level]
+      - [0x63FA320, c, overlays/level_27/parts_update]
+      - [0x63FB5B0, c, overlays/level_27/parts_spawn]
+      - [0x63FC554, data, overlays/level_27/check] # not to be used in ld
+      - [0x63FC558, c, overlays/level_27/animation]
+      - [0x63FDC2C, c, overlays/level_27/camera]
+
+      # data
+      - [0x63FE110, data, overlays/level_27/level]
+  - [0x63FF140]
+
+  - name: level_28
+    type: code
+    symbol_name_format: level_28_$VRAM
+    symbol_name_format_no_rom: level_28_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x6554800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x65549C0, .rodata, overlays/level_28/moby]
+      - [0x6554C7C, .rodata, overlays/level_28/level]
+      - [0x6554C9C, .rodata, overlays/level_28/parts_update]
+      - [0x6554DDC, .rodata, overlays/level_28/parts_spawn]
+      - [0x6554F3C, .rodata, overlays/level_28/animation]
+      - [0x6554F3C, .rodata, overlays/level_28/camera]
+
+      # text
+      - [0x6554F3C, c, overlays/level_28/moby]
+      - [0x656216C, c, overlays/level_28/level]
+      - [0x6563F58, c, overlays/level_28/parts_update]
+      - [0x6564FC0, c, overlays/level_28/parts_spawn]
+      - [0x6565EFC, data, overlays/level_28/check] # not to be used in ld
+      - [0x6565F00, c, overlays/level_28/animation]
+      - [0x65665C4, c, overlays/level_28/camera]
+
+      # data
+      - [0x6566804, data, overlays/level_28/level]
+  - [0x6567834]
+
+  - name: level_30
+    type: code
+    symbol_name_format: level_30_$VRAM
+    symbol_name_format_no_rom: level_30_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x677D000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x677D1C0, .rodata, overlays/level_30/moby]
+      - [0x677D404, .rodata, overlays/level_30/level]
+      - [0x677D404, .rodata, overlays/level_30/parts_update]
+      - [0x677D560, .rodata, overlays/level_30/parts_spawn]
+      - [0x677D6E0, .rodata, overlays/level_30/animation]
+      - [0x677DF4C, .rodata, overlays/level_30/camera]
+
+      # text
+      - [0x677DF4C, c, overlays/level_30/moby]
+      - [0x678C4EC, c, overlays/level_30/level]
+      - [0x678DDF0, c, overlays/level_30/parts_update]
+      - [0x678F660, c, overlays/level_30/parts_spawn]
+      - [0x6790FE0, data, overlays/level_30/check] # not to be used in ld
+      - [0x6790FE4, c, overlays/level_30/animation]
+      - [0x6795A44, c, overlays/level_30/camera]
+
+      # data
+      - [0x6796008, data, overlays/level_30/level]
+  - [0x679711C]
+
+  - name: level_31
+    type: code
+    symbol_name_format: level_31_$VRAM
+    symbol_name_format_no_rom: level_31_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x6A8F000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x6A8F1C0, .rodata, overlays/level_31/moby]
+      - [0x6A8F73C, .rodata, overlays/level_31/level]
+      - [0x6A8F75C, .rodata, overlays/level_31/parts_update]
+      - [0x6A8F89C, .rodata, overlays/level_31/parts_spawn]
+      - [0x6A8F9FC, .rodata, overlays/level_31/animation]
+      - [0x6A904EC, .rodata, overlays/level_31/camera]
+
+      # text
+      - [0x6A904EC, c, overlays/level_31/moby]
+      - [0x6AA2210, c, overlays/level_31/level]
+      - [0x6AA4B38, c, overlays/level_31/parts_update]
+      - [0x6AA6078, c, overlays/level_31/parts_spawn]
+      - [0x6AA7590, data, overlays/level_31/check] # not to be used in ld
+      - [0x6AA7594, c, overlays/level_31/animation]
+      - [0x6AAA214, c, overlays/level_31/camera]
+
+      # data
+      - [0x6AAA828, data, overlays/level_31/level]
+  - [0x6AAB9FC]
+
+  - name: level_32
+    type: code
+    symbol_name_format: level_32_$VRAM
+    symbol_name_format_no_rom: level_32_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x6DDB800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x6DDB9C0, .rodata, overlays/level_32/moby]
+      - [0x6DDC0AC, .rodata, overlays/level_32/level]
+      - [0x6DDC104, .rodata, overlays/level_32/parts_update]
+      - [0x6DDC258, .rodata, overlays/level_32/parts_spawn]
+      - [0x6DDC3D0, .rodata, overlays/level_32/animation]
+      - [0x6DDCF34, .rodata, overlays/level_32/camera]
+
+      # text
+      - [0x6DDD0C8, c, overlays/level_32/moby]
+      - [0x6DF7408, c, overlays/level_32/level]
+      - [0x6DFB384, c, overlays/level_32/parts_update]
+      - [0x6DFCF6C, c, overlays/level_32/parts_spawn]
+      - [0x6DFEA7C, data, overlays/level_32/check] # not to be used in ld
+      - [0x6DFEA80, c, overlays/level_32/animation]
+      - [0x6E037E8, c, overlays/level_32/camera]
+
+      # data
+      - [0x6E04560, data, overlays/level_32/level]
+  - [0x6E056F8]
+
+  - name: level_33
+    type: code
+    symbol_name_format: level_33_$VRAM
+    symbol_name_format_no_rom: level_33_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x71AC000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x71AC1C0, .rodata, overlays/level_33/moby]
+      - [0x71ACC84, .rodata, overlays/level_33/level]
+      - [0x71ACCA4, .rodata, overlays/level_33/parts_update]
+      - [0x71ACDF0, .rodata, overlays/level_33/parts_spawn]
+      - [0x71ACF60, .rodata, overlays/level_33/animation]
+      - [0x71AD870, .rodata, overlays/level_33/camera]
+
+      # text
+      - [0x71ADA4C, c, overlays/level_33/moby]
+      - [0x71CB1F8, c, overlays/level_33/level]
+      - [0x71CE360, c, overlays/level_33/parts_update]
+      - [0x71CF9A4, c, overlays/level_33/parts_spawn]
+      - [0x71D0E0C, data, overlays/level_33/check] # not to be used in ld
+      - [0x71D0E10, c, overlays/level_33/animation]
+      - [0x71D5B9C, c, overlays/level_33/camera]
+
+      # data
+      - [0x71D6F94, data, overlays/level_33/level]
+  - [0x71D8054]
+
+  - name: level_34
+    type: code
+    symbol_name_format: level_34_$VRAM
+    symbol_name_format_no_rom: level_34_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x74D0000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x74D01C0, .rodata, overlays/level_34/moby]
+      - [0x74D07CC, .rodata, overlays/level_34/level]
+      - [0x74D07EC, .rodata, overlays/level_34/parts_update]
+      - [0x74D0944, .rodata, overlays/level_34/parts_spawn]
+      - [0x74D0ABC, .rodata, overlays/level_34/animation]
+      - [0x74D1210, .rodata, overlays/level_34/camera]
+
+      # text
+      - [0x74D1348, c, overlays/level_34/moby]
+      - [0x74EB7FC, c, overlays/level_34/level]
+      - [0x74EDF04, c, overlays/level_34/parts_update]
+      - [0x74EF570, c, overlays/level_34/parts_spawn]
+      - [0x74F0A5C, data, overlays/level_34/check] # not to be used in ld
+      - [0x74F0A60, c, overlays/level_34/animation]
+      - [0x74F3BA8, c, overlays/level_34/camera]
+
+      # data
+      - [0x74F459C, data, overlays/level_34/level]
+  - [0x74F56EC]
+
+  - name: level_35
+    type: code
+    symbol_name_format: level_35_$VRAM
+    symbol_name_format_no_rom: level_35_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x76F7000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x76F71C0, .rodata, overlays/level_35/moby]
+      - [0x76F73C8, .rodata, overlays/level_35/level]
+      - [0x76F746C, .rodata, overlays/level_35/parts_update]
+      - [0x76F75C8, .rodata, overlays/level_35/parts_spawn]
+      - [0x76F7748, .rodata, overlays/level_35/animation]
+      - [0x76F7C10, .rodata, overlays/level_35/camera]
+
+      # text
+      - [0x76F7C10, c, overlays/level_35/moby]
+      - [0x7703DF4, c, overlays/level_35/level]
+      - [0x77088E4, c, overlays/level_35/parts_update]
+      - [0x7709F6C, c, overlays/level_35/parts_spawn]
+      - [0x770B738, data, overlays/level_35/check] # not to be used in ld
+      - [0x770B73C, c, overlays/level_35/animation]
+      - [0x770EA38, c, overlays/level_35/camera]
+
+      # data
+      - [0x770F1FC, data, overlays/level_35/level]
+  - [0x77102BC]
+
+  - name: level_36
+    type: code
+    symbol_name_format: level_36_$VRAM
+    symbol_name_format_no_rom: level_36_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x78D4800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x78D49C0, .rodata, overlays/level_36/moby]
+      - [0x78D4C04, .rodata, overlays/level_36/level]
+      - [0x78D4C24, .rodata, overlays/level_36/parts_update]
+      - [0x78D4D64, .rodata, overlays/level_36/parts_spawn]
+      - [0x78D4EC4, .rodata, overlays/level_36/animation]
+      - [0x78D5000, .rodata, overlays/level_36/camera]
+
+      # text
+      - [0x78D5000, c, overlays/level_36/moby]
+      - [0x78E0494, c, overlays/level_36/level]
+      - [0x78E200C, c, overlays/level_36/parts_update]
+      - [0x78E33B8, c, overlays/level_36/parts_spawn]
+      - [0x78E458C, data, overlays/level_36/check] # not to be used in ld
+      - [0x78E4590, c, overlays/level_36/animation]
+      - [0x78E6A6C, c, overlays/level_36/camera]
+
+      # data
+      - [0x78E6D24, data, overlays/level_36/level]
+  - [0x78E7E20]
+
+  - name: level_37
+    type: code
+    symbol_name_format: level_37_$VRAM
+    symbol_name_format_no_rom: level_37_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x7AA0000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x7AA01C0, .rodata, overlays/level_37/moby]
+      - [0x7AA04DC, .rodata, overlays/level_37/level]
+      - [0x7AA04DC, .rodata, overlays/level_37/parts_update]
+      - [0x7AA061C, .rodata, overlays/level_37/parts_spawn]
+      - [0x7AA077C, .rodata, overlays/level_37/animation]
+      - [0x7AA0AC0, .rodata, overlays/level_37/camera]
+
+      # text
+      - [0x7AA0AC0, c, overlays/level_37/moby]
+      - [0x7AB0FE0, c, overlays/level_37/level]
+      - [0x7AB2780, c, overlays/level_37/parts_update]
+      - [0x7AB3870, c, overlays/level_37/parts_spawn]
+      - [0x7AB4800, data, overlays/level_37/check] # not to be used in ld
+      - [0x7AB4804, c, overlays/level_37/animation]
+      - [0x7AB7284, c, overlays/level_37/camera]
+
+      # data
+      - [0x7AB7768, data, overlays/level_37/level]
+  - [0x7AB8780]
+
+  - name: level_38
+    type: code
+    symbol_name_format: level_38_$VRAM
+    symbol_name_format_no_rom: level_38_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x7C33000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x7C331C0, .rodata, overlays/level_38/moby]
+      - [0x7C33480, .rodata, overlays/level_38/level]
+      - [0x7C334A0, .rodata, overlays/level_38/parts_update]
+      - [0x7C335E0, .rodata, overlays/level_38/parts_spawn]
+      - [0x7C33740, .rodata, overlays/level_38/animation]
+      - [0x7C33740, .rodata, overlays/level_38/camera]
+
+      # text
+      - [0x7C33740, c, overlays/level_38/moby]
+      - [0x7C423D0, c, overlays/level_38/level]
+      - [0x7C440AC, c, overlays/level_38/parts_update]
+      - [0x7C456D8, c, overlays/level_38/parts_spawn]
+      - [0x7C4692C, data, overlays/level_38/check] # not to be used in ld
+      - [0x7C46930, c, overlays/level_38/animation]
+      - [0x7C46FF4, c, overlays/level_38/camera]
+
+      # data
+      - [0x7C47234, data, overlays/level_38/level]
+  - [0x7C48264]
+
+  - name: level_40
+    type: code
+    symbol_name_format: level_40_$VRAM
+    symbol_name_format_no_rom: level_40_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x7E5F800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x7E5F9C0, .rodata, overlays/level_40/moby]
+      - [0x7E5FC14, .rodata, overlays/level_40/level]
+      - [0x7E5FC14, .rodata, overlays/level_40/parts_update]
+      - [0x7E5FD68, .rodata, overlays/level_40/parts_spawn]
+      - [0x7E5FEE0, .rodata, overlays/level_40/animation]
+      - [0x7E5FEE0, .rodata, overlays/level_40/camera]
+
+      # text
+      - [0x7E5FEE0, c, overlays/level_40/moby]
+      - [0x7E6E25C, c, overlays/level_40/level]
+      - [0x7E6F26C, c, overlays/level_40/parts_update]
+      - [0x7E702D4, c, overlays/level_40/parts_spawn]
+      - [0x7E714D4, data, overlays/level_40/check] # not to be used in ld
+      - [0x7E714D8, c, overlays/level_40/animation]
+      - [0x7E72144, c, overlays/level_40/camera]
+
+      # data
+      - [0x7E727E4, data, overlays/level_40/level]
+  - [0x7E738A4]
+
+  - name: level_41
+    type: code
+    symbol_name_format: level_41_$VRAM
+    symbol_name_format_no_rom: level_41_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x813A000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x813A1C0, .rodata, overlays/level_41/moby]
+      - [0x813A7B8, .rodata, overlays/level_41/level]
+      - [0x813A7D8, .rodata, overlays/level_41/parts_update]
+      - [0x813A924, .rodata, overlays/level_41/parts_spawn]
+      - [0x813AA94, .rodata, overlays/level_41/animation]
+      - [0x813B0F8, .rodata, overlays/level_41/camera]
+
+      # text
+      - [0x813B274, c, overlays/level_41/moby]
+      - [0x814F294, c, overlays/level_41/level]
+      - [0x8152394, c, overlays/level_41/parts_update]
+      - [0x8153FD8, c, overlays/level_41/parts_spawn]
+      - [0x8155ABC, data, overlays/level_41/check] # not to be used in ld
+      - [0x8155AC0, c, overlays/level_41/animation]
+      - [0x815B62C, c, overlays/level_41/camera]
+
+      # data
+      - [0x815C054, data, overlays/level_41/level]
+  - [0x815D1A4]
+
+  - name: level_42
+    type: code
+    symbol_name_format: level_42_$VRAM
+    symbol_name_format_no_rom: level_42_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8479000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x84791C0, .rodata, overlays/level_42/moby]
+      - [0x8479354, .rodata, overlays/level_42/level]
+      - [0x8479374, .rodata, overlays/level_42/parts_update]
+      - [0x84794C0, .rodata, overlays/level_42/parts_spawn]
+      - [0x8479630, .rodata, overlays/level_42/animation]
+      - [0x8479B44, .rodata, overlays/level_42/camera]
+
+      # text
+      - [0x8479CA8, c, overlays/level_42/moby]
+      - [0x84897E8, c, overlays/level_42/level]
+      - [0x848B1B4, c, overlays/level_42/parts_update]
+      - [0x848CA78, c, overlays/level_42/parts_spawn]
+      - [0x848E354, data, overlays/level_42/check] # not to be used in ld
+      - [0x848E358, c, overlays/level_42/animation]
+      - [0x849422C, c, overlays/level_42/camera]
+
+      # data
+      - [0x8494BEC, data, overlays/level_42/level]
+  - [0x8495CE8]
+
+  - name: level_43
+    type: code
+    symbol_name_format: level_43_$VRAM
+    symbol_name_format_no_rom: level_43_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8799800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x87999C0, .rodata, overlays/level_43/moby]
+      - [0x879A180, .rodata, overlays/level_43/level]
+      - [0x879A1A0, .rodata, overlays/level_43/parts_update]
+      - [0x879A2F8, .rodata, overlays/level_43/parts_spawn]
+      - [0x879A470, .rodata, overlays/level_43/animation]
+      - [0x879AD7C, .rodata, overlays/level_43/camera]
+
+      # text
+      - [0x879AD7C, c, overlays/level_43/moby]
+      - [0x87B0AC8, c, overlays/level_43/level]
+      - [0x87B33BC, c, overlays/level_43/parts_update]
+      - [0x87B4E9C, c, overlays/level_43/parts_spawn]
+      - [0x87B6584, data, overlays/level_43/check] # not to be used in ld
+      - [0x87B6588, c, overlays/level_43/animation]
+      - [0x87BAB98, c, overlays/level_43/camera]
+
+      # data
+      - [0x87BB994, data, overlays/level_43/level]
+  - [0x87BCAA8]
+
+  - name: level_44
+    type: code
+    symbol_name_format: level_44_$VRAM
+    symbol_name_format_no_rom: level_44_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8B47800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x8B479C0, .rodata, overlays/level_44/moby]
+      - [0x8B47EF0, .rodata, overlays/level_44/level]
+      - [0x8B47F10, .rodata, overlays/level_44/parts_update]
+      - [0x8B48050, .rodata, overlays/level_44/parts_spawn]
+      - [0x8B481B0, .rodata, overlays/level_44/animation]
+      - [0x8B4892C, .rodata, overlays/level_44/camera]
+
+      # text
+      - [0x8B48ADC, c, overlays/level_44/moby]
+      - [0x8B5C3F4, c, overlays/level_44/level]
+      - [0x8B5E644, c, overlays/level_44/parts_update]
+      - [0x8B602F0, c, overlays/level_44/parts_spawn]
+      - [0x8B61BC0, data, overlays/level_44/check] # not to be used in ld
+      - [0x8B61BC4, c, overlays/level_44/animation]
+      - [0x8B66348, c, overlays/level_44/camera]
+
+      # data
+      - [0x8B6738C, data, overlays/level_44/level]
+  - [0x8B68434]
+
+  - name: level_45
+    type: code
+    symbol_name_format: level_45_$VRAM
+    symbol_name_format_no_rom: level_45_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8D30800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x8D309C0, .rodata, overlays/level_45/moby]
+      - [0x8D30B80, .rodata, overlays/level_45/level]
+      - [0x8D30C24, .rodata, overlays/level_45/parts_update]
+      - [0x8D30D78, .rodata, overlays/level_45/parts_spawn]
+      - [0x8D30EF0, .rodata, overlays/level_45/animation]
+      - [0x8D31158, .rodata, overlays/level_45/camera]
+
+      # text
+      - [0x8D31158, c, overlays/level_45/moby]
+      - [0x8D3BBB0, c, overlays/level_45/level]
+      - [0x8D405C8, c, overlays/level_45/parts_update]
+      - [0x8D419D0, c, overlays/level_45/parts_spawn]
+      - [0x8D42F20, data, overlays/level_45/check] # not to be used in ld
+      - [0x8D42F24, c, overlays/level_45/animation]
+      - [0x8D45C2C, c, overlays/level_45/camera]
+
+      # data
+      - [0x8D45FE8, data, overlays/level_45/level]
+  - [0x8D470A8]
+
+  - name: level_46
+    type: code
+    symbol_name_format: level_46_$VRAM
+    symbol_name_format_no_rom: level_46_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8F46800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x8F469C0, .rodata, overlays/level_46/moby]
+      - [0x8F46F18, .rodata, overlays/level_46/level]
+      - [0x8F46F40, .rodata, overlays/level_46/parts_update]
+      - [0x8F47080, .rodata, overlays/level_46/parts_spawn]
+      - [0x8F471E0, .rodata, overlays/level_46/animation]
+      - [0x8F47370, .rodata, overlays/level_46/camera]
+
+      # text
+      - [0x8F47370, c, overlays/level_46/moby]
+      - [0x8F5BC94, c, overlays/level_46/level]
+      - [0x8F5E754, c, overlays/level_46/parts_update]
+      - [0x8F5F994, c, overlays/level_46/parts_spawn]
+      - [0x8F60A64, data, overlays/level_46/check] # not to be used in ld
+      - [0x8F60A68, c, overlays/level_46/animation]
+      - [0x8F632B4, c, overlays/level_46/camera]
+
+      # data
+      - [0x8F64070, data, overlays/level_46/level]
+  - [0x8F65184]
+
+  - name: level_47
+    type: code
+    symbol_name_format: level_47_$VRAM
+    symbol_name_format_no_rom: level_47_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x9113800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x91139C0, .rodata, overlays/level_47/moby]
+      - [0x9113C4C, .rodata, overlays/level_47/level]
+      - [0x9113C6C, .rodata, overlays/level_47/parts_update]
+      - [0x9113DC4, .rodata, overlays/level_47/parts_spawn]
+      - [0x9113F3C, .rodata, overlays/level_47/animation]
+      - [0x91142AC, .rodata, overlays/level_47/camera]
+
+      # text
+      - [0x91142AC, c, overlays/level_47/moby]
+      - [0x912702C, c, overlays/level_47/level]
+      - [0x91289A4, c, overlays/level_47/parts_update]
+      - [0x9129F0C, c, overlays/level_47/parts_spawn]
+      - [0x912B104, data, overlays/level_47/check] # not to be used in ld
+      - [0x912B108, c, overlays/level_47/animation]
+      - [0x912CE00, c, overlays/level_47/camera]
+
+      # data
+      - [0x912D48C, data, overlays/level_47/level]
+  - [0x912E4A4]
+
+  - name: level_48
+    type: code
+    symbol_name_format: level_48_$VRAM
+    symbol_name_format_no_rom: level_48_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x9267000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x92671C0, .rodata, overlays/level_48/moby]
+      - [0x92674A4, .rodata, overlays/level_48/level]
+      - [0x92674C4, .rodata, overlays/level_48/parts_update]
+      - [0x9267604, .rodata, overlays/level_48/parts_spawn]
+      - [0x9267764, .rodata, overlays/level_48/animation]
+      - [0x9267764, .rodata, overlays/level_48/camera]
+
+      # text
+      - [0x9267764, c, overlays/level_48/moby]
+      - [0x9275BD4, c, overlays/level_48/level]
+      - [0x92779C0, c, overlays/level_48/parts_update]
+      - [0x9278A28, c, overlays/level_48/parts_spawn]
+      - [0x9279964, data, overlays/level_48/check] # not to be used in ld
+      - [0x9279968, c, overlays/level_48/animation]
+      - [0x927A02C, c, overlays/level_48/camera]
+
+      # data
+      - [0x927A26C, data, overlays/level_48/level]
+  - [0x927B29C]
+
+  - name: level_50
+    type: code
+    symbol_name_format: level_50_$VRAM
+    symbol_name_format_no_rom: level_50_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x95C8800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x95C89C0, .rodata, overlays/level_50/moby]
+      - [0x95C8FB4, .rodata, overlays/level_50/level]
+      - [0x95C900C, .rodata, overlays/level_50/parts_update]
+      - [0x95C9160, .rodata, overlays/level_50/parts_spawn]
+      - [0x95C92D8, .rodata, overlays/level_50/animation]
+      - [0x95C9D4C, .rodata, overlays/level_50/camera]
+
+      # text
+      - [0x95C9EE4, c, overlays/level_50/moby]
+      - [0x95E6B70, c, overlays/level_50/level]
+      - [0x95EAF88, c, overlays/level_50/parts_update]
+      - [0x95ECF18, c, overlays/level_50/parts_spawn]
+      - [0x95EEBE0, data, overlays/level_50/check] # not to be used in ld
+      - [0x95EEBE4, c, overlays/level_50/animation]
+      - [0x95F3F08, c, overlays/level_50/camera]
+
+      # data
+      - [0x95F4B84, data, overlays/level_50/level]
+  - [0x95F5C74]
+
+# cutscenes
+  - name: cutscene_61
+    type: code
+    symbol_name_format: cutscene_61_$VRAM
+    symbol_name_format_no_rom: cutscene_61_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x282800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x2829C0, .rodata, overlays/cutscene_61/moby]
+      - [0x2829C0, .rodata, overlays/cutscene_61/cutscene]
+      - [0x2829C0, .rodata, overlays/cutscene_61/parts_update]
+      - [0x282B00, .rodata, overlays/cutscene_61/parts_spawn]
+      - [0x282C60, .rodata, overlays/cutscene_61/animation]
+      - [0x282C60, .rodata, overlays/cutscene_61/camera]
+
+      # text
+      - [0x282CB0, c, overlays/cutscene_61/moby]
+      - [0x283254, c, overlays/cutscene_61/cutscene]
+      - [0x283314, c, overlays/cutscene_61/parts_update]
+      - [0x2840B8, c, overlays/cutscene_61/parts_spawn]
+      - [0x284ED8, data, overlays/cutscene_61/check] # not to be used in ld
+      - [0x284EDC, c, overlays/cutscene_61/animation]
+      - [0x284F3C, c, overlays/cutscene_61/camera]
+
+      # data
+      - [0x286408, data, overlays/cutscene_61/cutscene]
+  - [0x287414]
+
+  - name: cutscene_62
+    type: code
+    symbol_name_format: cutscene_62_$VRAM
+    symbol_name_format_no_rom: cutscene_62_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x66A800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x66A9C0, .rodata, overlays/cutscene_62/moby]
+      - [0x66A9C0, .rodata, overlays/cutscene_62/cutscene]
+      - [0x66A9C0, .rodata, overlays/cutscene_62/parts_update]
+      - [0x66AB00, .rodata, overlays/cutscene_62/parts_spawn]
+      - [0x66AC60, .rodata, overlays/cutscene_62/animation]
+      - [0x66AC60, .rodata, overlays/cutscene_62/camera]
+
+      # text
+      - [0x66ACB0, c, overlays/cutscene_62/moby]
+      - [0x66B880, c, overlays/cutscene_62/cutscene]
+      - [0x66B940, c, overlays/cutscene_62/parts_update]
+      - [0x66C6E4, c, overlays/cutscene_62/parts_spawn]
+      - [0x66D504, data, overlays/cutscene_62/check] # not to be used in ld
+      - [0x66D508, c, overlays/cutscene_62/animation]
+      - [0x66D568, c, overlays/cutscene_62/camera]
+
+      # data
+      - [0x66EA34, data, overlays/cutscene_62/cutscene]
+  - [0x66FA40]
+
+  - name: cutscene_63
+    type: code
+    symbol_name_format: cutscene_63_$VRAM
+    symbol_name_format_no_rom: cutscene_63_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x8B1800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x8B19C0, .rodata, overlays/cutscene_63/moby]
+      - [0x8B19C0, .rodata, overlays/cutscene_63/cutscene]
+      - [0x8B19C0, .rodata, overlays/cutscene_63/parts_update]
+      - [0x8B1B00, .rodata, overlays/cutscene_63/parts_spawn]
+      - [0x8B1C60, .rodata, overlays/cutscene_63/animation]
+      - [0x8B1C60, .rodata, overlays/cutscene_63/camera]
+
+      # text
+      - [0x8B1CB0, c, overlays/cutscene_63/moby]
+      - [0x8B2128, c, overlays/cutscene_63/cutscene]
+      - [0x8B21E8, c, overlays/cutscene_63/parts_update]
+      - [0x8B2F8C, c, overlays/cutscene_63/parts_spawn]
+      - [0x8B3DAC, data, overlays/cutscene_63/check] # not to be used in ld
+      - [0x8B3DB0, c, overlays/cutscene_63/animation]
+      - [0x8B3E10, c, overlays/cutscene_63/camera]
+
+      # data
+      - [0x8B52DC, data, overlays/cutscene_63/cutscene]
+  - [0x8B62E8]
+
+  - name: cutscene_64
+    type: code
+    symbol_name_format: cutscene_64_$VRAM
+    symbol_name_format_no_rom: cutscene_64_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0xBC9800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0xBC99C0, .rodata, overlays/cutscene_64/moby]
+      - [0xBC99C0, .rodata, overlays/cutscene_64/cutscene]
+      - [0xBC99C0, .rodata, overlays/cutscene_64/parts_update]
+      - [0xBC9B00, .rodata, overlays/cutscene_64/parts_spawn]
+      - [0xBC9C60, .rodata, overlays/cutscene_64/animation]
+      - [0xBC9C60, .rodata, overlays/cutscene_64/camera]
+
+      # text
+      - [0xBC9CB0, c, overlays/cutscene_64/moby]
+      - [0xBCA688, c, overlays/cutscene_64/cutscene]
+      - [0xBCA748, c, overlays/cutscene_64/parts_update]
+      - [0xBCB4EC, c, overlays/cutscene_64/parts_spawn]
+      - [0xBCC30C, data, overlays/cutscene_64/check] # not to be used in ld
+      - [0xBCC310, c, overlays/cutscene_64/animation]
+      - [0xBCC370, c, overlays/cutscene_64/camera]
+
+      # data
+      - [0xBCD83C, data, overlays/cutscene_64/cutscene]
+  - [0xBCE848]
+
+  - name: cutscene_65
+    type: code
+    symbol_name_format: cutscene_65_$VRAM
+    symbol_name_format_no_rom: cutscene_65_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x1002000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x10021C0, .rodata, overlays/cutscene_65/moby]
+      - [0x10021C0, .rodata, overlays/cutscene_65/cutscene]
+      - [0x10021C0, .rodata, overlays/cutscene_65/parts_update]
+      - [0x1002300, .rodata, overlays/cutscene_65/parts_spawn]
+      - [0x1002460, .rodata, overlays/cutscene_65/animation]
+      - [0x1002460, .rodata, overlays/cutscene_65/camera]
+
+      # text
+      - [0x10024B0, c, overlays/cutscene_65/moby]
+      - [0x10025D0, c, overlays/cutscene_65/cutscene]
+      - [0x1002690, c, overlays/cutscene_65/parts_update]
+      - [0x1003434, c, overlays/cutscene_65/parts_spawn]
+      - [0x1004254, data, overlays/cutscene_65/check] # not to be used in ld
+      - [0x1004258, c, overlays/cutscene_65/animation]
+      - [0x10042B8, c, overlays/cutscene_65/camera]
+
+      # data
+      - [0x1005784, data, overlays/cutscene_65/cutscene]
+  - [0x1006790]
+
+  - name: cutscene_66
+    type: code
+    symbol_name_format: cutscene_66_$VRAM
+    symbol_name_format_no_rom: cutscene_66_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x12CA800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x12CA9C0, .rodata, overlays/cutscene_66/moby]
+      - [0x12CA9C0, .rodata, overlays/cutscene_66/cutscene]
+      - [0x12CA9C0, .rodata, overlays/cutscene_66/parts_update]
+      - [0x12CAB00, .rodata, overlays/cutscene_66/parts_spawn]
+      - [0x12CAC60, .rodata, overlays/cutscene_66/animation]
+      - [0x12CAC60, .rodata, overlays/cutscene_66/camera]
+
+      # text
+      - [0x12CACB0, c, overlays/cutscene_66/moby]
+      - [0x12CADD0, c, overlays/cutscene_66/cutscene]
+      - [0x12CAE90, c, overlays/cutscene_66/parts_update]
+      - [0x12CBC34, c, overlays/cutscene_66/parts_spawn]
+      - [0x12CCA54, data, overlays/cutscene_66/check] # not to be used in ld
+      - [0x12CCA58, c, overlays/cutscene_66/animation]
+      - [0x12CCAB8, c, overlays/cutscene_66/camera]
+
+      # data
+      - [0x12CDF84, data, overlays/cutscene_66/cutscene]
+  - [0x12CEF90]
+
+  - name: cutscene_67
+    type: code
+    symbol_name_format: cutscene_67_$VRAM
+    symbol_name_format_no_rom: cutscene_67_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x14ED000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x14ED1C0, .rodata, overlays/cutscene_67/moby]
+      - [0x14ED1C0, .rodata, overlays/cutscene_67/cutscene]
+      - [0x14ED1C0, .rodata, overlays/cutscene_67/parts_update]
+      - [0x14ED300, .rodata, overlays/cutscene_67/parts_spawn]
+      - [0x14ED460, .rodata, overlays/cutscene_67/animation]
+      - [0x14ED460, .rodata, overlays/cutscene_67/camera]
+
+      # text
+      - [0x14ED4B0, c, overlays/cutscene_67/moby]
+      - [0x14ED928, c, overlays/cutscene_67/cutscene]
+      - [0x14ED9E8, c, overlays/cutscene_67/parts_update]
+      - [0x14EE78C, c, overlays/cutscene_67/parts_spawn]
+      - [0x14EF5AC, data, overlays/cutscene_67/check] # not to be used in ld
+      - [0x14EF5B0, c, overlays/cutscene_67/animation]
+      - [0x14EF610, c, overlays/cutscene_67/camera]
+
+      # data
+      - [0x14F0ADC, data, overlays/cutscene_67/cutscene]
+  - [0x14F1AE8]
+
+  - name: cutscene_68
+    type: code
+    symbol_name_format: cutscene_68_$VRAM
+    symbol_name_format_no_rom: cutscene_68_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x1824000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x18241C0, .rodata, overlays/cutscene_68/moby]
+      - [0x18241C0, .rodata, overlays/cutscene_68/cutscene]
+      - [0x18241C0, .rodata, overlays/cutscene_68/parts_update]
+      - [0x1824300, .rodata, overlays/cutscene_68/parts_spawn]
+      - [0x1824460, .rodata, overlays/cutscene_68/animation]
+      - [0x1824460, .rodata, overlays/cutscene_68/camera]
+
+      # text
+      - [0x18244B0, c, overlays/cutscene_68/moby]
+      - [0x18245D0, c, overlays/cutscene_68/cutscene]
+      - [0x1824690, c, overlays/cutscene_68/parts_update]
+      - [0x1825434, c, overlays/cutscene_68/parts_spawn]
+      - [0x1826254, data, overlays/cutscene_68/check] # not to be used in ld
+      - [0x1826258, c, overlays/cutscene_68/animation]
+      - [0x18262B8, c, overlays/cutscene_68/camera]
+
+      # data
+      - [0x1827784, data, overlays/cutscene_68/cutscene]
+  - [0x1828790]
+
+  - name: cutscene_69
+    type: code
+    symbol_name_format: cutscene_69_$VRAM
+    symbol_name_format_no_rom: cutscene_69_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x19ED800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x19ED9C0, .rodata, overlays/cutscene_69/moby]
+      - [0x19ED9C0, .rodata, overlays/cutscene_69/cutscene]
+      - [0x19ED9C0, .rodata, overlays/cutscene_69/parts_update]
+      - [0x19EDB00, .rodata, overlays/cutscene_69/parts_spawn]
+      - [0x19EDC60, .rodata, overlays/cutscene_69/animation]
+      - [0x19EDC60, .rodata, overlays/cutscene_69/camera]
+
+      # text
+      - [0x19EDCB0, c, overlays/cutscene_69/moby]
+      - [0x19EE024, c, overlays/cutscene_69/cutscene]
+      - [0x19EE0E4, c, overlays/cutscene_69/parts_update]
+      - [0x19EEE88, c, overlays/cutscene_69/parts_spawn]
+      - [0x19EFCA8, data, overlays/cutscene_69/check] # not to be used in ld
+      - [0x19EFCAC, c, overlays/cutscene_69/animation]
+      - [0x19EFD0C, c, overlays/cutscene_69/camera]
+
+      # data
+      - [0x19F11D8, data, overlays/cutscene_69/cutscene]
+  - [0x19F21E4]
+
+  - name: cutscene_70
+    type: code
+    symbol_name_format: cutscene_70_$VRAM
+    symbol_name_format_no_rom: cutscene_70_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x1C88800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x1C889C0, .rodata, overlays/cutscene_70/moby]
+      - [0x1C889C0, .rodata, overlays/cutscene_70/cutscene]
+      - [0x1C889C0, .rodata, overlays/cutscene_70/parts_update]
+      - [0x1C88B00, .rodata, overlays/cutscene_70/parts_spawn]
+      - [0x1C88C60, .rodata, overlays/cutscene_70/animation]
+      - [0x1C88C60, .rodata, overlays/cutscene_70/camera]
+
+      # text
+      - [0x1C88CB0, c, overlays/cutscene_70/moby]
+      - [0x1C88DD0, c, overlays/cutscene_70/cutscene]
+      - [0x1C88E90, c, overlays/cutscene_70/parts_update]
+      - [0x1C8A074, c, overlays/cutscene_70/parts_spawn]
+      - [0x1C8B09C, data, overlays/cutscene_70/check] # not to be used in ld
+      - [0x1C8B0A0, c, overlays/cutscene_70/animation]
+      - [0x1C8B100, c, overlays/cutscene_70/camera]
+
+      # data
+      - [0x1C8C5CC, data, overlays/cutscene_70/cutscene]
+  - [0x1C8D5D8]
+
+  - name: cutscene_71
+    type: code
+    symbol_name_format: cutscene_71_$VRAM
+    symbol_name_format_no_rom: cutscene_71_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x1F60800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x1F609C0, .rodata, overlays/cutscene_71/moby]
+      - [0x1F609C0, .rodata, overlays/cutscene_71/cutscene]
+      - [0x1F609C0, .rodata, overlays/cutscene_71/parts_update]
+      - [0x1F60B14, .rodata, overlays/cutscene_71/parts_spawn]
+      - [0x1F60C8C, .rodata, overlays/cutscene_71/animation]
+      - [0x1F60C8C, .rodata, overlays/cutscene_71/camera]
+
+      # text
+      - [0x1F60CDC, c, overlays/cutscene_71/moby]
+      - [0x1F60DFC, c, overlays/cutscene_71/cutscene]
+      - [0x1F60EBC, c, overlays/cutscene_71/parts_update]
+      - [0x1F61D84, c, overlays/cutscene_71/parts_spawn]
+      - [0x1F62CEC, data, overlays/cutscene_71/check] # not to be used in ld
+      - [0x1F62CF0, c, overlays/cutscene_71/animation]
+      - [0x1F62D50, c, overlays/cutscene_71/camera]
+
+      # data
+      - [0x1F6421C, data, overlays/cutscene_71/cutscene]
+  - [0x1F65228]
+
+  - name: cutscene_73
+    type: code
+    symbol_name_format: cutscene_73_$VRAM
+    symbol_name_format_no_rom: cutscene_73_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x2151800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x21519C0, .rodata, overlays/cutscene_73/moby]
+      - [0x2151A40, .rodata, overlays/cutscene_73/cutscene]
+      - [0x2151A40, .rodata, overlays/cutscene_73/parts_update]
+      - [0x2151B80, .rodata, overlays/cutscene_73/parts_spawn]
+      - [0x2151CE0, .rodata, overlays/cutscene_73/animation]
+      - [0x2151CE0, .rodata, overlays/cutscene_73/camera]
+
+      # text
+      - [0x2151D30, c, overlays/cutscene_73/moby]
+      - [0x21528E8, c, overlays/cutscene_73/cutscene]
+      - [0x21529A8, c, overlays/cutscene_73/parts_update]
+      - [0x2153918, c, overlays/cutscene_73/parts_spawn]
+      - [0x2154824, data, overlays/cutscene_73/check] # not to be used in ld
+      - [0x2154828, c, overlays/cutscene_73/animation]
+      - [0x2154888, c, overlays/cutscene_73/camera]
+
+      # data
+      - [0x2155D54, data, overlays/cutscene_73/cutscene]
+  - [0x2156D60]
+
+  - name: cutscene_74
+    type: code
+    symbol_name_format: cutscene_74_$VRAM
+    symbol_name_format_no_rom: cutscene_74_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x230E000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x230E1C0, .rodata, overlays/cutscene_74/moby]
+      - [0x230E1C0, .rodata, overlays/cutscene_74/cutscene]
+      - [0x230E1C0, .rodata, overlays/cutscene_74/parts_update]
+      - [0x230E300, .rodata, overlays/cutscene_74/parts_spawn]
+      - [0x230E460, .rodata, overlays/cutscene_74/animation]
+      - [0x230E460, .rodata, overlays/cutscene_74/camera]
+
+      # text
+      - [0x230E4B0, c, overlays/cutscene_74/moby]
+      - [0x230E5D0, c, overlays/cutscene_74/cutscene]
+      - [0x230E690, c, overlays/cutscene_74/parts_update]
+      - [0x230F434, c, overlays/cutscene_74/parts_spawn]
+      - [0x2310254, data, overlays/cutscene_74/check] # not to be used in ld
+      - [0x2310258, c, overlays/cutscene_74/animation]
+      - [0x23102B8, c, overlays/cutscene_74/camera]
+
+      # data
+      - [0x2311784, data, overlays/cutscene_74/cutscene]
+  - [0x2312790]
+
+  - name: cutscene_75
+    type: code
+    symbol_name_format: cutscene_75_$VRAM
+    symbol_name_format_no_rom: cutscene_75_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x24D9800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x24D99C0, .rodata, overlays/cutscene_75/moby]
+      - [0x24D99C0, .rodata, overlays/cutscene_75/cutscene]
+      - [0x24D99C0, .rodata, overlays/cutscene_75/parts_update]
+      - [0x24D9B00, .rodata, overlays/cutscene_75/parts_spawn]
+      - [0x24D9C60, .rodata, overlays/cutscene_75/animation]
+      - [0x24D9C60, .rodata, overlays/cutscene_75/camera]
+
+      # text
+      - [0x24D9CB0, c, overlays/cutscene_75/moby]
+      - [0x24D9EB8, c, overlays/cutscene_75/cutscene]
+      - [0x24D9F78, c, overlays/cutscene_75/parts_update]
+      - [0x24DAD1C, c, overlays/cutscene_75/parts_spawn]
+      - [0x24DBB3C, data, overlays/cutscene_75/check] # not to be used in ld
+      - [0x24DBB40, c, overlays/cutscene_75/animation]
+      - [0x24DBBA0, c, overlays/cutscene_75/camera]
+
+      # data
+      - [0x24DD06C, data, overlays/cutscene_75/cutscene]
+  - [0x24DE078]
+
+  - name: cutscene_76
+    type: code
+    symbol_name_format: cutscene_76_$VRAM
+    symbol_name_format_no_rom: cutscene_76_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x264A800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x264A9C0, .rodata, overlays/cutscene_76/moby]
+      - [0x264A9C0, .rodata, overlays/cutscene_76/cutscene]
+      - [0x264A9C0, .rodata, overlays/cutscene_76/parts_update]
+      - [0x264AB00, .rodata, overlays/cutscene_76/parts_spawn]
+      - [0x264AC60, .rodata, overlays/cutscene_76/animation]
+      - [0x264AC60, .rodata, overlays/cutscene_76/camera]
+
+      # text
+      - [0x264ACB0, c, overlays/cutscene_76/moby]
+      - [0x264AEB8, c, overlays/cutscene_76/cutscene]
+      - [0x264AF78, c, overlays/cutscene_76/parts_update]
+      - [0x264BD1C, c, overlays/cutscene_76/parts_spawn]
+      - [0x264CB3C, data, overlays/cutscene_76/check] # not to be used in ld
+      - [0x264CB40, c, overlays/cutscene_76/animation]
+      - [0x264CBA0, c, overlays/cutscene_76/camera]
+
+      # data
+      - [0x264E06C, data, overlays/cutscene_76/cutscene]
+  - [0x264F078]
+
+  - name: cutscene_77
+    type: code
+    symbol_name_format: cutscene_77_$VRAM
+    symbol_name_format_no_rom: cutscene_77_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x2935800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x29359C0, .rodata, overlays/cutscene_77/moby]
+      - [0x29359C0, .rodata, overlays/cutscene_77/cutscene]
+      - [0x29359C0, .rodata, overlays/cutscene_77/parts_update]
+      - [0x2935B00, .rodata, overlays/cutscene_77/parts_spawn]
+      - [0x2935C60, .rodata, overlays/cutscene_77/animation]
+      - [0x2935C60, .rodata, overlays/cutscene_77/camera]
+
+      # text
+      - [0x2935CB0, c, overlays/cutscene_77/moby]
+      - [0x2935EB8, c, overlays/cutscene_77/cutscene]
+      - [0x2935F78, c, overlays/cutscene_77/parts_update]
+      - [0x2936D1C, c, overlays/cutscene_77/parts_spawn]
+      - [0x2937B3C, data, overlays/cutscene_77/check] # not to be used in ld
+      - [0x2937B40, c, overlays/cutscene_77/animation]
+      - [0x2937BA0, c, overlays/cutscene_77/camera]
+
+      # data
+      - [0x293906C, data, overlays/cutscene_77/cutscene]
+  - [0x293A078]
+
+  - name: cutscene_78
+    type: code
+    symbol_name_format: cutscene_78_$VRAM
+    symbol_name_format_no_rom: cutscene_78_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x2BE6000
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x2BE61C0, .rodata, overlays/cutscene_78/moby]
+      - [0x2BE61C0, .rodata, overlays/cutscene_78/cutscene]
+      - [0x2BE61C0, .rodata, overlays/cutscene_78/parts_update]
+      - [0x2BE6300, .rodata, overlays/cutscene_78/parts_spawn]
+      - [0x2BE6460, .rodata, overlays/cutscene_78/animation]
+      - [0x2BE6460, .rodata, overlays/cutscene_78/camera]
+
+      # text
+      - [0x2BE64B0, c, overlays/cutscene_78/moby]
+      - [0x2BE6A98, c, overlays/cutscene_78/cutscene]
+      - [0x2BE6B58, c, overlays/cutscene_78/parts_update]
+      - [0x2BE7A98, c, overlays/cutscene_78/parts_spawn]
+      - [0x2BE89A4, data, overlays/cutscene_78/check] # not to be used in ld
+      - [0x2BE89A8, c, overlays/cutscene_78/animation]
+      - [0x2BE8A08, c, overlays/cutscene_78/camera]
+
+      # data
+      - [0x2BE9ED4, data, overlays/cutscene_78/cutscene]
+  - [0x2BEAEE0]
+
+  - name: cutscene_79
+    type: code
+    symbol_name_format: cutscene_79_$VRAM
+    symbol_name_format_no_rom: cutscene_79_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x2DFF800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x2DFF9C0, .rodata, overlays/cutscene_79/moby]
+      - [0x2DFF9C0, .rodata, overlays/cutscene_79/cutscene]
+      - [0x2DFF9C0, .rodata, overlays/cutscene_79/parts_update]
+      - [0x2DFFB00, .rodata, overlays/cutscene_79/parts_spawn]
+      - [0x2DFFC60, .rodata, overlays/cutscene_79/animation]
+      - [0x2DFFC60, .rodata, overlays/cutscene_79/camera]
+
+      # text
+      - [0x2DFFCB0, c, overlays/cutscene_79/moby]
+      - [0x2DFFDD0, c, overlays/cutscene_79/cutscene]
+      - [0x2DFFE90, c, overlays/cutscene_79/parts_update]
+      - [0x2E00C34, c, overlays/cutscene_79/parts_spawn]
+      - [0x2E01A54, data, overlays/cutscene_79/check] # not to be used in ld
+      - [0x2E01A58, c, overlays/cutscene_79/animation]
+      - [0x2E01AB8, c, overlays/cutscene_79/camera]
+
+      # data
+      - [0x2E02F84, data, overlays/cutscene_79/cutscene]
+  - [0x2E03F90]
+
+  - name: cutscene_80
+    type: code
+    symbol_name_format: cutscene_80_$VRAM
+    symbol_name_format_no_rom: cutscene_80_$VRAM
+    exclusive_ram_id: overlay_space
+    start: 0x30C1800
+    vram: 0x800742D0
+    bss_size: 0
+    subsegments:
+      # header
+      # size 0x1C0, skipped
+
+      # rdata
+      - [0x30C19C0, .rodata, overlays/cutscene_80/moby]
+      - [0x30C19C0, .rodata, overlays/cutscene_80/cutscene]
+      - [0x30C19C0, .rodata, overlays/cutscene_80/parts_update]
+      - [0x30C1B14, .rodata, overlays/cutscene_80/parts_spawn]
+      - [0x30C1C8C, .rodata, overlays/cutscene_80/animation]
+      - [0x30C1C8C, .rodata, overlays/cutscene_80/camera]
+
+      # text
+      - [0x30C1CDC, c, overlays/cutscene_80/moby]
+      - [0x30C1DFC, c, overlays/cutscene_80/cutscene]
+      - [0x30C1EBC, c, overlays/cutscene_80/parts_update]
+      - [0x30C2F24, c, overlays/cutscene_80/parts_spawn]
+      - [0x30C4124, data, overlays/cutscene_80/check] # not to be used in ld
+      - [0x30C4128, c, overlays/cutscene_80/animation]
+      - [0x30C4188, c, overlays/cutscene_80/camera]
+
+      # data
+      - [0x30C5654, data, overlays/cutscene_80/cutscene]
+  - [0x30C6660]
