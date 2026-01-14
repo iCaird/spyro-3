@@ -20,6 +20,11 @@ INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_80040BCC);
 
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_80040D10);
 
+/**
+ * ???() - func_80040F48() - MATCHING
+ * Just needs variable cleanups / labelling
+ * https://decomp.me/scratch/kqmRi
+ */
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_80040F48);
 
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_800410F8);
@@ -130,6 +135,12 @@ INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_8004BA6C);
 
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_8004BDF0);
 
+/**
+ * UpdateMovementState() - func_8004BEF8()
+ * WIP
+ * Before adding, must be annotated with where the double jump hack is implemented (as in the asm)
+ * https://decomp.me/scratch/RSA1r
+ */
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_8004BEF8);
 
 INCLUDE_ASM("asm/nonmatchings/spyroupdate", func_8004CCA0);
