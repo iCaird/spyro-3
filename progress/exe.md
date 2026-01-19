@@ -313,14 +313,14 @@
 - [ ] func_80050680
 - [x] func_8005077C
 
-<!-- Unknown (probably Update...) -->
+<!-- Tracers -->
 - [ ] func_80050844
 - [x] func_800509E8
+- [ ] func_800509F0 <!-- Ready to add -->
+- [ ] func_80050B00 <!-- Ready to add -->
+- [ ] func_80050B88 <!-- Ready to add -->
 
 <!-- Update -->
-- [ ] func_800509F0
-- [ ] func_80050B00
-- [ ] func_80050B88
 - [ ] func_80050B90
 - [ ] func_80050F18
 - [ ] func_800512E4

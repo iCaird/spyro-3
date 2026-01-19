@@ -44,6 +44,7 @@ SECTIONS
         build/src/spyroupdate.o(.rodata.jtbl);
         build/src/str.o(.rodata);
         build/src/str.o(.rodata.jtbl);
+        /* strings.c */
         build/src/update.o(.rodata);
         build/src/update.o(.rodata.jtbl);
         build/asm/data/overlaypointer.rodata.o(.rodata);
@@ -69,7 +70,7 @@ SECTIONS
         build/src/savepoint.o(.rodata);
         build/asm/spyrodraw.o(.rodata);
         build/asm/stdutil.o(.rodata);
-        build/src/unknown.o(.rodata);
+        build/src/tracers.o(.rodata);
         build/src/updateabilities.o(.rodata);
         build/asm/updatemobys.o(.rodata);
 
@@ -103,7 +104,8 @@ SECTIONS
         build/src/spyroupdate.o(.text);
         build/asm/stdutil.o(.text);
         build/src/str.o(.text);
-        build/src/unknown.o(.text);
+        /* strings.c */
+        build/src/tracers.o(.text);
         build/src/update.o(.text);
         build/src/updateabilities.o(.text);
         build/asm/updatemobys.o(.text);
@@ -113,6 +115,10 @@ SECTIONS
         . = ALIGN(., 4);
         main_TEXT_END = .;
         main_TEXT_SIZE = ABSOLUTE(main_TEXT_END - main_TEXT_START);
+
+        /* This section is a bit messy and could use cleaning */
+        /* Right now almost all the data is added in in two large files - see game_data */
+        /* Update as appropriate */
         main_DATA_START = .;
         /* camera = .; // previously had a bunch of these here - useful in some places but not for these! */
         build/src/camera.o(.data);
@@ -125,6 +131,7 @@ SECTIONS
         build/src/spu.o(.data);
         build/src/spyroupdate.o(.data);
         build/src/str.o(.data);
+        /* strings.c */
         build/src/update.o(.data);
         overlaypointer_rodata = .;
         build/asm/data/overlaypointer.rodata.o(.data);
@@ -147,7 +154,7 @@ SECTIONS
         build/src/savepoint.o(.data);
         build/asm/spyrodraw.o(.data);
         build/asm/stdutil.o(.data);
-        build/src/unknown.o(.data);
+        build/src/tracers.o(.data);
         build/src/updateabilities.o(.data);
         build/asm/updatemobys.o(.data);
         . = ALIGN(., 4);
