@@ -1,3 +1,8 @@
+import colorama
+colorama.init()
+
+#########################################################################################
+
 # An extra script for running antipiracy checks, compatible with NTSC-U revisions 0 and 1.
 # Note that this script is not designed to be run with modified versions of the game
 # which have different addresses for things - that's what build.py is for!
@@ -26,6 +31,7 @@ REVISION = 0
 # Decrypt - set this if you want to decrypt the level overlays (they're encrypted by default, so if you want to edit them
 # you might want to run this script with just decryption on first):
 DECRYPT = False
+# TODO: is this even needed? Decryption should probably just happen based on detection!
 
 # Correct - set this if you want to correct the antipiracy checksums (e.g. after making modifications):
 CORRECT = True
@@ -33,17 +39,64 @@ CORRECT = True
 # Encrypt - set this if you want to encrypt the level overlays (they must be encrypted again before re-building the game):
 ENCRYPT = True
 
-# In the future maybe I should add something that just checks if an overlay is encrypted instead - e.g. by looking for an unused
-# moby class (e.g. 768) and checking if its moby code pointer equals the encryption key (encrypted) or if it equals 0 (decrypted)
-# CHECK_IF_ENCRYPTED = False
+# Note that this script checks the state of encryption of the overlay before running anything
+# If it can't determine whether an overlay is encrypted, it will skip this overlay.
 
 # Names - set to 0 if the wads use the default numbering convention (e.g. 98.wad), 1 if they use the wadtool convention
 # (e.g. level_0_sunrise_spring_home_code.ovl), or 2 if they use the decomp convention (level_10.ovl)
 NAMING_CONVENTION = 0
 
+# TODO: 1.1 ovlStartPtr
+ovlStartPtr = 0x800742D0 if (REVISION == 0) else 0x800742D0
+
 #########################################################################################
 
+def print_error(message):
+    print(colorama.Fore.RED + message + colorama.Style.RESET_ALL)
+
+def print_warning(message):
+    print(colorama.Fore.YELLOW + message + colorama.Style.RESET_ALL)
+
+def print_info(message):
+    print(colorama.Fore.CYAN + message + colorama.Style.RESET_ALL)
+
+def print_success(message):
+    print(colorama.Fore.GREEN + message + colorama.Style.RESET_ALL)
+
+# Would be optimal if Dragonbreath did this instead, really.
+# This script assumes moby 0 is unused (and thus its code pointer is null) for all levels. If
+# decrypted this should be 0, if encrypted it should match the encryption key. If you really want
+# to use this pointer for some reason, you could change this to instead check for the upper and
+# lower bytes of the check address instead. If encrypted the upmost byte should be 88 and the
+# lowest should equal ((check_addr / 4) % 256) ^ (key % 256). Otherwise, they should be 08
+# and ((check_addr / 4) % 256) respectively.
+def isEncrpyted(file):
+    with open(file, "rb") as f:
+        f.seek(4)
+        data = f.read(4)
+        key = int.from_bytes(data, "little")
+        data = f.read(4)
+        mobyPtr = int.from_bytes(data, "little")
+        f.seek(mobyPtr - ovlStartPtr,0)
+        data = f.read(4)
+        value = int.from_bytes(data, "little")
+        if value == 0:
+            return 0  # Unencrypted
+        else if value == key:
+            return 1  # Encrypted
+        else
+            return -1 # Undetermined, skip this file
+
+# when running, if CORRECT is False run en/decrypt only mode in separate methods instead
+# if it's encrypt and decrypt but CORRECT is False then don't run anything
+# encrypt only: files must be decrypted
+# decrypt only: files must be encrypted
+
 # below currently matches build.py
+
+
+
+
 
 
 
@@ -55,8 +108,6 @@ NAMING_CONVENTION = 0
 import os
 import subprocess
 import hashlib
-import colorama
-colorama.init()
 
 CC         = "./tools/gcc2.7.2/cc1"
 GCC         = "mips-linux-gnu-cpp"
@@ -92,18 +143,6 @@ NEW_PSYQ = ""
 # NEW_PSYQ += " --start-group"
 # NEW_PSYQ += " -lapi -lc -lc2 -lcard -lcd -lcomb -lds -letc -lgpu -lgs -lgte -lgun -lhmd -lmath -lmcrd -lpad -lsio -lspu"
 # NEW_PSYQ += " --end-group"
-
-def print_error(message):
-    print(colorama.Fore.RED + message + colorama.Style.RESET_ALL)
-
-def print_warning(message):
-    print(colorama.Fore.YELLOW + message + colorama.Style.RESET_ALL)
-
-def print_info(message):
-    print(colorama.Fore.CYAN + message + colorama.Style.RESET_ALL)
-
-def print_success(message):
-    print(colorama.Fore.GREEN + message + colorama.Style.RESET_ALL)
 
 def sha256sum(filename):
     with open(filename, 'rb', buffering=0) as f:
