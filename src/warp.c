@@ -243,8 +243,8 @@ void func_800584BC(int pType, int pLevelId) {
 INCLUDE_ASM("asm/nonmatchings/warp", func_80058778);
 
 /**
- * DrawLoadingImage() - func_80059038()
- * Matched by accidentally using two names for pauseData, currently has some issues with calling frameCount
+ * DrawLoadingImage() - func_80059038() - MATCHING
+ * Matches if pauseData is split into two structs, investigate where this boundary is and what the implications for other functions are
  * https://decomp.me/scratch/0Jp0a
  */
 INCLUDE_ASM("asm/nonmatchings/warp", func_80059038);
