@@ -236,8 +236,8 @@ void func_800584BC(int pType, int pLevelId) {
 #endif
 
 /**
- * UpdateLoadingImage() - func_80058778()
- * TODO, needs a lot of adjustment to work
+ * UpdateLoadingImage() - func_80058778() - MATCHING
+ * Worth cleaning a bit and sorting out the warnings
  * https://decomp.me/scratch/TOylz
  */
 INCLUDE_ASM("asm/nonmatchings/warp", func_80058778);
