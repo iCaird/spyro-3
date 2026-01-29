@@ -640,6 +640,8 @@ typedef struct {
 	int cursorPos; // 8006fbcc
 	int menuType; // 8006fbd0
 	int dat_8006fbd4; // 8006fbd4
+
+	// Could be in a different struct
     int dat_8006fbd8; // 8006fbd8
     int dat_8006fbdc; // 8006fbdc
     int dat_8006fbe0; // 8006fbe0
@@ -650,6 +652,7 @@ typedef struct {
 	int dat_8006fbf4; // 8006fbf4
 	int* dat_8006fbf8; // 8006fbf8, some kind of pointer seems to be used in Atlas
 
+	// Probably in a different struct, to get struct usage to match properly
 	DRAWENV dat_8006fbfc; // 8006fbfc
 	DISPENV dat_8006fc58; // 8006fc58
 	int dat_8006fc6c; // 8006fc6c
