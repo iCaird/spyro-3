@@ -1,11 +1,9 @@
 #include "common.h"
 #include "camera.h"
+#include "stdutil.h"
 
 // spyro
 extern Spyro spyro;
-
-// stdutil
-extern void func_8004F178(Vector3D*, Vector3D*); // fSetVector
 
 // sbss
 extern int D_8006C6D0;

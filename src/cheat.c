@@ -1,11 +1,11 @@
 #include "common.h"
 #include "cheat.h"
 #include "pad.h"
+#include "spu.h"
 
-extern void func_8003A584();
-extern void func_8003BB50(int localSoundId, Moby *moby, char param_3); // func_8003BB50 playsound
-extern void func_8003C184();
+// update
 extern void func_80054CD8();
+// psyq
 extern void func_8005956C(int); // VSync
 
 // data 80064f9c
@@ -22,11 +22,13 @@ extern int D_8006C7A8;
 // bss 8006c7f8
 extern StreamingData streamingData;
 
+///////////////////////////////////////////////////////////////////////
+
 /**
- * ClearCheatInputs() - func_80017A04() - MATCHING 
+ * ClearCheatBuffer() - func_80017A04() - MATCHING 
  * https://decomp.me/scratch/46inF
  */
-void func_80017A04() {
+void ClearCheatBuffer() {
     int i;
 
     for (i = 15; i >= 0; i--) g_CheatBuffer[i] = 0;
@@ -36,10 +38,10 @@ void func_80017A04() {
 }
 
 /**
- * CheckCheatInputs() - func_80017A40() - MATCHING
+ * ProcessCheatBuffer() - func_80017A40() - MATCHING
  * https://decomp.me/scratch/vNMlZ
  */
-void func_80017A40() { // cheat codes
+void ProcessCheatBuffer() { // cheat codes
     int cheatIndex;
     int inputCodeOffset;
     int matchingInputs;

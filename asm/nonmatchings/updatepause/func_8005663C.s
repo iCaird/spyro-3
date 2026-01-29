@@ -190,7 +190,7 @@ glabel func_8005663C
 /* 470EC 800568EC 04000224 */  addiu      $v0, $zero, 0x4
 /* 470F0 800568F0 0780013C */  lui        $at, %hi(D_8006E344)
 /* 470F4 800568F4 44E322AC */  sw         $v0, %lo(D_8006E344)($at)
-/* 470F8 800568F8 815E000C */  jal        func_80017A04
+/* 470F8 800568F8 815E000C */  jal        ClearCheatBuffer
 /* 470FC 800568FC 00000000 */   nop
 /* 47100 80056900 B7EF000C */  jal        func_8003BEDC
 /* 47104 80056904 00000000 */   nop

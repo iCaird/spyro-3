@@ -14,6 +14,9 @@ files = [
     'tracers.h',
     'warp.h',
     'drawutil.h',
+    'stdutil.h',
+    'loaders.h',
+    'spu.h',
     'ovl_header.h',
     'moby/mobytag.h',
 ]

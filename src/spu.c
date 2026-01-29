@@ -1,4 +1,5 @@
 #include "common.h"
+#include "spu.h"
 
 INCLUDE_ASM("asm/nonmatchings/spu", func_8003BABC);
 

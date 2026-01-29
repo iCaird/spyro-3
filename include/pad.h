@@ -76,4 +76,8 @@ extern PsyqPad D_800718DC; // 7 ints after this?
 extern PadState D_80071FD8[4]; // 80071fd8
 extern Pad pad2; // 80072018
 
+// functions
+extern void func_8003A584();
+// and the rest
+
 #endif

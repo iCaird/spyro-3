@@ -1,8 +1,9 @@
 #include "common.h"
 #include "pad.h"
 
-// TODO - move to pad.h, w/ all functions in here
+// stdutil
 extern void func_8004E7D4(int*, int*, int); // memcpy
+// psyq
 extern void func_8005956C(int); // VSync
 
 // sdata

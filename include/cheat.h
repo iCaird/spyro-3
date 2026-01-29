@@ -40,8 +40,8 @@ enum Cheat {
     CHEAT_TREASURE_FINDER, // Final only
 };
 
-void func_80017A04();    // ClearCheatInputs
-void func_80017A40();    // CheckCheatInputs
+void ClearCheatBuffer();
+void ProcessCheatBuffer();
 void func_80017B7C(int); // ActivateCheat
 
 // data

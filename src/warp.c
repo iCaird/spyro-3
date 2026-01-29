@@ -1,6 +1,8 @@
 #include "warp.h"
 #include "common.h"
 #include "drawutil.h"
+#include "stdutil.h"
+#include "spu.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Externs
@@ -30,10 +32,6 @@ typedef struct {
 // text
 // hud
 extern int* func_800289C8(SpriteData*, short, short); // first arg is probably a struct of size 8
-// spu
-extern void func_8003BEDC();
-// stdutil
-extern void func_8004E71C(void*, int); // fAddWorldOT
 // psyq
 extern int func_8005956C(int); // VSync
 extern void func_8005C564(DR_MODE*, int, int, int, int); // SetDrawMode - type and args to check

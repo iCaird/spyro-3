@@ -1,10 +1,12 @@
 #include "common.h"
+#include "stdutil.h"
+#include "loaders.h"
 
+// init
 extern void func_8002AA34();
-extern void func_8002D044();
+// spyroupdate
 extern void func_80047190();
-extern void memset(int*, int, int);  // memset // func_8004E790
-extern void func_8004E828(int*, int*, int); // memcpy reverse
+// str
 extern void func_80050578(int, int*, int, int); // fDiscReadSync
 
 // sdata
@@ -17,8 +19,6 @@ extern SpuData* spuDataPtr; // 8006C6A0
 extern WadHeader wadHeader;
 extern StreamingData streamingData;
 extern SpeedwayData speedwayData; // 8006FA38
-
-extern LoadingData loadingData; // D_800722b8; probably defined in here
 
 // bss - probably need structs or retyping
 extern int D_8006DEF8[64]; // unknown ints
@@ -34,7 +34,7 @@ extern char D_80072430[384]; // fuck knows, may not even be chars
  * Speedway related (or rather, when not in speedways)
  * https://decomp.me/scratch/py5DN
  */
-void func_8002AE00(void) {
+void func_8002AE00() {
     func_8002D044();
     speedwayData.speedwayIndex = -1;
     func_80047190();
@@ -111,7 +111,7 @@ INCLUDE_ASM("asm/nonmatchings/loaders", func_8002CA50);
  * I'm not sure if these are actually relative to something
  * https://decomp.me/scratch/HBeBQ
  */
-void func_8002D044(void) {
+void func_8002D044() {
     func_80050578(streamingData.wadSector, (int*)0x801AE800, wadHeader.spyroMdls.size, wadHeader.spyroMdls.offset);
     
     loadingData.D_800722e0 = (int*)(0x801FF800 - *(int*)0x801AE800); // D_801AE800; modelsEnd

@@ -1,11 +1,13 @@
 #include "common.h"
+#include "stdutil.h"
 
-extern void func_8004E7D4(int *dest, int *src, int len); // memcpy
+// str
 extern void func_80050578(int sector, int* dest, int len, int sectorOffset); // LoadFromDisc
+extern void func_80050504(char param_1);
+// psyq
 extern int func_8005DB08(void* param_1);
 extern int func_8005DB1C(); // CdInit
 extern int func_8005E0BC(char param_1, char* param_2, char* param_3);
-extern void func_80050504(char param_1);
 
 // rodata
 extern int* overlayStartPtr; // 80011254
