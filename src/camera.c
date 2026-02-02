@@ -149,6 +149,11 @@ void func_800142E0() {
     camera.unk6c = spyro.rotation.yaw;
 }
 
+/**
+ * ???() - func_80014354() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/Oix8L
+ */
 INCLUDE_ASM("asm/nonmatchings/camera", func_80014354);
 
 /**

@@ -56,7 +56,12 @@ INCLUDE_ASM("asm/nonmatchings/update", func_800512E4);
 
 INCLUDE_ASM("asm/nonmatchings/update", func_800518F8);
 
-// Different in 1.1
+/**
+ * ???() - func_80051A60()
+ * WIP
+ * Differs in 1.1, so would be interesting to add
+ * https://decomp.me/scratch/ziJbr
+ */
 INCLUDE_ASM("asm/nonmatchings/update", func_80051A60);
 
 /**

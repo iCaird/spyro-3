@@ -5,7 +5,7 @@
 #include "pad.h"
 #include "cheat.h"
 
-/*** For the inline functions ***/
+/*** For the inline functions - as much of this should be moved out as possible ***/
 
 // stdutil
 extern void func_8004E790(void*, int, int); // memset
