@@ -32,12 +32,16 @@ extern unsigned char D_80066988[8]; // GemAnimationIds
 extern unsigned char D_80066990[8]; // GemColourIndices
 extern unsigned char D_80066F54[40]; // gems per level / 100
 extern unsigned char D_80066F7C[40]; // eggs per level
+extern TalkTextData D_80067554[7]; // TriangleToTalkData
 
-// sdata
+// sdata / sbss
 extern int levelIndex; // 8006C58C
 extern int* dragonModelPtr; // 8006C5B0
 extern int D_8006C648; // deltaTime
+extern Moby* D_8006C550; // MobyArrayPointer
+extern int D_8006C580;
 extern Moby* D_8006C704; // FirstAllocatedMobyPointer
+extern unsigned short** D_8006C730;
 extern int D_8006C770;
 
 // bss
@@ -107,9 +111,10 @@ INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80035194);
 /** 
  * ???() - func_80035734() - MATCHING
  * Content is possibly not included in retail versions (moby lerp error from Spyro 1?)
+ * Based on other functions, seems to take in a moby, which makes sense
  * https://decomp.me/scratch/Dz93r
  */
-void func_80035734(Moby* moby) { // Based on other functions, seems to take in a moby, which makes sense
+void func_80035734(Moby* moby) {
     return;
 }
 
@@ -142,17 +147,88 @@ int func_8003573C(Moby* arg0, int arg1, int arg2, int arg3) {
 
 /**
  * ???() - func_8003585C() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/LaxWp
  */
-INCLUDE_ASM("asm/nonmatchings/mobyutil", func_8003585C);
+int func_8003585C(Moby* arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
+    int temp_v1;
+
+    temp_v1 = func_8004F264(arg1, arg0->angle.yaw);
+    if (D_8006C648 == 3) {
+        arg2 += arg2 >> 1;
+        if (temp_v1 < arg2) arg2 = temp_v1;
+    }
+    else if (D_8006C648 == 4) {
+        arg2 *= 2;
+        if (temp_v1 < arg2) arg2 = temp_v1;
+    }
+    else if (temp_v1 < arg2) arg2 = temp_v1;
+    
+    if (arg3 < temp_v1) {
+        if (arg5 != 0) {
+            arg0->angle.yaw += (arg2 * arg5);
+        } else {
+            arg0->angle.yaw = func_8004F2EC(arg1, arg0->angle.yaw, arg2, (arg2 >> 1) + 1);
+        }
+        return (arg3 >= func_8004F264(arg1, arg0->angle.yaw));
+    }
+    if ((arg4 != 0) && (temp_v1 >= 3)) {
+        if (arg5 != 0) {
+            arg0->angle.yaw += (arg2 * arg5);
+        } else {
+            arg0->angle.yaw = func_8004F2EC(arg1, arg0->angle.yaw, arg2, (arg2 >> 1) + 1);
+        }
+        
+    }
+    return 1;
+}
 
 /**
  * CountTimerDown() - func_800359A4() - MATCHING
- * Ready to add
+ * Not working right now, come back to this later
  * https://decomp.me/scratch/FjxxT
  */
 INCLUDE_ASM("asm/nonmatchings/mobyutil", func_800359A4);
+#if 0
+int func_800359A4(void* timer, int size) {
+    int temp_v1;
+
+    if (size == sizeof(int)) {
+        temp_v1 = *(int*)timer;
+        if (D_8006C648 >= temp_v1) {
+            if (temp_v1 != 0) {
+                *(int*)timer = 0;
+                return 2;
+            }
+            return 1;
+        }
+        *(int*)timer -= D_8006C648;
+        return 0;
+    }
+    else if (size == sizeof(short)) {
+        if (D_8006C648 >= *(short*)timer) {
+            if (*(short*)timer != 0) {
+                *(short*)timer = 0;
+                return 2;
+            }
+            return 1;
+        }
+        *(short*)timer -= D_8006C648;
+        return 0;
+    }
+    else if (size == sizeof(char)) {
+        if (D_8006C648 >= *(char*)timer) {
+            if (*(char*)timer != 0) {
+                *(char*)timer = 0;
+                return 2;
+            }
+            return 1;
+        }
+        *(char*)timer -= D_8006C648;
+        return 0; 
+    }
+    return 0;
+}
+#endif
 
 /**
  * ???() - func_80035A80()
@@ -337,10 +413,25 @@ void func_800369B8() {
 
 /**
  * ???() - func_800369D8() - MATCHING
- * Probably ready to add
+ * Seems to count the alive mobys
  * https://decomp.me/scratch/Fc1Ui
  */
-INCLUDE_ASM("asm/nonmatchings/mobyutil", func_800369D8);
+int func_800369D8(int arg0) {
+    int liveMobys;
+    short temp_a1;
+    short* var_a0;
+
+    liveMobys = 0;
+    if (arg0 >= D_8006C580) return 0;
+    
+    var_a0 = D_8006C730[arg0];
+    do {
+        temp_a1 = *var_a0;
+        if (D_8006C550[temp_a1 & 0x7FFF].state < 0x80) liveMobys++; // Moby is live, increment
+        var_a0++;
+    } while (0 <= temp_a1);
+    return liveMobys;
+}
 
 INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80036A68);
 
@@ -452,10 +543,22 @@ INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80037BBC);
 
 /**
  * SpawnTalkText() - func_80037F50() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/IWP83
  */
-INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80037F50);
+void func_80037F50(Moby* arg0) {
+    int var_s1;
+    Moby* temp_v0;
+
+    for (var_s1 = 0; var_s1 < 7; var_s1++) {
+        temp_v0 = SpawnMoby(311, arg0);
+        *(Moby**)temp_v0->mobyTag = arg0;
+        temp_v0->animationState.id = D_80067554[var_s1].model;
+        temp_v0->substate = var_s1;
+        temp_v0->position.z = temp_v0->position.z - 0xA00;
+        temp_v0->colour.r = D_80067554[var_s1].colour;
+        temp_v0->unknown4 = 4;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80038000);
 

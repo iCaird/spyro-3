@@ -1,5 +1,14 @@
 #include "common.h"
 
+// For the .h
+void func_8001E460(int); // DrawGameWorld
+
+// loading overlay functions
+void func_loading_80075B74();
+
+// Other
+extern PauseData pauseData; // 8006fbc4
+
 INCLUDE_ASM("asm/nonmatchings/draw", func_8001D274);
 
 // Different in 1.1
@@ -13,17 +22,30 @@ INCLUDE_ASM("asm/nonmatchings/draw", func_8001DD1C);
 
 /**
  * ???() - func_8001E2A8() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/Don2Z
  */
-INCLUDE_ASM("asm/nonmatchings/draw", func_8001E2A8);
+void func_8001E2A8() {
+    func_8001E460(0x1D);
+}
 
 /**
  * ???() - func_8001E2C8() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/Ded5J
  */
-INCLUDE_ASM("asm/nonmatchings/draw", func_8001E2C8);
+void func_8001E2C8() {
+    switch (pauseData.dat_8006fbc8) {
+    case 0:
+    case 5:
+        func_8001E460(0xD);
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        func_loading_80075B74();
+        break;
+    }
+}
 
 /**
  * ???() - func_8001E32C() - MATCHING
