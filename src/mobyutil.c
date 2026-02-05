@@ -213,16 +213,16 @@ int func_800359A4(void* pTimer, int pTimerType) {
             return 0;
         }
     } else if (pTimerType == sizeof(char)) {
-        unsigned char timer = *(unsigned char*)pTimer;
+        char timer = *(char*)pTimer;
         if (D_8006C648 >= timer) {
             if (timer != 0) {
-                *(unsigned char*)pTimer = 0;
+                *(char*)pTimer = 0;
                 return 2;
             }
             return 1;
         }
         else {
-            *(unsigned char*)pTimer -= D_8006C648;
+            *(char*)pTimer -= D_8006C648;
             return 0; 
         }
     }
