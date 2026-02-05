@@ -61,7 +61,7 @@ void func_8004F984(int startLba, int endLba, int track) {
 }
 
 /**
- * ???() - func_8004F9C0()
+ * ???() - func_8004F9C0() - MATCHING
  * Seems to be a dialogue init function
  * https://decomp.me/scratch/FCfLr
  */
@@ -119,7 +119,7 @@ INCLUDE_ASM("asm/nonmatchings/str", func_80050578);
 /**
  * ???() - func_80050680()
  * Probably difficult
- * https://decomp.me/scratch/1wzmj
+ * https://decomp.me/scratch/iHBib
  */
 INCLUDE_ASM("asm/nonmatchings/str", func_80050680);
 

@@ -23,8 +23,8 @@ extern StreamingData streamingData; // 8006e470
 
 /**
  * ???() - func_80039E34()
- * Unfinished and weird
- * https://decomp.me/scratch/lUIyg
+ * Nearly there, maybe bad structs
+ * https://decomp.me/scratch/8klxB
  */
 INCLUDE_ASM("asm/nonmatchings/pad", func_80039E34);
 
@@ -218,7 +218,7 @@ void func_8003A40C() {
 /**
  * ???() - func_8003A584()
  * WIP, complicated, only a few diffs but they're very non-obvious
- * https://decomp.me/scratch/wVIQi
+ * https://decomp.me/scratch/5tZWF
  */
 INCLUDE_ASM("asm/nonmatchings/pad", func_8003A584);
 

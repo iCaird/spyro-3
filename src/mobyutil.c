@@ -231,9 +231,9 @@ int func_800359A4(void* timer, int size) {
 #endif
 
 /**
- * ???() - func_80035A80()
- * WIP
- * https://decomp.me/scratch/h37BL
+ * ???() - func_80035A80() - MATCHING
+ * Path related, needs better struct naming but is ready to add
+ * https://decomp.me/scratch/MfTDY
  */
 INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80035A80);
 
@@ -252,9 +252,9 @@ int func_80035D38(Moby* moby) {
 }
 
 /**
- * SnapMobyToGroundRange() - func_80035D84()
- * Annoying register bullshit
- * https://decomp.me/scratch/AzgPl
+ * SnapMobyToGroundRange() - func_80035D84() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/pfFhX
  */
 INCLUDE_ASM("asm/nonmatchings/mobyutil", func_80035D84);
 

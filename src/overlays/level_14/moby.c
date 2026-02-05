@@ -87,6 +87,10 @@ INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_80083F7C);
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_80083F9C);
 
+/**
+ * MobyUpdate_299() - func_level_14_800848EC()
+ * https://decomp.me/scratch/YPrYK
+ */
 INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_800848EC);
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_80084FD0);
@@ -123,4 +127,8 @@ INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_8008BE8C);
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_8008C07C);
 
+/**
+ * MobyUpdate_1015() - func_level_14_8008C210()
+ * https://decomp.me/scratch/VsRCQ
+ */
 INCLUDE_ASM("asm/nonmatchings/overlays/level_14/moby", func_level_14_8008C210);
