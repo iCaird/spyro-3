@@ -40,10 +40,6 @@ enum Cheat {
     CHEAT_TREASURE_FINDER, // Final only
 };
 
-void ClearCheatBuffer();
-void ProcessCheatBuffer();
-void func_80017B7C(int); // ActivateCheat
-
 // data
 extern int g_CheatCodes[CHEAT_COUNT][16]; // enum PadInput
 
@@ -53,5 +49,10 @@ extern int pauseMenuButtonPresses; // 8006C5CC; "cheatInputs"?
 // bss
 extern CheatFlags g_CheatFlags; // 8006FB90
 extern int g_CheatBuffer[16]; // 800713F8
+
+// text
+void ClearCheatBuffer();
+void ProcessCheatBuffer();
+void ActivateCheat(int);
 
 #endif

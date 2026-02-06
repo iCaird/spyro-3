@@ -37,7 +37,7 @@
 <!-- Cheat -->
 - [x] func_80017A04
 - [x] func_80017A40
-- [ ] func_80017B7C <!-- WIP - non-matching -->
+- [x] func_80017B7C
 
 <!-- Draw -->
 - [ ] func_8001D274

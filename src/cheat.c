@@ -22,6 +22,16 @@ extern int D_8006C7A8;
 // bss 8006c7f8
 extern StreamingData streamingData;
 
+// static inlines
+// might be useful in other functions, so should be in the header
+// but this should wait until D_8006C5BC is headerised
+static inline void InitiateLevelWarp(char pLevelId) {
+  g_CheatFlags.warpToLevel = pLevelId;
+  if (pLevelId >= 60) {
+    g_CheatFlags.previousLevel = D_8006C5BC;
+  }
+}
+
 ///////////////////////////////////////////////////////////////////////
 
 /**
@@ -75,7 +85,7 @@ void ProcessCheatBuffer() { // cheat codes
 
         // Activate cheat code or move to next one
         if (matchingInputs == codeLen) {
-            func_80017B7C(cheatIndex);
+            ActivateCheat(cheatIndex);
             break;
         }
     }
@@ -84,14 +94,11 @@ void ProcessCheatBuffer() { // cheat codes
 }
 
 /**
- * ActivateCheat() - func_80017B7C() - MATCHING?
- * Seems to break at the end of the level warp one, not sure why
- * Setting the 60U back to 60 makes it length match but the decomp.me suggests it's needed 
+ * ActivateCheat() - func_80017B7C() - MATCHING
+ * Required a static inline to match
  * https://decomp.me/scratch/PVtES
  */
-INCLUDE_ASM("asm/nonmatchings/cheat", func_80017B7C);
-#if 0
-void func_80017B7C(int cheat) {
+void ActivateCheat(int cheat) {
     int var_s0;
     int var_s0_2;
     int var_s1;
@@ -162,10 +169,7 @@ void func_80017B7C(int cheat) {
 
         temp_s0 = var_s1 * 10 + var_s2;
         func_8003BB50(soundTablePtr->pauseExit, 0, 0);
-        g_CheatFlags.warpToLevel = temp_s0;//var_s1 * 10 + var_s2; //*(char*)& ???
-        if (g_CheatFlags.warpToLevel >= 60) {
-            g_CheatFlags.warpToLevel = D_8006C5BC;
-        }
+        InitiateLevelWarp(temp_s0);
         return;
 
     case CHEAT_SQUIDBOARD:
@@ -283,4 +287,3 @@ void func_80017B7C(int cheat) {
         return;
     }
 }
-#endif
