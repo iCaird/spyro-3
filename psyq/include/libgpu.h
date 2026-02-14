@@ -1,5 +1,7 @@
-#ifndef __LIBGPU_H
-#define __LIBGPU_H
+#ifndef __PSYQ_LIBGPU_H
+#define __PSYQ_LIBGPU_H
+
+/* Recreation of libgpu.h, actual file (or something close) to be added later */
 
 typedef struct {
 	short x, y;

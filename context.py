@@ -1,9 +1,13 @@
 from datetime import datetime
 import re
 
+proot = 'psyq/include/'
+pfiles = [
+    'libgpu.h',
+]
+
 root = 'include/'
 files = [
-    'libgpu.h',
     'common.h',
     'camera.h',
     'cheat.h',
@@ -38,6 +42,16 @@ typedef int s32;
 #define CHEAT_COUNT 12
 """
 
+# libraries
+for file in pfiles:
+    context += '\n//////////////////// ' + file + ' ////////////////////\n\n'
+    with open(proot + file, 'r') as f:
+        header = f.read()
+    header = re.sub(r'^#[^(\r\n]*$[\r\n]*', '', header, flags=re.M)        # removes includes
+    header = re.sub(r'^static inline((.|\n)*?)^}', '', header, flags=re.M) # removes static inline functions
+    context += header
+
+# src
 for file in files:
     context += '\n//////////////////// ' + file + ' ////////////////////\n\n'
     with open(root + file, 'r') as f:
