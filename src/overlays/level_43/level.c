@@ -4,7 +4,7 @@
 #include "stdutil.h"
 
 #include "ovl_header.h"
-
+#include "spyro.h"
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B598);
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B8B4);
