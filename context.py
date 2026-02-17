@@ -26,6 +26,7 @@ files = [
     'environment.h',
     'ovl_header.h',
     'moby/mobytag.h',
+    'spyro.h'
 ]
 
 context = '// Context generated ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\n\n'

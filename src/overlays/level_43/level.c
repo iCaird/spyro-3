@@ -1,13 +1,30 @@
 #include "common.h"
 #include "mobyutil.h"
-
 #include "stdutil.h"
-
 #include "ovl_header.h"
 #include "spyro.h"
+
+
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B598);
 
-INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B8B4);
+// INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B8B4);
+extern int D_8006E044;
+extern unsigned int D_8006E048;
+extern Spyro spyro;
+extern void func_8004F178(Vector3D*, Vector3D*); // fSetVector
+                                                 //
+void func_level_43_8008B8B4(Moby* arg0, int arg1) {
+    spyro.unk20a = 1;
+    spyro.unk20b = arg1;
+    spyro.critterMobyPtr = arg0;
+    if (((D_8006E044 == 7) && ((unsigned int) D_8006E048 >= 2U)) || (spyro.unk17b & 0x2000)) {
+        arg0->lowDrawDistance = 0;
+        arg0->drawn = 0;
+        return;
+    }
+    arg0->lowDrawDistance = 0x10;
+}
+
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B92C);
 
@@ -18,8 +35,6 @@ INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008BF10);
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008C498);
 
 
-extern Spyro spyro;
-extern void func_8004F178(Vector3D*, Vector3D*); // fSetVector
 int func_level_43_8008C5AC(Vector3D* arg0, int arg1, Moby* arg2) {
     int temp_s0;
     int temp_s1;
