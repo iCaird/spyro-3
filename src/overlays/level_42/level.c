@@ -25,7 +25,21 @@ void func_level_42_80084DD4(Moby* arg0, int arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_42/level", func_level_42_80084E4C);
 
-INCLUDE_ASM("asm/nonmatchings/overlays/level_42/level", func_level_42_800852D0);
+
+/*
+ * ???() - func_level_42_80084DD4 - MATCHED
+ * https://decomp.me/scratch/oWPff
+ */
+int func_level_42_800852D0(Vector3D* arg0, int arg1, Moby* arg2) {
+    int temp_s0;
+
+    temp_s0 = spyro.unk17c == 2;
+    spyro.unk17a = 0x10000040;
+    spyro.unk17d = arg2;
+    func_8004F178(&spyro.unk19, arg0);
+    spyro.unk20[0] = arg1;
+    return temp_s0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/overlays/level_42/level", func_level_42_80085344);
 
