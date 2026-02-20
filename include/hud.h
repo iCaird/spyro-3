@@ -57,9 +57,11 @@ typedef struct {
     char unk3D;
     char unk3E;
     char unk3F; // movement progress
-    int unk40;
-    short unk44;
-    char unk46[14];
+    unsigned short unk40;
+    unsigned short unk42;
+    unsigned short unk44;
+    short unk46;
+    char unk48 [12];
 } HudEntry;
 
 extern HudEntry D_80067248[9]; // HUD entries

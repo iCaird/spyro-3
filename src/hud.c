@@ -1,19 +1,109 @@
 #include "common.h"
 #include "hud.h"
+#include "spu.h"
 
+extern int D_8006C648; // deltaTime
 extern int D_8006C64C;
-
+extern SoundTable* D_8006C654;
 ///////////////////////////////////////////////////
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80027934);
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002798C);
+// INCLUDE_ASM("asm/nonmatchings/hud", func_8002798C);
+// https://decomp.me/scratch/IDonA
+void func_8002798C(HudEntry* arg0) {
+    int temp_v0;
+    int var_a0;
+    int var_v0;
+    int var_v1;
+    short temp_a2;
+    unsigned short temp_v1;
+    int var_v0_2;
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027A60);
+    if (arg0->unk40 != arg0->unk42) {
+        temp_a2 = arg0->unk46 + D_8006C648;
+        arg0->unk46 = temp_a2;
+        arg0->unk44 = 0xB4;
+        if (arg0->unk3F == 0) {
+            temp_v0 = arg0->unk40 - arg0->unk42;
+            var_v1 = temp_v0 >= 0 ? temp_v0 : -temp_v0; 
+            if ((var_v1 >= 0x28) ||
+                ((((var_v1 < 0xA) == 0)) && ( ((temp_a2 < 4) == 0))) ||
+                (temp_a2 >= 6)) {
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027AC0);
+                if (var_v1 >= 0x140) {
+                    var_a0 = 6;
+                } else {
+                    var_a0 = 1;
+                    if (var_v1 >= 0x28) {
+                        var_a0 = 3;
+                    }
+                }
+                temp_v1 = arg0->unk40;
+                var_v0_2 = temp_v1 <= arg0->unk42 ? temp_v1 + var_a0 : temp_v1 - var_a0;
+                arg0->unk40 = var_v0_2;
+                arg0->unk46 = 0U;
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027B0C);
+// INCLUDE_ASM("asm/nonmatchings/hud", func_80027A60);
+// https://decomp.me/scratch/QvPw5
+void func_80027A60(HudEntry* arg0) {
+    int var_v0;
+    int* temp_v0;
+    unsigned short temp_v1;
+
+    temp_v0 = arg0->unk28;
+    if (temp_v0 != 0) {
+        var_v0 = *temp_v0;
+        if (var_v0 < 0) {
+            var_v0 = 0;
+        }
+        temp_v1 = arg0->unk26;
+        arg0->unk42 = (unsigned short) var_v0;
+        if (temp_v1 < (unsigned int) (var_v0 & 0xFFFF)) {
+            arg0->unk42 = temp_v1;
+        }
+    }
+    func_8002798C(arg0);
+}
+
+
+// INCLUDE_ASM("asm/nonmatchings/hud", func_80027AC0);
+// https://decomp.me/scratch/Aloso
+void func_80027AC0(HudEntry* arg0) {
+    int var_v0;
+    int* temp_v0;
+    unsigned short temp_v1;
+
+    temp_v0 = arg0->unk28;
+    if (temp_v0 != 0) {
+        var_v0 = *temp_v0;
+        if (var_v0 < 0) {
+            var_v0 = 0;
+        }
+        temp_v1 = arg0->unk26;
+        arg0->unk42 = (unsigned short) var_v0;
+        if (temp_v1 < (unsigned int) (var_v0 & 0xFFFF)) {
+            arg0->unk42 = temp_v1;
+        }
+    }
+    arg0->unk40 = (unsigned short) arg0->unk42;
+}
+
+
+// INCLUDE_ASM("asm/nonmatchings/hud", func_80027B0C);
+void func_80027B0C(HudEntry* arg0) {
+    int temp_s1;
+
+    temp_s1 = arg0->unk40;
+    func_80027A60(arg0);
+    if ( temp_s1 <  arg0->unk40) { // ?
+        func_8003BB50((int) D_8006C654->extraLife, 0, 0); //playSound(int,*Moby,char)
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80027B70);
 
@@ -183,12 +273,34 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_80029CF8);
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029E48);
 
+
+//WIP - https://decomp.me/scratch/gamSH
 INCLUDE_ASM("asm/nonmatchings/hud", func_8002A580);
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002A6B4);
+//https://decomp.me/scratch/CXdDl
+void func_8002A6B4(void) {
+    func_8003BB50(D_8006C654->pauseEnter, 0, 0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002A6E4);
+// https://decomp.me/scratch/Mck3B
+void func_8002A6E4(void) {
+    func_8003BB50(D_8006C654->pauseExit, 0, 0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002A714);
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002A754);
+// https://decomp.me/scratch/omnBk
+void func_8002A714(void) {
+    int temp = func_8003BB50((int) D_8006C654->pauseMove, 0, 0); 
+    if (temp >= 0) {
+        func_8003C140(temp, 0x640);
+    }
+}
+
+
+//https://decomp.me/scratch/0JDAC
+void func_8002A754(void) {
+    int temp = func_8003BB50((int) D_8006C654->changeVolume, 0, 0); //playSound
+    if (temp >= 0) {
+        func_8003C140(temp, 0xC00); 
+    }
+}
