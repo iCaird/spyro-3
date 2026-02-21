@@ -1,38 +1,37 @@
 from datetime import datetime
 import re
 
-proot = "psyq/include/"
+proot = 'psyq/include/'
 pfiles = [
-    "libgpu.h",
+    'libgpu.h',
 ]
 
-root = "include/"
+root = 'include/'
 files = [
-    "common.h",
-    "cyclorama.h",
-    "draw.h",
-    "camera.h",
-    "cheat.h",
-    "hud.h",
-    "pad.h",
-    "savepoint.h",
-    "memcard.h",
-    "mobyutil.h",
-    "tracers.h",
-    "warp.h",
-    "drawutil.h",
-    "stdutil.h",
-    "loaders.h",
-    "spu.h",
-    "spyro.h",
-    "environment.h",
-    "ovl_header.h",
-    "moby/mobytag.h",
+    'common.h',
+    'cyclorama.h',
+    'draw.h',
+    'camera.h',
+    'cheat.h',
+    'hud.h',
+    'pad.h',
+    'savepoint.h',
+    'memcard.h',
+    'mobyutil.h',
+    'tracers.h',
+    'warp.h',
+    'drawutil.h',
+    'stdutil.h',
+    'loaders.h',
+    'spu.h',
+    'spyro.h',
+    'environment.h',
+    'ovl_header.h',
+    'moby/mobytag.h',
+    'spyro.h'
 ]
 
-context = (
-    "// Context generated " + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n\n"
-)
+context = '// Context generated ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\n\n'
 
 # I might want to just include this in common at some point, but I don't think I like these type names very much
 context += """
@@ -50,24 +49,20 @@ typedef int s32;
 
 # libraries
 for file in pfiles:
-    context += "\n//////////////////// " + file + " ////////////////////\n\n"
-    with open(proot + file, "r") as f:
+    context += '\n//////////////////// ' + file + ' ////////////////////\n\n'
+    with open(proot + file, 'r') as f:
         header = f.read()
-    header = re.sub(r"^#[^(\r\n]*$[\r\n]*", "", header, flags=re.M)  # removes includes
-    header = re.sub(
-        r"^static inline((.|\n)*?)^}", "", header, flags=re.M
-    )  # removes static inline functions
+    header = re.sub(r'^#[^(\r\n]*$[\r\n]*', '', header, flags=re.M)        # removes includes
+    header = re.sub(r'^static inline((.|\n)*?)^}', '', header, flags=re.M) # removes static inline functions
     context += header
 
 # src
 for file in files:
-    context += "\n//////////////////// " + file + " ////////////////////\n\n"
-    with open(root + file, "r") as f:
+    context += '\n//////////////////// ' + file + ' ////////////////////\n\n'
+    with open(root + file, 'r') as f:
         header = f.read()
-    header = re.sub(r"^#[^(\r\n]*$[\r\n]*", "", header, flags=re.M)  # removes includes
-    header = re.sub(
-        r"^static inline((.|\n)*?)^}", "", header, flags=re.M
-    )  # removes static inline functions
+    header = re.sub(r'^#[^(\r\n]*$[\r\n]*', '', header, flags=re.M)        # removes includes
+    header = re.sub(r'^static inline((.|\n)*?)^}', '', header, flags=re.M) # removes static inline functions
     context += header
 
 # This is sloppy, but it's only until I have some more concrete header files
