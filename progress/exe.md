@@ -80,15 +80,15 @@
 
 <!-- HUD -->
 - [ ] func_80027934
-- [ ] func_8002798C
-- [ ] func_80027A60
-- [ ] func_80027AC0
-- [ ] func_80027B0C
+- [x] func_8002798C
+- [x] func_80027A60
+- [x] func_80027AC0
+- [x] func_80027B0C
 - [ ] func_80027B70
 - [ ] func_80027D60
 - [ ] func_80027E40
 - [ ] func_80027EE4
-- [ ] func_80027F88
+- [x] func_80027F88
 - [x] func_80027FCC
 - [ ] func_8002803C
 - [x] func_80028154
@@ -111,10 +111,10 @@
 - [ ] func_80029CF8
 - [ ] func_80029E48
 - [ ] func_8002A580
-- [ ] func_8002A6B4
-- [ ] func_8002A6E4
-- [ ] func_8002A714
-- [ ] func_8002A754
+- [x] func_8002A6B4
+- [x] func_8002A6E4
+- [x] func_8002A714
+- [x] func_8002A754
 
 <!-- Init -->
 - [ ] func_8002A794
