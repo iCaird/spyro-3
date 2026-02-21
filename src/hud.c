@@ -49,14 +49,13 @@ void func_8002798C(HudEntry* arg0) {
     }
 }
 
-// INCLUDE_ASM("asm/nonmatchings/hud", func_80027A60);
-// https://decomp.me/scratch/QvPw5
+/*
+ * ???() - func_80027A60 - MATCHING
+ * https://decomp.me/scratch/kBxS7
+*/
 void func_80027A60(HudEntry* arg0) {
     int var_v0;
-    // int* temp_v0;
-    // unsigned short temp_v1;
 
-    // temp_v0 = arg0->unk28;
     if (arg0->unk28 != 0) {
         var_v0 = *arg0->unk28;
         MIN(var_v0,0);
@@ -73,23 +72,18 @@ void func_80027A60(HudEntry* arg0) {
 // https://decomp.me/scratch/Aloso
 void func_80027AC0(HudEntry* arg0) {
     int var_v0;
-    int* temp_v0;
-    unsigned short temp_v1;
 
-    temp_v0 = arg0->unk28;
-    if (temp_v0 != 0) {
-        var_v0 = *temp_v0;
-        if (var_v0 < 0) {
-            var_v0 = 0;
-        }
-        temp_v1 = arg0->unk26;
-        arg0->unk42 = (unsigned short) var_v0;
-        if (temp_v1 < (unsigned int) (var_v0 & 0xFFFF)) {
-            arg0->unk42 = temp_v1;
+    if (arg0->unk28 != 0) {
+        var_v0 = *arg0->unk28;
+        MIN(var_v0,0);
+        arg0->unk42 = var_v0;
+        if (arg0->unk26 < (unsigned short) var_v0) {
+            arg0->unk42 = arg0->unk26;
         }
     }
-    arg0->unk40 = (unsigned short) arg0->unk42;
+    arg0->unk40 = arg0->unk42;
 }
+
 
 
 // INCLUDE_ASM("asm/nonmatchings/hud", func_80027B0C);
