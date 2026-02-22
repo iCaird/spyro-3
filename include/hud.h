@@ -46,7 +46,7 @@ typedef struct {
     char unk22;
     char unk23;
     short unk24;
-    short unk26;
+    unsigned short unk26;
     int* unk28;
     void (*unk2C)(void*);
     void (*unk30)(void*);
@@ -57,13 +57,17 @@ typedef struct {
     char unk3D;
     char unk3E;
     char unk3F; // movement progress
-    int unk40;
-    short unk44;
-    char unk46[14];
+    unsigned short unk40;
+    unsigned short unk42;
+    unsigned short unk44;
+    short unk46;
+    char unk48 [12];
 } HudEntry;
 
 extern HudEntry D_80067248[9]; // HUD entries
 extern SpriteDefinition* D_8006C738;
+
+extern HudEntry g_HudEntries[9]; // D_80067248
 
 int func_80027934(int); // 80027934 fGetSpriteIndex
 void func_8002798C(HudEntry*); // 8002798c FUN_8002798c
@@ -86,7 +90,7 @@ int func_800285A4(int); // 800285a4 fUpdateHudMovement
 int* func_800289C8(SpriteData*, short, short); // 800289c8 FUN_800289c8 // apparently first arg is whatever "SpriteData" is, possibly something that would fit in here?
 int* func_80028D30(char*, short, short, int); // 80028d30 FUN_80028d30
 int func_800291B8(int, int, short, int); // 800291b8 FUN_800291b8
-int func_800293C4(int, int, int, short, int); // 800293c4 FUN_800293c4
+int func_800293C4(unsigned short, unsigned short, int, int, int); // 800293c4 FUN_800293c4
 int func_80029674(HudEntry*, int*, int*); // 80029674 FUN_80029674
 void func_80029708(HudEntry*, int*, int*, int*); // 80029708 FUN_80029708
 int func_8002982C(HudEntry*); // 8002982c FUN_8002982c
