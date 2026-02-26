@@ -1058,6 +1058,7 @@ dlabel D_8006FCD6
 dlabel D_8006FCE0
 /* 8006FCE0 */ .space 0x04
 
+dlabel g_ActiveSounds
 dlabel D_8006FCE4
 /* 8006FCE4 */ .space 0x01
 

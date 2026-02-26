@@ -21,7 +21,16 @@ INCLUDE_ASM("asm/nonmatchings/spu", func_8003BFC0);
 
 INCLUDE_ASM("asm/nonmatchings/spu", func_8003C014);
 
-INCLUDE_ASM("asm/nonmatchings/spu", func_8003C0B0);
+/**
+ * ???() - func_8003C0B0() - MATCHING
+ * Source of the bluto glitch, as there's no -1 check in here
+ * If you pause during the start of the boat charge sound, and release charge while paused, it buffer underflows and writes to 8006fcd0
+ * https://decomp.me/scratch/NVzfz
+ */
+void func_8003C0B0(int handle, int arg1) {
+    g_ActiveSounds[handle].unk18 = (arg1 * ((g_SpuDefinitionsPtr[g_ActiveSounds[handle].unk1].unkC + g_SpuDefinitionsPtr[g_ActiveSounds[handle].unk1].unkE) / 2)) >> 12;
+    g_ActiveSounds[handle].unk2 |= 8;
+}
 
 INCLUDE_ASM("asm/nonmatchings/spu", func_8003C140);
 

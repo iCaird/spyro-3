@@ -458,6 +458,7 @@ dlabel D_8006C69C
 .size D_8006C69C, . - D_8006C69C
 
 dlabel spuDataPtr
+dlabel g_SpuDefinitionsPtr
 dlabel D_8006C6A0
 /* 5CEA0 8006C6A0 00000000 */ .space 0x04
 .size D_8006C6A0, . - D_8006C6A0

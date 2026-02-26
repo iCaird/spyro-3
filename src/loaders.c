@@ -1,6 +1,7 @@
 #include "common.h"
 #include "stdutil.h"
 #include "loaders.h"
+#include "spu.h"
 
 // init
 extern void func_8002AA34();
@@ -12,8 +13,6 @@ extern void func_80050578(int, int*, int, int); // fDiscReadSync
 // sdata
 extern Particle* D_8006C554; // partsArrayPtr, like first moby ptr?
 extern Particle* D_8006C614; // another parts related pointer it seems
-extern SoundTable* soundTablePtr; // 8006C654
-extern SpuData* spuDataPtr; // 8006C6A0
 
 // bss
 extern WadHeader wadHeader;
@@ -77,27 +76,22 @@ INCLUDE_ASM("asm/nonmatchings/loaders", func_8002B810);
 
 /**
  * ???() - func_8002C9F4() - MATCHING
- * Load sound table, might take in a struct ptr rather than a SoundTable pointer?
- * TODO - implement the newer version below, aligning with spyro-1, looks much better
  * https://decomp.me/scratch/bMIyg
  */
-void func_8002C9F4(SoundTable* arg0, int arg1) {
-    int i;
-    int* entries;
-    SpuData* spuData;
+void func_8002C9F4(char* pData, int pPatchAddressesInTable) {
+    int soundCount;
 
-    soundTablePtr = arg0; // sound table
-    arg0 = (SoundTable*)((int)arg0 + 0x100);
-    entries = (int*)arg0; // contains the number of entries in the spu array
+    g_SoundTablePtr = (SoundTable*)pData;
+    pData += 0x100; // sizeof(SoundTable)
 
-    i = *entries;
-    arg0 = (SoundTable*)((int)arg0 + 4);
-    spuData = (SpuData*)arg0;
-    spuDataPtr = spuData; // spu data
+    soundCount = *(int*)pData;
+    pData += sizeof(int);
     
-    if (arg1) { // does something to the spu table, not sure what
-        for (i -= 1; i >= 0; i--) {
-            *(int*)&spuData[i].unk0 += 0x1010;
+    g_SpuDefinitionsPtr = (SoundDefinition*)pData;
+    
+    if (pPatchAddressesInTable) {
+        while (--soundCount >= 0) {
+            g_SpuDefinitionsPtr[soundCount].m_Addr += 0x1010;
         }
     }
 }

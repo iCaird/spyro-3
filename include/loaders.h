@@ -1,6 +1,8 @@
 #ifndef __LOADERS_H
 #define __LOADERS_H
 
+#include "common.h"
+
 typedef struct {
 	int* D_800722b8; // ovlStartPtr
 	int* D_800722bc; // lvlWadHeaderPtr?
@@ -16,11 +18,17 @@ typedef struct {
 	int* D_800722e4;
 } LoadingData;
 
-extern void func_8002AE00();
-// other functions use structs so we need some includes
-extern void func_8002D044();
-extern void* func_8002B810(void*);
-extern void func_8002CA50();
+void func_8002AE00();
+// func_8002AE34
+// func_8002AF9C
+// func_8002B31C
+// func_8002B5EC
+// func_8002B6C8
+void func_8002B768(Particle*);
+void* func_8002B810(void*);
+void func_8002C9F4(char*, int);
+void func_8002CA50();
+void func_8002D044();
 
 extern LoadingData loadingData; // D_800722b8; probably defined in loaders.c
 

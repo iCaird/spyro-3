@@ -222,7 +222,7 @@
 - [ ] func_8003BF6C
 - [ ] func_8003BFC0
 - [ ] func_8003C014
-- [ ] func_8003C0B0
+- [x] func_8003C0B0
 - [ ] func_8003C140
 - [ ] func_8003C184
 - [ ] func_8003C428
