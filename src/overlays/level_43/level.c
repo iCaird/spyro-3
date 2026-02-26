@@ -78,8 +78,8 @@ void func_level_43_8008DDE4(HudEntry* arg0) {
 
     sp18 = arg0->unk0;
     sp1C = arg0->unk2;
-    if (arg0->unk3F != 0) {
-        sp20 = (arg0->unk3F + 0xA) >> 1;
+    if (arg0->movementFrame != 0) {
+        sp20 = (arg0->movementFrame + 10) >> 1;
     } else {
         sp20 = 0;
     }

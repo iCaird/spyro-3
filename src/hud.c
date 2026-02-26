@@ -2,13 +2,33 @@
 #include "hud.h"
 #include "spu.h"
 
-extern int D_8006C648; // deltaTime
+extern int func_8002EBB0(int*);
+
+// sbss
+extern int D_8006C598;
 extern int D_8006C64C;
-extern SoundTable* g_SoundTablePtr; // D_8006C654
-extern int func_8002EBB0(int*);                            /* extern */
+extern int deltaTime; // 8006C648
+extern int D_8006C784; // g_Lives
+extern int D_8006C660; // g_EggTotal
+extern int D_8006C71C; // g_GemTotal
+extern int D_8006C74C;
+
 ///////////////////////////////////////////////////
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027934);
+/**
+ * GetSpriteIndex() - func_80027934() - MATCHING
+ * https://decomp.me/scratch/VTcLP
+ */
+int func_80027934(int spriteClass) {
+    int i = 0;
+
+    while (D_8006C738[i].spriteClass != -1) {
+        if (D_8006C738[i].spriteClass == spriteClass) break;
+        i++;
+    }
+
+    return i;
+}
 
 /**
  * ???() - func_8002798C() - MATCHING 
@@ -21,10 +41,10 @@ void func_8002798C(HudEntry* arg0) {
     short temp_a2;
 
     if (arg0->unk40 != arg0->unk42) {
-        temp_a2 = arg0->unk46 + D_8006C648;
+        temp_a2 = arg0->unk46 + deltaTime;
         arg0->unk46 = temp_a2;
         arg0->unk44 = 180;
-        if (arg0->unk3F == 0) {
+        if (arg0->movementFrame == 0) {
             temp_v0 = arg0->unk40 - arg0->unk42;
             var_v1 = ABS(temp_v0);
             if (var_v1 >= 40 || (var_v1 >= 10 && temp_a2 >= 4) || temp_a2 >= 6) {
@@ -58,9 +78,9 @@ void func_80027A60(HudEntry* arg0) {
 
     if (arg0->unk28 != 0) {
         var_v0 = *arg0->unk28;
-        MIN(var_v0,0);
+        MIN(var_v0, 0);
         arg0->unk42 = var_v0;
-        if (arg0->unk26 < (unsigned short) var_v0) {
+        if (arg0->unk26 < arg0->unk42) {
             arg0->unk42 = arg0->unk26;
         }
     }
@@ -70,7 +90,7 @@ void func_80027A60(HudEntry* arg0) {
 
 /**
 * ???() - func_80027AC0() - MATCHING
-* https://decomp.me/scratch/Aloso
+* https://decomp.me/scratch/AVgBX
 */
 void func_80027AC0(HudEntry* arg0) {
     int var_v0;
@@ -79,7 +99,7 @@ void func_80027AC0(HudEntry* arg0) {
         var_v0 = *arg0->unk28;
         MIN(var_v0,0);
         arg0->unk42 = var_v0;
-        if (arg0->unk26 < (unsigned short) var_v0) {
+        if (arg0->unk26 < arg0->unk42) {
             arg0->unk42 = arg0->unk26;
         }
     }
@@ -103,11 +123,82 @@ void func_80027B0C(HudEntry* arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80027B70);
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027D60);
+/**
+ * ???() - func_80027D60() - MATCHING
+ * https://decomp.me/scratch/4YB6r
+ */
+void func_80027D60(HudEntry* arg0) {
+    SpriteDefinition* spriteDef;
+    
+    spriteDef = &D_8006C738[arg0->unk1C.index];
+    if (arg0->unk28 != 0 && (int)arg0->unk28 % 4 == 0) {
+        arg0->unk42 = *arg0->unk28;
+        if (arg0->unk26 < arg0->unk42) {
+            arg0->unk42 = arg0->unk26;
+        }
+        arg0->unk40 = arg0->unk42;
+    } else {
+        arg0->unk42 = 99;
+        arg0->unk40 = 99;
+    }
+    
+    if (!(arg0->unk38 & 0x40)) {
+        arg0->unk44 = 180;
+    }
+    
+    if (arg0->unk24 != -1) {
+        SpriteData* spriteData = &D_8006C788[spriteDef->frame];
+        arg0->unk3C = spriteData->unk4 - spriteData->unk0;
+        arg0->unk3D = spriteData->unk5 - spriteData->unk1;
+    } else {
+        arg0->unk3C = 0;
+        arg0->unk3D = 0;
+    }
+    
+    arg0->unk4C = 0;
+    arg0->unk50 = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027E40);
+/**
+ * ???() - func_80027E40() - MATCHING
+ * https://decomp.me/scratch/FRzQ8
+ */
+void func_80027E40(HudEntry* arg0) {
+    int var_a0;
+    int var_v0;
+    SpriteData* temp_s1;
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027EE4);
+    temp_s1 = &D_8006C788[g_Hud.numberFrame];
+    func_80027D60(arg0);
+    var_a0 = 0;
+    var_v0 = arg0->unk26;
+    while (var_v0 > 0) {
+        var_v0 /= 10;
+        var_a0++;
+    }
+    arg0->unk3C += (temp_s1->unk4 - temp_s1->unk0) * var_a0 + 10;
+}
+
+/**
+ * ???() - func_80027EE4() - MATCHING
+ * https://decomp.me/scratch/HKno1
+ */
+void func_80027EE4(HudEntry* arg0) {
+    int var_a0;
+    int var_v0;
+    SpriteData* temp_s1;
+
+    temp_s1 = &D_8006C788[g_Hud.numberFrame];
+    func_80027D60(arg0);
+    var_a0 = 0;
+    var_v0 = arg0->unk26;
+    while (var_v0 > 0) {
+        var_v0 /= 10;
+        var_a0 += 2;
+    }
+    var_a0++;
+    arg0->unk3C += (temp_s1->unk4 - temp_s1->unk0) * var_a0 + 10;
+}
 
 /**
  * ???() - func_80027F88() - MATCHING
@@ -117,7 +208,6 @@ void func_80027F88(HudEntry* arg0) {
     func_80027D60(arg0);
     arg0->unk3C += func_8002EBB0(arg0->unk28);
 }
-
 
 /**
  * UpdateHudSpriteFromClass()? - func_80027FCC() - MATCHING
@@ -195,7 +285,7 @@ void func_80028264(HudEntry* arg0) {
     if (arg0->unk2C != 0) {
         arg0->unk2C(arg0);
     }
-    arg0->unk19 = 0;
+    arg0->isOffScreen = 0;
 }
 
 /**
@@ -207,14 +297,90 @@ void func_800282D8() {
     
     for (i = 0; i < 8; i++) {
         func_8002803C(i, -1, 0, 0, 0, 0, 1);
-        g_HudEntries[i].unk3F = 0x32;
+        g_HudEntries[i].movementFrame = 50;
         func_80028264(&g_HudEntries[i]);
     }
 }
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80028378);
 
+/**
+ * ???() - func_800285A4()
+ * Matching in decomp.me, check and implement fully
+ * Could be the function pointers that I need to do something with
+ * https://decomp.me/scratch/NkhCu
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_800285A4);
+#if 0
+int func_800285A4(int arg0) {
+    int var_s3 = 0;
+    int i;
+    
+    if (g_HudEntries[0].unk34 == 0 && g_HudEntries[0].unk14 == 0) {
+        func_8002803C(0x40, 3, func_80027E40, func_80027A60, func_80029904, &D_8006C71C, 10000);
+    }
+    if (g_HudEntries[1].unk34 == 0 && g_HudEntries[1].unk14 == 0) {
+        func_8002803C(0x41, 4, func_80027E40, func_80027B0C, func_80029BB0, &D_8006C784, 99);
+    }
+    if (g_HudEntries[2].unk34 == 0 && g_HudEntries[2].unk14 == 0) {
+        func_8002803C(0x42, 5, func_80027E40, func_80027A60, func_80029904, &D_8006C660, 150);
+    }
+    
+    for (i = 0; i < 8; i++) {
+        HudEntry* hud = &g_HudEntries[i];
+        
+        if ((hud->unk38 & 0x10) || (g_Hud.mainHudIsOnScreen != 0)) {
+            hud->unk44 = 10;
+        }
+        
+        if (D_8006C598 == 0xFF) {
+            hud->movementFrame = 50;
+        }
+        
+        if (g_Hud.DAT_800719d4 != 0 || D_8006C598 == 0xFF || hud->unk44 <= 0 || hud->isOffScreen || !arg0 || (!(D_8006C74C == 0 && D_8006C64C == 0) && !(g_HudEntries[i].unk38 & 0x20)) ) {
+            if (hud->movementFrame > 100) {
+                hud->movementFrame = 0;
+            }
+            else if (hud->movementFrame > 50) {
+                hud->movementFrame = 100 - hud->movementFrame;
+            }
+            
+            if ((hud->movementFrame < 50) && (hud->movementFrame += deltaTime, hud->movementFrame < 50)) {
+                var_s3 = 1;
+            } else {
+                hud->movementFrame = 50;
+                hud->unk44 = 0;
+            }
+        } else if ( ((D_8006C74C == 0 && D_8006C64C == 0) || g_HudEntries[i].unk38 & 0x20) && (var_s3 = 1, D_8006C598 == 0 || hud->movementFrame != 50) ) {
+            if (hud->movementFrame != 0) {
+                if (hud->movementFrame < 50) {
+                    hud->movementFrame = 100 - hud->movementFrame;
+                }
+                
+                hud->movementFrame = hud->movementFrame + deltaTime;
+                
+                if (hud->movementFrame >= 110) {
+                    hud->movementFrame = 0;
+                }
+            } else {
+                hud->unk44 -= deltaTime;
+            }
+        }
+        
+        if ((hud->isOffScreen != 0) && (hud->movementFrame == 50)) {
+            func_80028264(hud);
+        }
+        
+        hud->unk1C.frame = func_80028378(&hud->unk1C, 0);
+        
+        if (arg0 && hud->unk30 != 0) {
+            hud->unk30(hud);
+        }
+    }
+    g_Hud.DAT_800719d4 = 0;
+    return var_s3;
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_800289C8);
 
@@ -240,8 +406,8 @@ int func_80029674(HudEntry* arg0, int* arg1, int* arg2) {
     temp_v1 = arg0->unk3D;
     temp_a3 = D_8006C64C;
     
-    if (!(arg0->unk18 & 1)) {
-        if (arg0->unk18 & 2) {
+    if (!(arg0->displayMode & 1)) {
+        if (arg0->displayMode & 2) {
             *arg2 -= temp_a3;
         } else {
             *arg2 -= (temp_v1 >> 1);
@@ -250,8 +416,8 @@ int func_80029674(HudEntry* arg0, int* arg1, int* arg2) {
         *arg2 += temp_a3;
     }
     
-    if (!(arg0->unk18 & 4)) {
-        if (arg0->unk18 & 8) {
+    if (!(arg0->displayMode & 4)) {
+        if (arg0->displayMode & 8) {
             *arg1 -= temp_t1;
         } else {
             *arg1 -= (temp_t1 >> 1);
@@ -320,5 +486,3 @@ void func_8002A754() {
         func_8003C140(sound, 0xC00); 
     }
 }
-
-

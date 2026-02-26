@@ -2089,6 +2089,7 @@ dlabel D_800719C0
 dlabel D_800719C4
 .space 0x04
 
+dlabel g_Hud
 dlabel D_800719C8
 /* 800719C8 */ .space 0x02
 

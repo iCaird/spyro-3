@@ -79,15 +79,15 @@
 - [ ] func_80020DAC
 
 <!-- HUD -->
-- [ ] func_80027934
+- [x] func_80027934
 - [x] func_8002798C
 - [x] func_80027A60
 - [x] func_80027AC0
 - [x] func_80027B0C
 - [ ] func_80027B70
-- [ ] func_80027D60
-- [ ] func_80027E40
-- [ ] func_80027EE4
+- [x] func_80027D60
+- [x] func_80027E40
+- [x] func_80027EE4
 - [x] func_80027F88
 - [x] func_80027FCC
 - [ ] func_8002803C

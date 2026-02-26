@@ -1,8 +1,6 @@
 #ifndef __HUD_H
 #define __HUD_H
 
-//#include "common.h"
-
 typedef struct {
     unsigned char unk0;
     unsigned char unk1;
@@ -37,10 +35,10 @@ typedef struct {
 	unsigned short unk6; // max
 	int* unk8; // display variable
 	void (*unkC)(void*);
-	void (*unk10)(void*);
-	void (*unk14)(void*);
-    char unk18; // display mode, i.e. placement and animations
-    char unk19; // isOffscreen
+	void (*unk10)(void*); // likely the function to call when the value increments
+	int (*unk14)(void*);
+    char displayMode; // display mode, i.e. placement and animations
+    char isOffScreen;
     short unk1A;
     SpriteAnimationData unk1C; // SpriteAnimationData SpriteData
     char unk22;
@@ -49,26 +47,57 @@ typedef struct {
     unsigned short unk26;
     int* unk28;
     void (*unk2C)(void*);
-    void (*unk30)(void*);
-    void (*unk34)(void*);
-    short unk38;
+    void (*unk30)(void*); // likely the function to call when the value increments
+    int (*unk34)(void*);
+    unsigned short unk38;
     short unk3A;
     char unk3C;
     char unk3D;
     char unk3E;
-    char unk3F; // movement progress
+    char movementFrame;
     unsigned short unk40;
     unsigned short unk42;
     unsigned short unk44;
     short unk46;
-    char unk48 [12];
+    short unk48;
+    short unk4A;
+    int unk4C;
+    int unk50;
 } HudEntry;
 
-// TODO - these are the same and should have the same label
-extern HudEntry D_80067248[9]; // HUD entries
-extern HudEntry g_HudEntries[9]; // D_80067248
+typedef struct {
+    short DAT_800719c8; // 800719c8
 
+    // indices of sprites within the full sprite list
+    short reticleFrame; // 800719ca
+    short numberFrame; // 800719cc
+    short gemFrame; // 800719ce
+    short textBoxCornerFrame; // 800719d0
+    
+    short mainHudIsOnScreen; // 800719d2 // e.g. 1 when pause menu open, 0 otherwise
+    short DAT_800719d4; // 800719d4
+    short DAT_800719d6; // 800719d6
+    short DAT_800719d8; // 800719d8
+    short DAT_800719da; // 800719da
+    short DAT_800719dc; // 800719dc
+    short DAT_800719de; // 800719de
+    short DAT_800719e0; // 800719e0
+    char DAT_800719e2; // 800719e2
+    char DAT_800719e3; // 800719e3
+    int DAT_800719e4; // 800719e4
+    short DAT_800719e8; // 800719e8
+    char DAT_800719ea; // 800719ea
+    char DAT_800719eb; // 800719eb
+} Hud;
+
+// TODO - these are the same and should have the same label
+extern HudEntry D_80067248[8]; // HUD entries
+extern HudEntry g_HudEntries[8]; // D_80067248
+
+extern SpriteData* D_8006C788; // may want to double check this type is right
 extern SpriteDefinition* D_8006C738;
+
+extern Hud g_Hud; // 800719c8
 
 int func_80027934(int); // 80027934 fGetSpriteIndex
 void func_8002798C(HudEntry*); // 8002798c FUN_8002798c
