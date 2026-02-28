@@ -32,7 +32,7 @@ updateDocumentedJson() {
   sed -i 's/"options_menu_code.ovl"/"options.ovl"/' $wadd/$wj
   sed -i 's/"credits_code.ovl"/"credits.ovl"/' $wadd/$wj
   for i in {0..36}; do
-    local from="level_$i_.*_code.ovl"
+    local from="level_${i}_.*_code.ovl"
     local to="level_$(getLevelId $i).ovl"
     sed -i "s/\"$from\"/\"$to\"/" $wadd/$wj
   done
