@@ -6,23 +6,18 @@ extern int func_8002EBB0(int*);
 
 // sbss
 extern int D_8006C598;
+extern int g_CurrentLevel; // D_8006C5BC
 extern int D_8006C64C;
 extern int deltaTime; // 8006C648
 extern int D_8006C784; // g_Lives
 extern int D_8006C660; // g_EggTotal
 extern int D_8006C71C; // g_GemTotal
 extern int D_8006C74C;
-
 extern int D_8006C768;
-extern SpriteData* D_8006C788;
-extern int D_8006E344;
-extern int D_8006FA3C;
+extern SpeedwayData speedwayData; // D_8006FA38
 extern int D_800714F4;
 extern int D_800714F8;
-extern short D_800719CA;
 extern char D_80071A04;
-extern int D_8006C5BC; // currentLvl
-
 
 ///////////////////////////////////////////////////
 
@@ -158,6 +153,7 @@ void func_80027B70(void) {
     func_8002803C(1, 4, func_80027E40, func_80027B0C, func_80029BB0, &D_8006C784, 0x63);
     func_8002803C(2, 5, func_80027E40, func_80027A60, func_80029904, &D_8006C660, 0x96);
 }
+
 /**
  * ???() - func_80027D60() - MATCHING
  * https://decomp.me/scratch/4YB6r
@@ -478,8 +474,8 @@ void func_80029A00(HudEntry* hudEntry) {
     int sp1C;
     int sp20;
 
-    sp10 = (int) hudEntry->unk0;
-    sp14 = (int) hudEntry->unk2;
+    sp10 = hudEntry->unk0;
+    sp14 = hudEntry->unk2;
     if (hudEntry->movementFrame != 0) {
         sp18 =  (hudEntry->movementFrame + 0xA) >> 1;
     } else {
@@ -508,26 +504,26 @@ void func_8002A580(void) {
     SpriteData* var_a0;
     int var_a1;
     int var_a2;
-    if (D_8006E344 == 4) {
+    if (game.state == GAMESTATE_PAUSE) {
         return;
     }
-    if (D_8006C5BC == 0x2C && D_80071A04 != 0 && D_8006E344 == 0) {
+    if (g_CurrentLevel == 0x2C && D_80071A04 != 0 && game.state == GAMESTATE_GAMEPLAY) {
         var_a1 = D_800714F4 - 0x10;
         var_a2 = D_800714F8 - 0xB;
-        var_a0 = (SpriteData*)((char*)D_8006C788 + (D_800719CA * 8));
+        var_a0 = &D_8006C788[g_Hud.reticleFrame];
         func_800289C8(var_a0, var_a1, var_a2);
     }
-    else if ((D_8006C5BC == 0x19) && (D_8006FA3C == 3) && ((D_8006E344 == 0) || (D_8006E344 == 4))
+    else if ((g_CurrentLevel == 0x19) && (speedwayData.gameMode == 3) && ((game.state == GAMESTATE_GAMEPLAY) || (game.state == GAMESTATE_PAUSE))
     ) {
         var_a1 = D_800714F4 - 0x10;
         var_a2 = D_800714F8 - 0xB;
-        var_a0 = (SpriteData*)((char*)D_8006C788 + (D_800719CA * 8));
+        var_a0 = &D_8006C788[g_Hud.reticleFrame];
         func_800289C8(var_a0, var_a1, var_a2);
     } else {
         var_a1 = 0xF0;
         if (D_8006C768 != 0) {
             var_a2 = 0x6D;
-            var_a0 = (SpriteData*)((char*)D_8006C788 + (D_800719CA * 8));
+            var_a0 = &D_8006C788[g_Hud.reticleFrame];
             func_800289C8(var_a0, var_a1, var_a2);
         }
     }
