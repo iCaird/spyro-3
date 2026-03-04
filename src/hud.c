@@ -6,12 +6,18 @@ extern int func_8002EBB0(int*);
 
 // sbss
 extern int D_8006C598;
+extern int g_CurrentLevel; // D_8006C5BC
 extern int D_8006C64C;
 extern int deltaTime; // 8006C648
 extern int D_8006C784; // g_Lives
 extern int D_8006C660; // g_EggTotal
 extern int D_8006C71C; // g_GemTotal
 extern int D_8006C74C;
+extern int D_8006C768;
+extern SpeedwayData speedwayData; // D_8006FA38
+extern int D_800714F4;
+extern int D_800714F8;
+extern char D_80071A04;
 
 ///////////////////////////////////////////////////
 
@@ -121,7 +127,32 @@ void func_80027B0C(HudEntry* arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80027B70);
+/*
+ * ???() - func_80027B70() - MATCHING
+ * https://decomp.me/scratch/lmfXY
+ */
+void func_80027B70(void) {
+    int idx;
+
+    g_Hud.DAT_800719c8 = 0;
+    g_Hud.reticleFrame = D_8006C738[func_80027934(2)].frame;
+    g_Hud.numberFrame = D_8006C738[func_80027934(0)].frame;
+    g_Hud.gemFrame =  D_8006C738[func_80027934(3)].frame;
+    g_Hud.textBoxCornerFrame = D_8006C738[func_80027934(1)].frame;
+    g_Hud.mainHudIsOnScreen = 0;
+    
+    idx = 0;
+    while (idx < 8) { 
+        g_HudEntries[idx].unk1A = -1;
+        g_HudEntries[idx].unk4 = 0;
+        func_8002803C(idx, -1, 0, 0, 0, 0, 1);
+        g_HudEntries[idx].movementFrame = 0x32;
+        idx++;
+    }
+    func_8002803C(0, 3, func_80027E40, func_80027A60, func_80029904, &D_8006C71C, 0x4E20);
+    func_8002803C(1, 4, func_80027E40, func_80027B0C, func_80029BB0, &D_8006C784, 0x63);
+    func_8002803C(2, 5, func_80027E40, func_80027A60, func_80029904, &D_8006C660, 0x96);
+}
 
 /**
  * ???() - func_80027D60() - MATCHING
@@ -432,7 +463,30 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_8002982C);
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029904);
 
-INCLUDE_ASM("asm/nonmatchings/hud", func_80029A00);
+/*
+ * ???() - func_8009A00 - MATCHING
+ * https://decomp.me/scratch/hwKcy
+ */
+void func_80029A00(HudEntry* hudEntry) {
+    int sp10;
+    int sp14;
+    int sp18;
+    int sp1C;
+    int sp20;
+
+    sp10 = hudEntry->unk0;
+    sp14 = hudEntry->unk2;
+    if (hudEntry->movementFrame != 0) {
+        sp18 =  (hudEntry->movementFrame + 0xA) >> 1;
+    } else {
+        sp18 = 0;
+    }
+    func_80029674(hudEntry, &sp10, &sp14);
+    sp1C = sp10;
+    sp20 = sp14;
+    func_80029708(hudEntry, &sp18, &sp1C, &sp20);
+    func_800291B8(hudEntry->unk40, sp10, sp14, sp18);
+}
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029AA0);
 
@@ -443,11 +497,37 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_80029CF8);
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029E48);
 
 /**
- * ???() - func_8002A580()
- * WIP
+ * ???() - func_8002A580() - MATCHING
  * https://decomp.me/scratch/gamSH
  */
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002A580);
+void func_8002A580(void) {
+    SpriteData* var_a0;
+    int var_a1;
+    int var_a2;
+    if (game.state == GAMESTATE_PAUSE) {
+        return;
+    }
+    if (g_CurrentLevel == 0x2C && D_80071A04 != 0 && game.state == GAMESTATE_GAMEPLAY) {
+        var_a1 = D_800714F4 - 0x10;
+        var_a2 = D_800714F8 - 0xB;
+        var_a0 = &D_8006C788[g_Hud.reticleFrame];
+        func_800289C8(var_a0, var_a1, var_a2);
+    }
+    else if ((g_CurrentLevel == 0x19) && (speedwayData.gameMode == 3) && ((game.state == GAMESTATE_GAMEPLAY) || (game.state == GAMESTATE_PAUSE))
+    ) {
+        var_a1 = D_800714F4 - 0x10;
+        var_a2 = D_800714F8 - 0xB;
+        var_a0 = &D_8006C788[g_Hud.reticleFrame];
+        func_800289C8(var_a0, var_a1, var_a2);
+    } else {
+        var_a1 = 0xF0;
+        if (D_8006C768 != 0) {
+            var_a2 = 0x6D;
+            var_a0 = &D_8006C788[g_Hud.reticleFrame];
+            func_800289C8(var_a0, var_a1, var_a2);
+        }
+    }
+}
 
 /**
  * ???() - func_8002A6B4() - MATCHING
