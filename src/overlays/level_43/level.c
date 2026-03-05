@@ -6,6 +6,10 @@
 #include "stdutil.h"
 #include "ovl_header.h"
 
+/**
+ * ???() - func_level_43_8008B598()
+ * https://decomp.me/scratch/luN8U
+ */
 INCLUDE_ASM("asm/nonmatchings/overlays/level_43/level", func_level_43_8008B598);
 
 /**

@@ -12,17 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 // Externs
 
-// types
-// ?
-typedef struct {
-    unsigned int tag;
-    unsigned char r0, g0, b0, code;
-    short x0, y0;
-    unsigned char u0, v0;
-    unsigned short clut;
-    short w, h;
-} SPRT; // psyq
-
 // text
 // str
 extern void func_80050578(int, int*, int, int); // void fLoadFromDisc(int sector,int *dest,int len,int sectorOffset)

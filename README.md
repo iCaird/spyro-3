@@ -21,11 +21,11 @@ This version contains modchip protection, anti-crack protection, and encrypted o
 - `tools/`: contains utilities for building the game.
 
 ## Progress
-Last updated: 2026-03-04
+Last updated: 2026-03-05
 |                            | EXE     | Overlays | Total   |
 | -------------------------- | ------- | -------- | ------- |
-| Total C functions matching | 104/337 | 159/3098 | 263/3435 |
-| Progress percentage        | 30.86% | 5.13% | 7.66% |
+| Total C functions matching | 104/337 | 160/3098 | 264/3435 |
+| Progress percentage        | 30.86% | 5.16% | 7.69% |
 
 *Note: the percentages given above are not necessarily representative of a linear indicator of progress. In particular, many overlay functions repeat and will be easier to implement on the whole than the EXE's functions.*
 
@@ -35,7 +35,7 @@ Hashes listed are for the final overlays, after correcting checksums and encrypt
 | EXE / Overlay | Expected SHA-256                                                   | C functions matching | Progess % |
 | ------------- | ------------------------------------------------------------------ | -------------------- | --------- |
 | EXE           | `CB819EE78C556D403779309859CB08A7111331F624759BC1BC380946261BB26E` | 104/337 | 30.86% |
-| credits       | `BBE3F8DEB18E0F462C5918C8AFEDB03A32FE855CC6778E9B8D7E4E3849988BCD` | 0/5 | 0.00% |
+| credits       | `BBE3F8DEB18E0F462C5918C8AFEDB03A32FE855CC6778E9B8D7E4E3849988BCD` | 1/5 | 20.00% |
 | loading       | `0E94063F258479586AE630C23260B77014BE18BAC5891FBB9A894156B5763AE2` | 2/16 | 12.50% |
 | title         | `675044820F58E521AE2F5AE67F3D050BA37D604D4F06FEC20DCD8806FD1B90F9` | 2/22 | 9.09% |
 | atlas         | `E8F8E69BE901F426D1A8895DDF5842794B73E939B49A09BF9F6ABD9B42E04B11` | 0/32 | 0.00% |

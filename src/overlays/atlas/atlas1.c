@@ -1,5 +1,10 @@
 #include "common.h"
 
+/**
+ * ???() - func_atlas_80075824()
+ * https://decomp.me/scratch/mW9oc (better match, but needs cleaning)
+ * https://decomp.me/scratch/eyxfk (worse match, but more condensed)
+ */
 INCLUDE_ASM("asm/nonmatchings/overlays/atlas/atlas1", func_atlas_80075824);
 
 INCLUDE_ASM("asm/nonmatchings/overlays/atlas/atlas1", func_atlas_800758B0);

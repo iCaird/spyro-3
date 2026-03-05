@@ -432,6 +432,11 @@ int func_800285A4(int arg0) {
  */
 INCLUDE_ASM("asm/nonmatchings/hud", func_800289C8);
 
+/**
+ * ???() - func_80028D30()
+ * Nearly matching
+ * https://decomp.me/scratch/zr6ZQ
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80028D30);
 
 /**
