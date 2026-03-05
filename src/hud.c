@@ -15,9 +15,18 @@ extern int D_8006C71C; // g_GemTotal
 extern int D_8006C74C;
 extern int D_8006C768;
 extern SpeedwayData speedwayData; // D_8006FA38
-extern int D_800714F4;
-extern int D_800714F8;
-extern char D_80071A04;
+
+extern Vector3D D_800714F4; // likely just the aiming reticle position, e.g. in Country Speedway / Dino Mines 
+
+typedef struct {
+    char unk0;
+    char unk1;
+    char unk2;
+    char unk3;
+    int unk4; // might be chars?
+    int unk8; // might be chars?
+} Unknown_80071A04;
+extern Unknown_80071A04 D_80071A04;
 
 ///////////////////////////////////////////////////
 
@@ -131,8 +140,8 @@ void func_80027B0C(HudEntry* arg0) {
  * ???() - func_80027B70() - MATCHING
  * https://decomp.me/scratch/lmfXY
  */
-void func_80027B70(void) {
-    int idx;
+void func_80027B70() {
+    int i;
 
     g_Hud.DAT_800719c8 = 0;
     g_Hud.reticleFrame = D_8006C738[func_80027934(2)].frame;
@@ -141,17 +150,16 @@ void func_80027B70(void) {
     g_Hud.textBoxCornerFrame = D_8006C738[func_80027934(1)].frame;
     g_Hud.mainHudIsOnScreen = 0;
     
-    idx = 0;
-    while (idx < 8) { 
-        g_HudEntries[idx].unk1A = -1;
-        g_HudEntries[idx].unk4 = 0;
-        func_8002803C(idx, -1, 0, 0, 0, 0, 1);
-        g_HudEntries[idx].movementFrame = 0x32;
-        idx++;
+    for (i = 0; i < 8; i++) { 
+        g_HudEntries[i].unk1A = -1;
+        g_HudEntries[i].unk4 = 0;
+        func_8002803C(i, -1, 0, 0, 0, 0, 1);
+        g_HudEntries[i].movementFrame = 50;
     }
-    func_8002803C(0, 3, func_80027E40, func_80027A60, func_80029904, &D_8006C71C, 0x4E20);
-    func_8002803C(1, 4, func_80027E40, func_80027B0C, func_80029BB0, &D_8006C784, 0x63);
-    func_8002803C(2, 5, func_80027E40, func_80027A60, func_80029904, &D_8006C660, 0x96);
+
+    func_8002803C(0, 3, func_80027E40, func_80027A60, func_80029904, &D_8006C71C, 20000);
+    func_8002803C(1, 4, func_80027E40, func_80027B0C, func_80029BB0, &D_8006C784, 99);
+    func_8002803C(2, 5, func_80027E40, func_80027A60, func_80029904, &D_8006C660, 150);
 }
 
 /**
@@ -464,7 +472,7 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_8002982C);
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029904);
 
 /*
- * ???() - func_8009A00 - MATCHING
+ * ???() - func_8009A00() - MATCHING
  * https://decomp.me/scratch/hwKcy
  */
 void func_80029A00(HudEntry* hudEntry) {
@@ -477,7 +485,7 @@ void func_80029A00(HudEntry* hudEntry) {
     sp10 = hudEntry->unk0;
     sp14 = hudEntry->unk2;
     if (hudEntry->movementFrame != 0) {
-        sp18 =  (hudEntry->movementFrame + 0xA) >> 1;
+        sp18 = (hudEntry->movementFrame + 10) >> 1;
     } else {
         sp18 = 0;
     }
@@ -500,32 +508,18 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_80029E48);
  * ???() - func_8002A580() - MATCHING
  * https://decomp.me/scratch/gamSH
  */
-void func_8002A580(void) {
-    SpriteData* var_a0;
-    int var_a1;
-    int var_a2;
+void func_8002A580() {
     if (game.state == GAMESTATE_PAUSE) {
         return;
     }
-    if (g_CurrentLevel == 0x2C && D_80071A04 != 0 && game.state == GAMESTATE_GAMEPLAY) {
-        var_a1 = D_800714F4 - 0x10;
-        var_a2 = D_800714F8 - 0xB;
-        var_a0 = &D_8006C788[g_Hud.reticleFrame];
-        func_800289C8(var_a0, var_a1, var_a2);
+    if (g_CurrentLevel == 44 && D_80071A04.unk0 != 0 && game.state == GAMESTATE_GAMEPLAY) {
+        func_800289C8(&D_8006C788[g_Hud.reticleFrame], D_800714F4.x - 16, D_800714F4.y - 11);
     }
-    else if ((g_CurrentLevel == 0x19) && (speedwayData.gameMode == 3) && ((game.state == GAMESTATE_GAMEPLAY) || (game.state == GAMESTATE_PAUSE))
-    ) {
-        var_a1 = D_800714F4 - 0x10;
-        var_a2 = D_800714F8 - 0xB;
-        var_a0 = &D_8006C788[g_Hud.reticleFrame];
-        func_800289C8(var_a0, var_a1, var_a2);
-    } else {
-        var_a1 = 0xF0;
-        if (D_8006C768 != 0) {
-            var_a2 = 0x6D;
-            var_a0 = &D_8006C788[g_Hud.reticleFrame];
-            func_800289C8(var_a0, var_a1, var_a2);
-        }
+    else if (g_CurrentLevel == 25 && speedwayData.gameMode == 3 && (game.state == GAMESTATE_GAMEPLAY || game.state == GAMESTATE_PAUSE)) {
+        func_800289C8(&D_8006C788[g_Hud.reticleFrame], D_800714F4.x - 16, D_800714F4.y - 11);
+    }
+    else if (D_8006C768 != 0) {
+        func_800289C8(&D_8006C788[g_Hud.reticleFrame], 240, 109);
     }
 }
 
