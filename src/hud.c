@@ -341,6 +341,10 @@ void func_800282D8() {
     }
 }
 
+/**
+ * ???() - func_80028378()
+ * https://decomp.me/scratch/dRYvN
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80028378);
 
 /**
@@ -421,12 +425,25 @@ int func_800285A4(int arg0) {
 }
 #endif
 
+/**
+ * ???() - func_800289C8() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/UXqpI
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_800289C8);
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80028D30);
 
+/**
+ * ???() - func_800291B8()
+ * https://decomp.me/scratch/m95oz
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_800291B8);
 
+/**
+ * ???() - func_800293C4()
+ * https://decomp.me/scratch/8rUnD
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_800293C4);
 
 /**
@@ -467,8 +484,18 @@ int func_80029674(HudEntry* arg0, int* arg1, int* arg2) {
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029708);
 
+/**
+ * ???() - func_8002982C() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/s4WGn
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_8002982C);
 
+/**
+ * ???() - func_80029904() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/H9Zvm
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029904);
 
 /*
@@ -498,10 +525,19 @@ void func_80029A00(HudEntry* hudEntry) {
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029AA0);
 
+/**
+ * ???() - func_80029BB0() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/omtIh
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029BB0);
 
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029CF8);
 
+/**
+ * ???() - func_80029E48()
+ * https://decomp.me/scratch/dFXYA
+ */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80029E48);
 
 /**

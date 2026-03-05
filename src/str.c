@@ -19,7 +19,7 @@ extern StreamingData streamingData; // 8006e470
  * ???() - func_8004F8EC() - MATCHING
  * https://decomp.me/scratch/y8iwN
  */
-void func_8004F8EC(void) {
+void func_8004F8EC() {
     int* temp_v0;
     int* temp_v1;
 

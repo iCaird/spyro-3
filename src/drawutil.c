@@ -17,6 +17,10 @@ INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001EC5C);
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001EDEC);
 
+/**
+ * ???() - func_8001FABC()
+ * https://decomp.me/scratch/RfQhe
+ */
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FABC);
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FB10);
@@ -33,6 +37,10 @@ INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FF44);
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_800200A0);
 
+/**
+ * ???() - func_80020168()
+ * https://decomp.me/scratch/qLRGj
+ */
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_80020168);
 
 /**

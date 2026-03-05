@@ -10,8 +10,18 @@ extern int D_8006C6D0;
 
 INCLUDE_ASM("asm/nonmatchings/camera", func_8001204C);
 
+/**
+ * ???() - func_80012168()
+ * WIP
+ * https://decomp.me/scratch/IUiur
+ */
 INCLUDE_ASM("asm/nonmatchings/camera", func_80012168);
 
+/**
+ * ???() - func_8001241C() - MATCHING
+ * Almost ready to add, but must have struct usage corrected first
+ * https://decomp.me/scratch/FD6TW
+ */
 INCLUDE_ASM("asm/nonmatchings/camera", func_8001241C);
 
 INCLUDE_ASM("asm/nonmatchings/camera", func_80012530);
@@ -38,6 +48,11 @@ void func_80012B34() {
     func_800138A0(&camera.unk7c.pos[0], &camera.unk7c.pos[0]);
 }
 
+/**
+ * ???() - func_80012BA8()
+ * WIP
+ * https://decomp.me/scratch/b1d0d
+ */
 INCLUDE_ASM("asm/nonmatchings/camera", func_80012BA8);
 
 INCLUDE_ASM("asm/nonmatchings/camera", func_80012D18);
@@ -57,6 +72,11 @@ void func_800135A4(CameraPosition* arg0, CameraPosition* arg1, int arg2) {
     arg0->pitch = arg1->pitch;
 }
 
+/**
+ * ???() - func_800135F8() - MATCHING
+ * Needs clean up but nearly ready to add
+ * https://decomp.me/scratch/LWgh2
+ */
 INCLUDE_ASM("asm/nonmatchings/camera", func_800135F8);
 
 INCLUDE_ASM("asm/nonmatchings/camera", func_800136F0);

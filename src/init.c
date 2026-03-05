@@ -19,8 +19,9 @@ extern WadHeader wadHeader;
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * InitSpu() - func_8002a794()
- * TODO
+ * InitSpu() - func_8002A794() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/7EzZI
  */
 INCLUDE_ASM("asm/nonmatchings/init", func_8002A794);
 
@@ -28,8 +29,8 @@ INCLUDE_ASM("asm/nonmatchings/init", func_8002A794);
  * InitCdAndWad() - func_8002A7B4() - MATCHING
  * https://decomp.me/scratch/Zz25L
  */
-void func_8002A7B4(void) {
-    unsigned char sp10[8];
+void func_8002A7B4() {
+    char sp10[8];
 
     sp10[0] = 0x80;
     func_8005DB1C();
@@ -40,8 +41,17 @@ void func_8002A7B4(void) {
     func_8004E7D4((int*)&wadHeader, overlayStartPtr, 0x620);
 }
 
+/**
+ * ???() - func_8002A834()
+ * https://decomp.me/scratch/YrgPC
+ */
 INCLUDE_ASM("asm/nonmatchings/init", func_8002A834);
 
+/**
+ * ???() - func_8002A99C() - MATCHING
+ * Ready to add
+ * https://decomp.me/scratch/853Zu
+ */
 INCLUDE_ASM("asm/nonmatchings/init", func_8002A99C);
 
 INCLUDE_ASM("asm/nonmatchings/init", func_8002A9D0);

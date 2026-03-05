@@ -21,6 +21,11 @@ extern int D_8006C598;
 
 /////////////////////////////////////////////////////////////
 
+/**
+ * ???() - func_8001D274() 
+ * Near matching, incorrect struct usage and unnecessary variable usage though
+ * https://decomp.me/scratch/pCaWp
+ */
 INCLUDE_ASM("asm/nonmatchings/draw", func_8001D274);
 
 // Different in 1.1
