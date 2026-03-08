@@ -1,6 +1,7 @@
 #include "common.h"
 #include "hud.h"
 #include "spu.h"
+#include "libgpu.h"
 
 extern int func_8002EBB0(int*);
 
@@ -11,10 +12,12 @@ extern int D_8006C64C;
 extern int deltaTime; // 8006C648
 extern int D_8006C784; // g_Lives
 extern int D_8006C660; // g_EggTotal
+extern void* D_8006C664;
 extern int D_8006C71C; // g_GemTotal
 extern int D_8006C74C;
 extern int D_8006C768;
 extern SpeedwayData speedwayData; // D_8006FA38
+
 
 extern Vector3D D_800714F4; // likely just the aiming reticle position, e.g. in Country Speedway / Dino Mines 
 
@@ -365,6 +368,7 @@ void func_800282D8() {
 
 /**
  * ???() - func_80028378()
+ * very close just some register stuff
  * https://decomp.me/scratch/dRYvN
  */
 INCLUDE_ASM("asm/nonmatchings/hud", func_80028378);
@@ -449,10 +453,110 @@ int func_800285A4(int arg0) {
 
 /**
  * ???() - func_800289C8() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/UXqpI
  */
-INCLUDE_ASM("asm/nonmatchings/hud", func_800289C8);
+void* func_800289C8(SpriteData* arg0, int arg1, int arg2) {
+    int var_s0;
+    int var_s2;
+    POLY_FT4* temp_s0;
+    POLY_FT4* temp_s1;
+    POLY_FT4* temp_t6;
+
+    var_s0 = 0;
+    var_s2 = 0;
+    temp_s1 = D_8006C664;
+    temp_s1->tag = 0x09000000;
+    *(int*)&temp_s1->r0 = 0x2C808080;
+    if ((arg0->unk6 & 0x60) != 0x60) {
+        temp_s1->code |= 2;
+    }
+    
+    temp_s1->x0 = arg1;
+    temp_s1->x2 = arg1;
+    temp_s1->y0 = arg2;
+    temp_s1->y1 = arg2;
+    temp_s1->tpage = arg0->unk6;
+    temp_s1->clut =  arg0->unk2;
+    temp_s1->x1 = arg1 + (arg0->unk4 - arg0->unk0);
+    temp_s1->y2 = arg2 + (arg0->unk5 - arg0->unk1);
+    temp_s1->u0 = arg0->unk0;
+    temp_s1->u1 = arg0->unk4;
+    
+    if ((temp_s1->u1 & 0xFF) != 0xFF) {
+        temp_s1->u1++;
+        temp_s1->x1++;
+    } else {
+        var_s0 = 1;
+    }
+    temp_s1->v0 = arg0->unk1;
+    temp_s1->v2 = arg0->unk5;
+    if ((temp_s1->v2 & 0xFF) != 0xFF) {
+        temp_s1->v2++;
+        temp_s1->y2++;
+    } else {
+        var_s2 = 1;
+    }
+    temp_s1->x3 = temp_s1->x1;
+    temp_s1->y3 = temp_s1->y2;
+    temp_s1->u2 = temp_s1->u0;
+    temp_s1->u3 = temp_s1->u1;
+    temp_s1->v1 = temp_s1->v0;
+    temp_s1->v3 = temp_s1->v2;
+    func_8004E758(temp_s1);
+    temp_t6 = temp_s1 + 1;
+    D_8006C664 = temp_t6;
+    if (var_s0 != 0) {
+        POLY_FT4* temp_s6 = D_8006C664;
+        temp_s6->tag = temp_s1->tag;
+        *(int*)&temp_s6->r0 = *(int*)&temp_s1->r0;
+        temp_s6->x0 = temp_s1->x1;
+        temp_s6->x2 = temp_s1->x1;
+        temp_s6->x1 = temp_s1->x1 + 1;
+        temp_s6->x3 = temp_s1->x1 + 1;
+        temp_s6->y0 = temp_s1->y0;
+        temp_s6->y1 = temp_s1->y0;
+        temp_s6->y2 = temp_s1->y2;
+        temp_s6->y3 = temp_s1->y2;
+        temp_s6->u0 = temp_s1->u1;
+        temp_s6->u2 = temp_s1->u1;
+        temp_s6->u1 = temp_s1->u1;
+        temp_s6->u3 = temp_s1->u1;
+        temp_s6->v0 = temp_s1->v0;
+        temp_s6->v1 = temp_s1->v0;
+        temp_s6->v2 = temp_s1->v2;
+        temp_s6->v3 = temp_s1->v2;
+        temp_s6->tpage = temp_s1->tpage;
+        temp_s6->clut = temp_s1->clut;
+        func_8004E758((int)temp_t6);
+        D_8006C664 = temp_s6 + 1;
+    }
+    if (var_s2 != 0) {
+        temp_s0 = D_8006C664;
+        temp_s0->tag = temp_s1->tag;
+        *(int*)&temp_s0->r0 = *(int*)&temp_s1->r0;
+        temp_s0->x0 = temp_s1->x0;
+        temp_s0->x2 = temp_s1->x0;
+        temp_s0->x1 = temp_s1->x1; 
+        temp_s0->x3 = temp_s1->x1;
+        temp_s0->y0 = temp_s1->y2;
+        temp_s0->y1 = temp_s1->y2;
+        temp_s0->y2 = temp_s1->y2 + 1;
+        temp_s0->y3 = temp_s1->y2 + 1;
+        temp_s0->u0 = temp_s1->u0; 
+        temp_s0->u2 = temp_s1->u0;
+        temp_s0->u1 = temp_s1->u1; 
+        temp_s0->u3 = temp_s1->u1;
+        temp_s0->v0 = temp_s1->v2; 
+        temp_s0->v1 = temp_s1->v2;
+        temp_s0->v2 = temp_s1->v2;
+        temp_s0->v3 = temp_s1->v2;
+        temp_s0->tpage = temp_s1->tpage;
+        temp_s0->clut = temp_s1->clut; 
+        func_8004E758((int)temp_s0); 
+        D_8006C664 = temp_s0 + 1;
+    }
+    return temp_s1;
+}
 
 /**
  * ???() - func_80028D30()
