@@ -37,6 +37,14 @@ extern short D_8006C67C;
 extern int D_8006C718;
 extern int D_8006C7C8;
 
+extern short D_8006C57C;
+extern int D_8006C590;
+extern int D_8006C5A8;
+extern int D_8006C5FC;
+extern int D_8006C69C;
+extern int D_8006C74C;
+extern int D_8006E344;
+
 // bss
 extern Game game; // 8006E344 - game.state
 extern StreamingData streamingData; // 8006e470
@@ -67,7 +75,20 @@ INCLUDE_ASM("asm/nonmatchings/update", func_80051A60);
  */
 INCLUDE_ASM("asm/nonmatchings/update", func_800527C4);
 
-INCLUDE_ASM("asm/nonmatchings/update", func_80052854);
+
+/**
+ * ???() - func_800527C4() - MATCHING
+ * https://decomp.me/scratch/mpY8I
+ */
+void func_80052854(void) {
+    D_8006C57C = -1;
+    D_8006C69C = 0;
+    D_8006C5A8 = 0;
+    D_8006C5FC = 0;
+    D_8006C590 = -1;
+    D_8006E344 = 0;
+    D_8006C74C = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/update", func_8005289C);
 
