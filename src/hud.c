@@ -263,11 +263,33 @@ void func_80027FCC(HudEntry* hud, int spriteClass) {
 }
 
 /**
- * SetHud() - func_8002803C()
- * WIP
- * https://decomp.me/scratch/VNAQB
+ * SetHud() - func_8002803C() - MATCHING
+ * https://decomp.me/scratch/m3u0r
  */
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002803C);
+int func_8002803C(int arg0, int arg1, void* arg2, void* arg3, void* arg4, int* arg5,int arg6) {
+    HudEntry* hudEntry;
+
+    hudEntry = &g_HudEntries[arg0 & 0xF];
+    arg0 = arg0 & 0xFFF0;
+    if ((hudEntry->unk8 != arg5) || (hudEntry->unk6 != arg6) || (hudEntry->unk4 != arg1) || (hudEntry->unk3A != arg0) || (hudEntry->unkC != arg2) || (hudEntry->unk10 != arg3) || (hudEntry->unk14 != arg4)) {
+        hudEntry->unk6 = arg6;
+        hudEntry->unk8 = arg5;
+        hudEntry->unk4 = arg1;
+        hudEntry->unk3A = arg0;
+        hudEntry->unkC = arg2;
+        hudEntry->unk10 = arg3;
+        hudEntry->unk14 = arg4;
+        hudEntry->unk1A = g_Hud.DAT_800719c8++;
+        if (hudEntry->movementFrame >= 51) {
+            hudEntry->movementFrame = 100 - hudEntry->movementFrame;
+            if (hudEntry->movementFrame >= 51) {
+                hudEntry->movementFrame = 0;
+            }
+        }
+        hudEntry->isOffScreen = 1;
+    }
+    return hudEntry->unk1A;
+}
 
 /**
  * ???() - func_80028154() - MATCHING
