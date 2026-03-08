@@ -617,10 +617,24 @@ INCLUDE_ASM("asm/nonmatchings/hud", func_80029708);
 
 /**
  * ???() - func_8002982C() - MATCHING
- * Ready to add
  * https://decomp.me/scratch/s4WGn
  */
-INCLUDE_ASM("asm/nonmatchings/hud", func_8002982C);
+int func_8002982C(HudEntry* hudEntry) {
+    int sp10;
+    int sp14;
+    int sp18;
+    SpriteData* spriteData;
+
+    spriteData = &D_8006C788[hudEntry->unk1C.frame];
+    sp10 =  hudEntry->unk0;
+    sp14 =  hudEntry->unk2;
+    sp18 = hudEntry->movementFrame != 0 ? (hudEntry->movementFrame + 0xA) >> 1 : 0;
+    func_80029674(hudEntry, &sp10, &sp14);
+    func_80029708(hudEntry, &sp18, &sp10, &sp14);
+    sp14 = sp14 - ((spriteData->unk5 - spriteData->unk1) >> 1);
+    func_800289C8(spriteData, sp10, sp14);
+    return spriteData->unk4 - spriteData->unk0;
+}
 
 /**
  * ???() - func_80029904() - MATCHING
