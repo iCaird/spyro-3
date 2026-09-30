@@ -116,7 +116,7 @@ glabel func_options_800780E0
 /* 9657F90 80078260 1000A427 */   addiu     $a0, $sp, 0x10
 /* 9657F94 80078264 0780053C */  lui        $a1, %hi(D_options_80074938)
 /* 9657F98 80078268 3849A524 */  addiu      $a1, $a1, %lo(D_options_80074938)
-/* 9657F9C 8007826C DF65010C */  jal        func_8005977C
+/* 9657F9C 8007826C DF65010C */  jal        sprintf
 /* 9657FA0 80078270 21304000 */   addu      $a2, $v0, $zero
 /* 9657FA4 80078274 21380000 */  addu       $a3, $zero, $zero
 /* 9657FA8 80078278 43101300 */  sra        $v0, $s3, 1
@@ -150,7 +150,7 @@ glabel func_options_800780E0
 /* 965800C 800782DC 0000848C */  lw         $a0, 0x0($a0)
 .Loptions_800782E0:
 /* 9658010 800782E0 2130E002 */  addu       $a2, $s7, $zero
-/* 9658014 800782E4 B780000C */  jal        func_800202DC
+/* 9658014 800782E4 B780000C */  jal        DrawStringCentered
 /* 9658018 800782E8 0200E734 */   ori       $a3, $a3, 0x2
 /* 965801C 800782EC 20002226 */  addiu      $v0, $s1, 0x20
 /* 9658020 800782F0 21885300 */  addu       $s1, $v0, $s3

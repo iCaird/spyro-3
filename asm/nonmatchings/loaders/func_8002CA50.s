@@ -26,7 +26,7 @@ dlabel jtbl_80010370
 glabel func_8002CA50
 /* 1D250 8002CA50 E8FFBD27 */  addiu      $sp, $sp, -0x18
 /* 1D254 8002CA54 1400BFAF */  sw         $ra, 0x14($sp)
-/* 1D258 8002CA58 FE40010C */  jal        func_800503F8
+/* 1D258 8002CA58 FE40010C */  jal        CDLoadTime
 /* 1D25C 8002CA5C 1000B0AF */   sw        $s0, 0x10($sp)
 /* 1D260 8002CA60 8B004010 */  beqz       $v0, .L8002CC90
 /* 1D264 8002CA64 00000000 */   nop
@@ -203,7 +203,7 @@ glabel func_8002CA50
 /* 1D4E0 8002CCE0 0000068E */  lw         $a2, 0x0($s0)
 /* 1D4E4 8002CCE4 0780073C */  lui        $a3, %hi(D_8006DB00)
 /* 1D4E8 8002CCE8 00DBE78C */  lw         $a3, %lo(D_8006DB00)($a3)
-/* 1D4EC 8002CCEC A041010C */  jal        func_80050680
+/* 1D4EC 8002CCEC A041010C */  jal        CDLoadAsync
 /* 1D4F0 8002CCF0 00000000 */   nop
 /* 1D4F4 8002CCF4 0000038E */  lw         $v1, 0x0($s0)
 /* 1D4F8 8002CCF8 01000224 */  addiu      $v0, $zero, 0x1
@@ -231,7 +231,7 @@ glabel func_8002CA50
 /* 1D548 8002CD48 0A004010 */  beqz       $v0, .L8002CD74
 /* 1D54C 8002CD4C 00000000 */   nop
 .L8002CD50:
-/* 1D550 8002CD50 9171010C */  jal        func_8005C644
+/* 1D550 8002CD50 9171010C */  jal        rand
 /* 1D554 8002CD54 00000000 */   nop
 /* 1D558 8002CD58 3F004230 */  andi       $v0, $v0, 0x3F
 /* 1D55C 8002CD5C 80100200 */  sll        $v0, $v0, 2
@@ -328,7 +328,7 @@ glabel func_8002CA50
 /* 1D6AC 8002CEAC 21082200 */  addu       $at, $at, $v0
 /* 1D6B0 8002CEB0 E8DB278C */  lw         $a3, %lo(D_8006DBE8)($at)
 .L8002CEB4:
-/* 1D6B4 8002CEB4 A041010C */  jal        func_80050680
+/* 1D6B4 8002CEB4 A041010C */  jal        CDLoadAsync
 /* 1D6B8 8002CEB8 00000000 */   nop
 /* 1D6BC 8002CEBC 09000224 */  addiu      $v0, $zero, 0x9
 /* 1D6C0 8002CEC0 0780013C */  lui        $at, %hi(D_800719D6)
@@ -350,7 +350,7 @@ glabel func_8002CA50
 /* 1D6FC 8002CEFC 0CB40008 */  j          .L8002D030
 /* 1D700 8002CF00 00000000 */   nop
 .L8002CF04:
-/* 1D704 8002CF04 5B65010C */  jal        func_8005956C
+/* 1D704 8002CF04 5B65010C */  jal        VSync
 /* 1D708 8002CF08 21200000 */   addu      $a0, $zero, $zero
 /* 1D70C 8002CF0C 0780023C */  lui        $v0, %hi(D_8006C518)
 /* 1D710 8002CF10 18C5428C */  lw         $v0, %lo(D_8006C518)($v0)

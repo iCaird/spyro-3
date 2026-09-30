@@ -1,6 +1,7 @@
 #include "moby/mobytag.h"
 #include "moby/moby260.h"
 
+#include "spu.h"
 #include "spyro.h"
 #include "stdutil.h"
 #include "warp.h"
@@ -9,11 +10,6 @@
 
 // Collision - unclear types
 extern int func_8001A358(Vector3D*, int);
-
-// Sound
-extern int func_8003BABC(Moby*, int, char); // fPlayMobySound
-extern void func_8003BE70(int); // fKillSound
-extern int func_8003BFC0(Moby*, int);
 
 // Update
 extern void func_80054F94(int, Moby*); // unclear types
@@ -25,7 +21,7 @@ extern void func_80055C24(Moby*);
 extern void func_80055D24(Moby*, int); // fUpdateMobyCollision
 
 // Psyq
-extern int func_8005C644(); // rand
+extern int rand(); // rand
 
 // .data 80064f9c
 extern Sparx sparx;
@@ -114,7 +110,7 @@ Moby* func_level_17_8007EFAC(int mobyClass, Moby* linkedMoby) {
         newMoby->unknown4 = 2;
         temp_s2->unkE = 0x708;
         temp_s2->unk11 = 0;
-        temp_s2->unk12 = (char) (func_8005C644() & 0xFC);
+        temp_s2->unk12 = (char) (rand() & 0xFC);
         break;
         
     case 0x78: // Sparx

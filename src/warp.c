@@ -7,26 +7,21 @@
 #include "savepoint.h"
 #include "stdutil.h"
 #include "spu.h"
+#include "str.h"
 #include "ovl_header.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Externs
 
 // text
-// str
-extern void func_80050578(int, int*, int, int); // void fLoadFromDisc(int sector,int *dest,int len,int sectorOffset)
 // update
 extern void func_80052A84();
 extern void func_80053944();
 extern void func_8005399C();
 extern void func_80054E5C();
 // psyq
-extern int func_8005956C(int); // VSync
-extern void func_8005A264(int);
-extern int func_8005A478(RECT*, unsigned int);
+extern int VSync(int); // VSync
 extern void func_8005C564(DR_MODE*, int, int, int, int); // SetDrawMode - type and args to check
-extern DRAWENV* func_8005E500(DRAWENV*, int, int, int, int); // SetDefDrawEnv
-extern DISPENV* func_8005E5C0(DISPENV*, int, int, int, int); // SetDefDispEnv
 extern void func_loading_80075114(short);
 extern int func_loading_80077438();
 extern void func_title_80074DEC(int);
@@ -63,10 +58,9 @@ extern int D_8006C718;
 
 // bss
 extern Game game;
-extern StreamingData streamingData; // 8006E470
 extern SpeedwayData speedwayData;
 extern PauseData pauseData; // 8006FBC4
-extern PauseData2 pauseData2;
+extern DrawDispEnvs g_DrawDispEnvs;
 extern WadHeader wadHeader;
 extern Unk_8006d048 D_8006D048;
 extern LevelWadHeader levelWadHeader; // 80072098
@@ -271,13 +265,13 @@ void func_80058778() {
     case 0:
         // TODO - D_80011254 usage below is weird
         if (pauseData.frameCount == 0) {
-            func_80050578(streamingData.wadSector, D_80011254 + D_8006C714, wadHeader.loadImg[pauseData.cursorPos].size, wadHeader.loadImg[pauseData.cursorPos].offset);
+            CDLoadSync(cdState.wadSector, D_80011254 + D_8006C714, wadHeader.loadImg[pauseData.cursorPos].size, wadHeader.loadImg[pauseData.cursorPos].offset);
             sp10.x = 0x200;
             sp10.y = 0;
             sp10.w = 0x200;
             sp10.h = 0xD8;
-            func_8005A478(&sp10, D_80011254 + D_8006C714 + 0x1C);
-            func_8005A264(0);
+            LoadImage(&sp10, D_80011254 + D_8006C714 + 0x1C);
+            DrawSync(0);
         }
 
         if (pauseData.frameCount >= 0xD) {
@@ -444,7 +438,7 @@ void func_80058778() {
         }
         break;
     case 5:
-        func_80050578(streamingData.wadSector, D_80011254, wadHeader.titleOvl.size, wadHeader.titleOvl.offset);
+        CDLoadSync(cdState.wadSector, D_80011254, wadHeader.titleOvl.size, wadHeader.titleOvl.offset);
         currentLevel = 0;
         D_8006C714 = wadHeader.titleOvl.size;
         func_8004E790(&D_8006D048, 0, 0x40);
@@ -452,7 +446,7 @@ void func_80058778() {
         func_80054E5C();
         break;
     case 6: // sigh
-        func_80050578(streamingData.wadSector, loadingData.D_800722c8, levelWadHeader.area[0].layout.size, levelWadHeader.area[0].layout.offset + wadHeader.cutscene[levelIndex].lvl.offset);
+        CDLoadSync(cdState.wadSector, loadingData.D_800722c8, levelWadHeader.area[0].layout.size, levelWadHeader.area[0].layout.offset + wadHeader.cutscene[levelIndex].lvl.offset);
         loadingData.D_800722cc = func_8002B810(loadingData.D_800722c8);
         pauseData.dat_8006fbc8 = 3;
         break;
@@ -506,17 +500,17 @@ void func_80059038() {
     case 1:
     case 4:
         if (pauseData.frameCount == 0) {
-            func_8005E500(&pauseData2.dat_8006fc70, 0, 12, 512, 216);
-            func_8005E5C0(&pauseData2.dat_8006fc58, 0,  0, 512, 240);
-            pauseData2.dat_8006fc70.ofs[1] = 0;
-            pauseData2.dat_8006fbfc.isbg = 0;
-            pauseData2.dat_8006fc70.isbg = 0;
-            pauseData2.dat_8006fbfc.dtd = 0;
-            pauseData2.dat_8006fc70.dtd = 0;
-            pauseData2.dat_8006fccc.screen.x = D_8006C694;
-            pauseData2.dat_8006fc58.screen.x = D_8006C694;
-            pauseData2.dat_8006fccc.screen.y = D_8006C698;
-            pauseData2.dat_8006fc58.screen.y = D_8006C698;
+            SetDefDrawEnv(&g_DrawDispEnvs.dat_8006fc70, 0, 12, 512, 216);
+            SetDefDispEnv(&g_DrawDispEnvs.dat_8006fc58, 0,  0, 512, 240);
+            g_DrawDispEnvs.dat_8006fc70.ofs[1] = 0;
+            g_DrawDispEnvs.dat_8006fbfc.isbg = 0;
+            g_DrawDispEnvs.dat_8006fc70.isbg = 0;
+            g_DrawDispEnvs.dat_8006fbfc.dtd = 0;
+            g_DrawDispEnvs.dat_8006fc70.dtd = 0;
+            g_DrawDispEnvs.dat_8006fccc.screen.x = D_8006C694;
+            g_DrawDispEnvs.dat_8006fc58.screen.x = D_8006C694;
+            g_DrawDispEnvs.dat_8006fccc.screen.y = D_8006C698;
+            g_DrawDispEnvs.dat_8006fc58.screen.y = D_8006C698;
         }
     case 2:
         spr.unk4 = 255;
@@ -529,23 +523,23 @@ void func_80059038() {
         spr.unk6 = 372;
         func_800289C8(&spr, 256, 182);
         if ((loadStage >= 2) && (loadStage < 8) && (D_8006C548 == 0)) {
-            func_8005956C(0);
+            VSync(0);
             func_loading_80075114(186);
         }
         return;
     case 3:
         if (pauseData.frameCount == 0) {
-            func_8005E500(&pauseData2.dat_8006fc70, 0, 240, 512, 216);
-            func_8005E5C0(&pauseData2.dat_8006fc58, 0, 228, 512, 240);
-            pauseData2.dat_8006fc70.ofs[1] = 228;
-            pauseData2.dat_8006fbfc.isbg = 1;
-            pauseData2.dat_8006fc70.isbg = 1;
-            pauseData2.dat_8006fbfc.dtd = 1;
-            pauseData2.dat_8006fc70.dtd = 1;
-            pauseData2.dat_8006fccc.screen.x = D_8006C694;
-            pauseData2.dat_8006fc58.screen.x = D_8006C694;
-            pauseData2.dat_8006fccc.screen.y = D_8006C698;
-            pauseData2.dat_8006fc58.screen.y = D_8006C698;
+            SetDefDrawEnv(&g_DrawDispEnvs.dat_8006fc70, 0, 240, 512, 216);
+            SetDefDispEnv(&g_DrawDispEnvs.dat_8006fc58, 0, 228, 512, 240);
+            g_DrawDispEnvs.dat_8006fc70.ofs[1] = 228;
+            g_DrawDispEnvs.dat_8006fbfc.isbg = 1;
+            g_DrawDispEnvs.dat_8006fc70.isbg = 1;
+            g_DrawDispEnvs.dat_8006fbfc.dtd = 1;
+            g_DrawDispEnvs.dat_8006fc70.dtd = 1;
+            g_DrawDispEnvs.dat_8006fccc.screen.x = D_8006C694;
+            g_DrawDispEnvs.dat_8006fc58.screen.x = D_8006C694;
+            g_DrawDispEnvs.dat_8006fccc.screen.y = D_8006C698;
+            g_DrawDispEnvs.dat_8006fc58.screen.y = D_8006C698;
         }
         func_80020168();
         return;

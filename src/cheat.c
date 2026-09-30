@@ -2,11 +2,12 @@
 #include "cheat.h"
 #include "pad.h"
 #include "spu.h"
+#include "str.h"
 
 // update
 extern void func_80054CD8();
 // psyq
-extern void func_8005956C(int); // VSync
+extern void VSync(int); // VSync
 
 // data 80064f9c
 extern Sparx sparx; // 8006580c
@@ -18,9 +19,6 @@ extern SoundTable* soundTablePtr; // D_8006C654
 extern short D_8006C67C;
 extern int D_8006C784;
 extern int D_8006C7A8;
-
-// bss 8006c7f8
-extern StreamingData streamingData;
 
 // static inlines
 // might be useful in other functions, so should be in the header
@@ -135,7 +133,7 @@ void ActivateCheat(int cheat) {
 
         PlaySound(soundTablePtr->gemCollect, 0, 0); // D_8006C654->unk1
         do {
-            func_8005956C(0); // VSync
+            VSync(0); // VSync
             func_8003A584();
             func_8003C184();
             if      (pad.state.pressed & CIR) var_s1 = 0;
@@ -152,7 +150,7 @@ void ActivateCheat(int cheat) {
 
         PlaySound(soundTablePtr->pauseMove, 0, 0);
         while (var_s2 < 0) {
-            func_8005956C(0); // VSync
+            VSync(0); // VSync
             func_8003A584();
             func_8003C184();
             if      (pad.state.pressed & CIR) var_s2 = 0;
@@ -199,7 +197,7 @@ void ActivateCheat(int cheat) {
         g_CheatFlags.bodyColour = 0;
         PlaySound(soundTablePtr->pauseExit, 0, 0); //
         do {
-            func_8005956C(0); // VSync
+            VSync(0); // VSync
             func_8003A584();
             func_8003C184();
         } while (pad.state.pressed == 0);
@@ -228,7 +226,7 @@ void ActivateCheat(int cheat) {
         var_s0 = -1;
         PlaySound(soundTablePtr->gemCollect, 0, 0);
         do {
-            func_8005956C(0);
+            VSync(0);
             func_8003A584();
             func_8003C184();
             if      (pad.state.pressed & 0x20) var_s0 = 0;
@@ -250,7 +248,7 @@ void ActivateCheat(int cheat) {
         var_s0_2 = -1;
         PlaySound(soundTablePtr->gemCollect, 0, 0);
         do {
-            func_8005956C(0); // VSync
+            VSync(0); // VSync
             func_8003A584();
             func_8003C184();
             if      (pad.state.pressed & 0x20) var_s0_2 = 0;

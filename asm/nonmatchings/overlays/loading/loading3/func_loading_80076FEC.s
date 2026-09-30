@@ -35,7 +35,7 @@ glabel func_loading_80076FEC
 /* 322F590 80077060 14C7A58C */  lw         $a1, %lo(D_8006C714)($a1)
 /* 322F594 80077064 0780073C */  lui        $a3, %hi(D_8006D8D8 + 0x588)
 /* 322F598 80077068 60DEE78C */  lw         $a3, %lo(D_8006D8D8 + 0x588)($a3)
-/* 322F59C 8007706C 5E41010C */  jal        func_80050578
+/* 322F59C 8007706C 5E41010C */  jal        CDLoadSync
 /* 322F5A0 80077070 21284500 */   addu      $a1, $v0, $a1
 /* 322F5A4 80077074 1000A427 */  addiu      $a0, $sp, 0x10
 /* 322F5A8 80077078 0180053C */  lui        $a1, %hi(D_80011254)
@@ -49,9 +49,9 @@ glabel func_loading_80076FEC
 /* 322F5C8 80077098 1200A0A7 */  sh         $zero, 0x12($sp)
 /* 322F5CC 8007709C 1600A2A7 */  sh         $v0, 0x16($sp)
 /* 322F5D0 800770A0 2128A300 */  addu       $a1, $a1, $v1
-/* 322F5D4 800770A4 1E69010C */  jal        func_8005A478
+/* 322F5D4 800770A4 1E69010C */  jal        LoadImage
 /* 322F5D8 800770A8 1C00A524 */   addiu     $a1, $a1, 0x1C
-/* 322F5DC 800770AC 9968010C */  jal        func_8005A264
+/* 322F5DC 800770AC 9968010C */  jal        DrawSync
 /* 322F5E0 800770B0 21200000 */   addu      $a0, $zero, $zero
 /* 322F5E4 800770B4 00200224 */  addiu      $v0, $zero, 0x2000
 /* 322F5E8 800770B8 0780013C */  lui        $at, %hi(D_8006E020)
@@ -255,7 +255,7 @@ glabel func_loading_80076FEC
 /* 322F8E0 800773B0 E0DB228C */  lw         $v0, %lo(D_8006DBE0)($at)
 /* 322F8E4 800773B4 0000458E */  lw         $a1, 0x0($s2)
 /* 322F8E8 800773B8 21186200 */  addu       $v1, $v1, $v0
-/* 322F8EC 800773BC 5E41010C */  jal        func_80050578
+/* 322F8EC 800773BC 5E41010C */  jal        CDLoadSync
 /* 322F8F0 800773C0 21386700 */   addu      $a3, $v1, $a3
 /* 322F8F4 800773C4 1000A427 */  addiu      $a0, $sp, 0x10
 /* 322F8F8 800773C8 C0111000 */  sll        $v0, $s0, 7
@@ -265,7 +265,7 @@ glabel func_loading_80076FEC
 /* 322F908 800773D8 80000224 */  addiu      $v0, $zero, 0x80
 /* 322F90C 800773DC 1000B1A7 */  sh         $s1, 0x10($sp)
 /* 322F910 800773E0 1400B1A7 */  sh         $s1, 0x14($sp)
-/* 322F914 800773E4 1E69010C */  jal        func_8005A478
+/* 322F914 800773E4 1E69010C */  jal        LoadImage
 /* 322F918 800773E8 1600A2A7 */   sh        $v0, 0x16($sp)
 /* 322F91C 800773EC 0400022A */  slti       $v0, $s0, 0x4
 /* 322F920 800773F0 E5FF4014 */  bnez       $v0, .Lloading_80077388

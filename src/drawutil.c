@@ -1,5 +1,9 @@
 #include "common.h"
 #include "drawutil.h"
+#include "mobyfunc.h"
+#include "stdutil.h"
+
+extern void VSync(int);
 
 extern char D_80067570[16][12]; // might be an array of structs, not sure
 extern PauseData pauseData; // 8006fbc4
@@ -9,7 +13,24 @@ extern PauseData pauseData; // 8006fbc4
 // I'm using the REORDER_HACK in here which should just equal the normal INCLUDE_ASM right now
 // At time of writing this is a file that would fail when changing to -G8 so this is just saving me time later
 
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001EBAC);
+/**
+ * ???() - func_8001EBAC() - MATCHING
+ * https://decomp.me/scratch/v2ehU
+ */
+void func_8001EBAC() {
+    RECT rect;
+
+    DrawSync(0);
+    VSync(0);
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 512;
+    rect.h = 240;
+    ClearImage(&rect, 0, 0, 0);
+    rect.y = 228;
+    ClearImage(&rect, 0, 0, 0);
+    DrawSync(0);
+}
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001EC24);
 
@@ -25,13 +46,77 @@ INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FABC);
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FB10);
 
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FB74);
+/**
+ * ???() - func_8001FB74() - MATCHING
+ * Draw line under NPC name
+ * https://decomp.me/scratch/9NQVn
+ */
+void func_8001FB74(int x0, int y0, int x1, int y1) {
 
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FC90);
+    LINE_G2* line;
+
+    line = D_8006C664;
+    
+    line->tag = 0x04000000;
+    line->code = 0x50;
+    setXY2(line, x0, y0, x1, y1);
+    setRGB0(line, 180, 154, 17);
+    setRGB1(line, 180, 154, 17);
+    
+    func_8004E758(line);
+    
+    line++;
+    D_8006C664 = line;
+    
+    line->tag = 0x04000000;
+    line->code = 0x50;
+    setXY2(line, x0 + 1, y0 + 1, x1 + 1, y1 + 1);
+    setRGB0(line, 128, 82, 0);
+    setRGB1(line, 128, 82, 0);
+    
+    func_8004E758(line);
+    D_8006C664 = line + 1;
+}
+
+/**
+ * ???() - func_8001FC90() - MATCHING
+ * https://decomp.me/scratch/8lG9w
+ */
+void func_8001FC90(int x0, int x1, int y0, int y1) {
+    POLY_F4* p;
+
+    p = D_8006C664;
+    p->tag = 0x05000000;
+
+    *(int*)&p->r0 = 0x2A080808;
+    
+    p->x0 = x0;
+    p->x1 = x1;
+    p->x2 = x0;
+    p->x3 = x1;
+    p->y0 = y0;
+    p->y1 = y0;
+    p->y2 = y1;
+    p->y3 = y1;
+    
+    func_8004E758(p);
+    D_8006C664 = p + 1;
+}
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FD00);
 
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FE48);
+/**
+ * ???() - func_8001FE48() - MATCHING
+ * https://decomp.me/scratch/bNzDh
+ */
+void func_8001FE48(int arg0, int arg1, int arg2, int arg3) {
+    func_8001FABC(0x18);
+    func_8001FC90(arg0 + 3, arg1 - 3,    arg2,        arg2 + 1);
+    func_8001FC90(arg0 + 1, arg1 - 1,    arg2 + 1,    arg2 + 2);
+    func_8001FC90(arg0,     arg1,        arg2 + 2,    arg3 - 2);
+    func_8001FC90(arg0 + 1, arg1 - 1,    arg3 - 2,    arg3 - 1);
+    func_8001FC90(arg0 + 3, arg1 - 3,    arg3 - 1,    arg3);
+}
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_8001FF44);
 
@@ -45,19 +130,25 @@ INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_80020168);
 
 /**
  * DrawStringCentered() - func_800202DC() - MATCHING
- * Implementing may mean changing some function signatures
  * https://decomp.me/scratch/iAe5h
  */
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_800202DC);
+void DrawStringCentered(char* arg0, int arg1, int arg2, int arg3) {
+    int x = arg1;
+    x -= (func_8002EBB0(arg0) >> 1);
+    func_8002E748(arg0, x, arg2, arg3, 0);
+}
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_80020344);
 
 /**
  * DrawStringRightAligned() - func_800203C4() - MATCHING
- * Implementing may mean changing some function signatures
  * https://decomp.me/scratch/YCZcN
  */
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_800203C4);
+void DrawStringRightAligned(char* arg0, int arg1, int arg2, int arg3) {
+    int x = arg1;
+    x -= func_8002EBB0(arg0);
+    func_8002E748(arg0, x, arg2, arg3, 0);
+}
 
 INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_80020428);
 
@@ -74,8 +165,20 @@ void func_80020D70() {
 }
 
 /**
- * ???() - func_80020DAC()
- * Pretty close, just a bit left
- * https://decomp.me/scratch/DkMBr
+ * DrawStringRowCentered() - func_80020DAC() - MATCHING
+ * https://decomp.me/scratch/0lU0I
  */
-INCLUDE_ASM_REORDER_HACK("asm/nonmatchings/drawutil", func_80020DAC);
+void DrawStringRowCentered(char** arg0, int arg1, int arg2, int arg3) {
+    int i;
+    int var_s3;
+    int var_s2 = 0;
+    char **p = arg0;
+
+    while (*p[var_s2] != 0) var_s2++;
+
+    var_s3 = arg2 - var_s2 * 7;
+    for (i = 0; i < var_s2; i++) {
+        DrawStringCentered(arg0[i], arg1, var_s3, arg3);
+        var_s3 += 14;
+    }
+}

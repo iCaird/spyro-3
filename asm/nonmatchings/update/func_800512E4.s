@@ -116,7 +116,7 @@ glabel func_800512E4
 /* 41C98 80051498 1000508C */  lw         $s0, 0x10($v0)
 /* 41C9C 8005149C 07006010 */  beqz       $v1, .L800514BC
 /* 41CA0 800514A0 21280000 */   addu      $a1, $zero, $zero
-/* 41CA4 800514A4 DF41010C */  jal        func_8005077C
+/* 41CA4 800514A4 DF41010C */  jal        FindMobyDialogue
 /* 41CA8 800514A8 21202002 */   addu      $a0, $s1, $zero
 /* 41CAC 800514AC 03004010 */  beqz       $v0, .L800514BC
 /* 41CB0 800514B0 21280000 */   addu      $a1, $zero, $zero
@@ -328,7 +328,7 @@ glabel func_800512E4
 /* 41FA4 800517A4 0000268E */  lw         $a2, 0x0($s1)
 /* 41FA8 800517A8 0780053C */  lui        $a1, %hi(D_8006C4E8)
 /* 41FAC 800517AC E8C4A524 */  addiu      $a1, $a1, %lo(D_8006C4E8)
-/* 41FB0 800517B0 DF65010C */  jal        func_8005977C
+/* 41FB0 800517B0 DF65010C */  jal        sprintf
 /* 41FB4 800517B4 1000A427 */   addiu     $a0, $sp, 0x10
 /* 41FB8 800517B8 21200000 */  addu       $a0, $zero, $zero
 /* 41FBC 800517BC 1000A293 */  lbu        $v0, 0x10($sp)

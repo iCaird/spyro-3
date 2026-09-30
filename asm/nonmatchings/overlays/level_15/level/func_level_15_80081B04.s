@@ -95,7 +95,7 @@ glabel func_level_15_80081B04
 /* 49BC108 80081BD8 80180300 */  sll        $v1, $v1, 2
 /* 49BC10C 80081BDC 21186200 */  addu       $v1, $v1, $v0
 /* 49BC110 80081BE0 0000648C */  lw         $a0, 0x0($v1)
-/* 49BC114 80081BE4 B780000C */  jal        func_800202DC
+/* 49BC114 80081BE4 B780000C */  jal        DrawStringCentered
 /* 49BC118 80081BE8 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BC11C 80081BEC 0780023C */  lui        $v0, %hi(D_8006FBC8)
 /* 49BC120 80081BF0 C8FB428C */  lw         $v0, %lo(D_8006FBC8)($v0)
@@ -174,7 +174,7 @@ glabel func_level_15_80081B04
 /* 49BC228 80081CF8 0400B526 */   addiu     $s5, $s5, 0x4
 /* 49BC22C 80081CFC 0780053C */  lui        $a1, %hi(D_level_15_800746B8)
 /* 49BC230 80081D00 B846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746B8)
-/* 49BC234 80081D04 DF65010C */  jal        func_8005977C
+/* 49BC234 80081D04 DF65010C */  jal        sprintf
 /* 49BC238 80081D08 1800A427 */   addiu     $a0, $sp, 0x18
 /* 49BC23C 80081D0C ECBA000C */  jal        func_8002EBB0
 /* 49BC240 80081D10 1800A427 */   addiu     $a0, $sp, 0x18
@@ -184,7 +184,7 @@ glabel func_level_15_80081B04
 /* 49BC250 80081D20 D4FBC68C */  lw         $a2, %lo(D_8006FBD4)($a2)
 /* 49BC254 80081D24 0780053C */  lui        $a1, %hi(D_level_15_800746C0)
 /* 49BC258 80081D28 C046A524 */  addiu      $a1, $a1, %lo(D_level_15_800746C0)
-/* 49BC25C 80081D2C DF65010C */  jal        func_8005977C
+/* 49BC25C 80081D2C DF65010C */  jal        sprintf
 /* 49BC260 80081D30 1800A427 */   addiu     $a0, $sp, 0x18
 /* 49BC264 80081D34 ECBA000C */  jal        func_8002EBB0
 /* 49BC268 80081D38 1800A427 */   addiu     $a0, $sp, 0x18
@@ -350,7 +350,7 @@ glabel func_level_15_80081B04
 /* 49BC4CC 80081F9C 0780013C */  lui        $at, %hi(D_8006C440)
 /* 49BC4D0 80081FA0 21082200 */  addu       $at, $at, $v0
 /* 49BC4D4 80081FA4 40C4248C */  lw         $a0, %lo(D_8006C440)($at)
-/* 49BC4D8 80081FA8 B780000C */  jal        func_800202DC
+/* 49BC4D8 80081FA8 B780000C */  jal        DrawStringCentered
 /* 49BC4DC 80081FAC 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BC4E0 80081FB0 0780023C */  lui        $v0, %hi(D_8006C76C)
 /* 49BC4E4 80081FB4 6CC7428C */  lw         $v0, %lo(D_8006C76C)($v0)
@@ -401,7 +401,7 @@ glabel func_level_15_80081B04
 /* 49BC598 80082068 1000A2AF */  sw         $v0, 0x10($sp)
 /* 49BC59C 8008206C 0780053C */  lui        $a1, %hi(D_level_15_800746C8)
 /* 49BC5A0 80082070 C846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746C8)
-/* 49BC5A4 80082074 DF65010C */  jal        func_8005977C
+/* 49BC5A4 80082074 DF65010C */  jal        sprintf
 /* 49BC5A8 80082078 2000A427 */   addiu     $a0, $sp, 0x20
 /* 49BC5AC 8008207C 28080208 */  j          .Llevel_15_800820A0
 /* 49BC5B0 80082080 2000A427 */   addiu     $a0, $sp, 0x20
@@ -410,13 +410,13 @@ glabel func_level_15_80081B04
 /* 49BC5B8 80082088 0780053C */  lui        $a1, %hi(D_level_15_800746D8)
 /* 49BC5BC 8008208C D846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746D8)
 /* 49BC5C0 80082090 2130E000 */  addu       $a2, $a3, $zero
-/* 49BC5C4 80082094 DF65010C */  jal        func_8005977C
+/* 49BC5C4 80082094 DF65010C */  jal        sprintf
 /* 49BC5C8 80082098 21384000 */   addu      $a3, $v0, $zero
 /* 49BC5CC 8008209C 2000A427 */  addiu      $a0, $sp, 0x20
 .Llevel_15_800820A0:
 /* 49BC5D0 800820A0 C0000524 */  addiu      $a1, $zero, 0xC0
 /* 49BC5D4 800820A4 71000624 */  addiu      $a2, $zero, 0x71
-/* 49BC5D8 800820A8 B780000C */  jal        func_800202DC
+/* 49BC5D8 800820A8 B780000C */  jal        DrawStringCentered
 /* 49BC5DC 800820AC 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BC5E0 800820B0 0780023C */  lui        $v0, %hi(D_8006FBC8)
 /* 49BC5E4 800820B4 C8FB428C */  lw         $v0, %lo(D_8006FBC8)($v0)
@@ -432,7 +432,7 @@ glabel func_level_15_80081B04
 /* 49BC608 800820D8 0780013C */  lui        $at, %hi(D_8006C444)
 /* 49BC60C 800820DC 21082200 */  addu       $at, $at, $v0
 /* 49BC610 800820E0 44C4248C */  lw         $a0, %lo(D_8006C444)($at)
-/* 49BC614 800820E4 B780000C */  jal        func_800202DC
+/* 49BC614 800820E4 B780000C */  jal        DrawStringCentered
 /* 49BC618 800820E8 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BC61C 800820EC 0780023C */  lui        $v0, %hi(D_8006C76C)
 /* 49BC620 800820F0 6CC7428C */  lw         $v0, %lo(D_8006C76C)($v0)
@@ -492,7 +492,7 @@ glabel func_level_15_80081B04
 /* 49BC6F8 800821C8 00000000 */   nop
 /* 49BC6FC 800821CC 0780053C */  lui        $a1, %hi(D_level_15_800746E0)
 /* 49BC700 800821D0 E046A524 */  addiu      $a1, $a1, %lo(D_level_15_800746E0)
-/* 49BC704 800821D4 DF65010C */  jal        func_8005977C
+/* 49BC704 800821D4 DF65010C */  jal        sprintf
 /* 49BC708 800821D8 3000A427 */   addiu     $a0, $sp, 0x30
 /* 49BC70C 800821DC 88080208 */  j          .Llevel_15_80082220
 /* 49BC710 800821E0 3000A427 */   addiu     $a0, $sp, 0x30
@@ -502,7 +502,7 @@ glabel func_level_15_80081B04
 /* 49BC71C 800821EC 1000A3AF */  sw         $v1, 0x10($sp)
 /* 49BC720 800821F0 0780053C */  lui        $a1, %hi(D_level_15_800746C8)
 /* 49BC724 800821F4 C846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746C8)
-/* 49BC728 800821F8 DF65010C */  jal        func_8005977C
+/* 49BC728 800821F8 DF65010C */  jal        sprintf
 /* 49BC72C 800821FC 3000A427 */   addiu     $a0, $sp, 0x30
 /* 49BC730 80082200 88080208 */  j          .Llevel_15_80082220
 /* 49BC734 80082204 3000A427 */   addiu     $a0, $sp, 0x30
@@ -510,13 +510,13 @@ glabel func_level_15_80081B04
 /* 49BC738 80082208 0780053C */  lui        $a1, %hi(D_level_15_800746D8)
 /* 49BC73C 8008220C D846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746D8)
 /* 49BC740 80082210 2130E000 */  addu       $a2, $a3, $zero
-/* 49BC744 80082214 DF65010C */  jal        func_8005977C
+/* 49BC744 80082214 DF65010C */  jal        sprintf
 /* 49BC748 80082218 21386000 */   addu      $a3, $v1, $zero
 /* 49BC74C 8008221C 3000A427 */  addiu      $a0, $sp, 0x30
 .Llevel_15_80082220:
 /* 49BC750 80082220 40010524 */  addiu      $a1, $zero, 0x140
 /* 49BC754 80082224 71000624 */  addiu      $a2, $zero, 0x71
-/* 49BC758 80082228 B780000C */  jal        func_800202DC
+/* 49BC758 80082228 B780000C */  jal        DrawStringCentered
 /* 49BC75C 8008222C 02000724 */   addiu     $a3, $zero, 0x2
 .Llevel_15_80082230:
 /* 49BC760 80082230 0780023C */  lui        $v0, %hi(D_8006FBC8)
@@ -569,7 +569,7 @@ glabel func_level_15_80081B04
 /* 49BC814 800822E4 21082200 */  addu       $at, $at, $v0
 /* 49BC818 800822E8 4CC4248C */  lw         $a0, %lo(D_8006C44C)($at)
 .Llevel_15_800822EC:
-/* 49BC81C 800822EC B780000C */  jal        func_800202DC
+/* 49BC81C 800822EC B780000C */  jal        DrawStringCentered
 /* 49BC820 800822F0 00000000 */   nop
 .Llevel_15_800822F4:
 /* 49BC824 800822F4 0780033C */  lui        $v1, %hi(D_8006FBC8)
@@ -748,7 +748,7 @@ glabel func_level_15_80081B04
 /* 49BCAB8 80082588 80180300 */  sll        $v1, $v1, 2
 /* 49BCABC 8008258C 21186200 */  addu       $v1, $v1, $v0
 /* 49BCAC0 80082590 0000648C */  lw         $a0, 0x0($v1)
-/* 49BCAC4 80082594 B780000C */  jal        func_800202DC
+/* 49BCAC4 80082594 B780000C */  jal        DrawStringCentered
 /* 49BCAC8 80082598 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BCACC 8008259C 0780033C */  lui        $v1, %hi(D_8006FA44)
 /* 49BCAD0 800825A0 44FA6324 */  addiu      $v1, $v1, %lo(D_8006FA44)
@@ -794,7 +794,7 @@ glabel func_level_15_80081B04
 /* 49BCB64 80082634 0780013C */  lui        $at, %hi(D_8006C440)
 /* 49BCB68 80082638 21082200 */  addu       $at, $at, $v0
 /* 49BCB6C 8008263C 40C4248C */  lw         $a0, %lo(D_8006C440)($at)
-/* 49BCB70 80082640 B780000C */  jal        func_800202DC
+/* 49BCB70 80082640 B780000C */  jal        DrawStringCentered
 /* 49BCB74 80082644 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BCB78 80082648 0780023C */  lui        $v0, %hi(D_8006C76C)
 /* 49BCB7C 8008264C 6CC7428C */  lw         $v0, %lo(D_8006C76C)($v0)
@@ -848,7 +848,7 @@ glabel func_level_15_80081B04
 /* 49BCC3C 8008270C 23188300 */   subu      $v1, $a0, $v1
 /* 49BCC40 80082710 0780053C */  lui        $a1, %hi(D_level_15_800746E0)
 /* 49BCC44 80082714 E046A524 */  addiu      $a1, $a1, %lo(D_level_15_800746E0)
-/* 49BCC48 80082718 DF65010C */  jal        func_8005977C
+/* 49BCC48 80082718 DF65010C */  jal        sprintf
 /* 49BCC4C 8008271C 4000A427 */   addiu     $a0, $sp, 0x40
 /* 49BCC50 80082720 D9090208 */  j          .Llevel_15_80082764
 /* 49BCC54 80082724 4000A427 */   addiu     $a0, $sp, 0x40
@@ -858,7 +858,7 @@ glabel func_level_15_80081B04
 /* 49BCC60 80082730 1000A3AF */  sw         $v1, 0x10($sp)
 /* 49BCC64 80082734 0780053C */  lui        $a1, %hi(D_level_15_800746C8)
 /* 49BCC68 80082738 C846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746C8)
-/* 49BCC6C 8008273C DF65010C */  jal        func_8005977C
+/* 49BCC6C 8008273C DF65010C */  jal        sprintf
 /* 49BCC70 80082740 4000A427 */   addiu     $a0, $sp, 0x40
 /* 49BCC74 80082744 D9090208 */  j          .Llevel_15_80082764
 /* 49BCC78 80082748 4000A427 */   addiu     $a0, $sp, 0x40
@@ -866,13 +866,13 @@ glabel func_level_15_80081B04
 /* 49BCC7C 8008274C 0780053C */  lui        $a1, %hi(D_level_15_800746D8)
 /* 49BCC80 80082750 D846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746D8)
 /* 49BCC84 80082754 2130E000 */  addu       $a2, $a3, $zero
-/* 49BCC88 80082758 DF65010C */  jal        func_8005977C
+/* 49BCC88 80082758 DF65010C */  jal        sprintf
 /* 49BCC8C 8008275C 21386000 */   addu      $a3, $v1, $zero
 /* 49BCC90 80082760 4000A427 */  addiu      $a0, $sp, 0x40
 .Llevel_15_80082764:
 /* 49BCC94 80082764 C0000524 */  addiu      $a1, $zero, 0xC0
 /* 49BCC98 80082768 7B000624 */  addiu      $a2, $zero, 0x7B
-/* 49BCC9C 8008276C B780000C */  jal        func_800202DC
+/* 49BCC9C 8008276C B780000C */  jal        DrawStringCentered
 /* 49BCCA0 80082770 02000724 */   addiu     $a3, $zero, 0x2
 .Llevel_15_80082774:
 /* 49BCCA4 80082774 0780023C */  lui        $v0, %hi(D_8006FBC8)
@@ -888,7 +888,7 @@ glabel func_level_15_80081B04
 /* 49BCCCC 8008279C 0780013C */  lui        $at, %hi(D_8006C444)
 /* 49BCCD0 800827A0 21082200 */  addu       $at, $at, $v0
 /* 49BCCD4 800827A4 44C4248C */  lw         $a0, %lo(D_8006C444)($at)
-/* 49BCCD8 800827A8 B780000C */  jal        func_800202DC
+/* 49BCCD8 800827A8 B780000C */  jal        DrawStringCentered
 /* 49BCCDC 800827AC 02000724 */   addiu     $a3, $zero, 0x2
 /* 49BCCE0 800827B0 0780023C */  lui        $v0, %hi(D_8006C76C)
 /* 49BCCE4 800827B4 6CC7428C */  lw         $v0, %lo(D_8006C76C)($v0)
@@ -948,7 +948,7 @@ glabel func_level_15_80081B04
 /* 49BCDBC 8008288C 00000000 */   nop
 /* 49BCDC0 80082890 0780053C */  lui        $a1, %hi(D_level_15_800746E0)
 /* 49BCDC4 80082894 E046A524 */  addiu      $a1, $a1, %lo(D_level_15_800746E0)
-/* 49BCDC8 80082898 DF65010C */  jal        func_8005977C
+/* 49BCDC8 80082898 DF65010C */  jal        sprintf
 /* 49BCDCC 8008289C 5000A427 */   addiu     $a0, $sp, 0x50
 /* 49BCDD0 800828A0 390A0208 */  j          .Llevel_15_800828E4
 /* 49BCDD4 800828A4 5000A427 */   addiu     $a0, $sp, 0x50
@@ -958,7 +958,7 @@ glabel func_level_15_80081B04
 /* 49BCDE0 800828B0 1000A3AF */  sw         $v1, 0x10($sp)
 /* 49BCDE4 800828B4 0780053C */  lui        $a1, %hi(D_level_15_800746C8)
 /* 49BCDE8 800828B8 C846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746C8)
-/* 49BCDEC 800828BC DF65010C */  jal        func_8005977C
+/* 49BCDEC 800828BC DF65010C */  jal        sprintf
 /* 49BCDF0 800828C0 5000A427 */   addiu     $a0, $sp, 0x50
 /* 49BCDF4 800828C4 390A0208 */  j          .Llevel_15_800828E4
 /* 49BCDF8 800828C8 5000A427 */   addiu     $a0, $sp, 0x50
@@ -966,13 +966,13 @@ glabel func_level_15_80081B04
 /* 49BCDFC 800828CC 0780053C */  lui        $a1, %hi(D_level_15_800746D8)
 /* 49BCE00 800828D0 D846A524 */  addiu      $a1, $a1, %lo(D_level_15_800746D8)
 /* 49BCE04 800828D4 2130E000 */  addu       $a2, $a3, $zero
-/* 49BCE08 800828D8 DF65010C */  jal        func_8005977C
+/* 49BCE08 800828D8 DF65010C */  jal        sprintf
 /* 49BCE0C 800828DC 21386000 */   addu      $a3, $v1, $zero
 /* 49BCE10 800828E0 5000A427 */  addiu      $a0, $sp, 0x50
 .Llevel_15_800828E4:
 /* 49BCE14 800828E4 40010524 */  addiu      $a1, $zero, 0x140
 /* 49BCE18 800828E8 7B000624 */  addiu      $a2, $zero, 0x7B
-/* 49BCE1C 800828EC B780000C */  jal        func_800202DC
+/* 49BCE1C 800828EC B780000C */  jal        DrawStringCentered
 /* 49BCE20 800828F0 02000724 */   addiu     $a3, $zero, 0x2
 .Llevel_15_800828F4:
 /* 49BCE24 800828F4 0780023C */  lui        $v0, %hi(D_8006FBC8)
@@ -1031,7 +1031,7 @@ glabel func_level_15_80081B04
 /* 49BCEF0 800829C0 21082200 */  addu       $at, $at, $v0
 /* 49BCEF4 800829C4 4CC4248C */  lw         $a0, %lo(D_8006C44C)($at)
 .Llevel_15_800829C8:
-/* 49BCEF8 800829C8 B780000C */  jal        func_800202DC
+/* 49BCEF8 800829C8 B780000C */  jal        DrawStringCentered
 /* 49BCEFC 800829CC 00000000 */   nop
 .Llevel_15_800829D0:
 /* 49BCF00 800829D0 0780033C */  lui        $v1, %hi(D_8006FBC8)
@@ -1167,7 +1167,7 @@ glabel func_level_15_80081B04
 /* 49BD0F0 80082BC0 00010524 */  addiu      $a1, $zero, 0x100
 /* 49BD0F4 80082BC4 9C000624 */  addiu      $a2, $zero, 0x9C
 .Llevel_15_80082BC8:
-/* 49BD0F8 80082BC8 B780000C */  jal        func_800202DC
+/* 49BD0F8 80082BC8 B780000C */  jal        DrawStringCentered
 /* 49BD0FC 80082BCC 00000000 */   nop
 .Llevel_15_80082BD0:
 /* 49BD100 80082BD0 FC00BF8F */  lw         $ra, 0xFC($sp)

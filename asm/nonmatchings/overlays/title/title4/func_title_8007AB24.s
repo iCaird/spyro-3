@@ -116,7 +116,7 @@ glabel func_title_8007AB24
 /* 299D4 8007ACA4 1000A427 */   addiu     $a0, $sp, 0x10
 /* 299D8 8007ACA8 0780053C */  lui        $a1, %hi(D_title_80074A34)
 /* 299DC 8007ACAC 344AA524 */  addiu      $a1, $a1, %lo(D_title_80074A34)
-/* 299E0 8007ACB0 DF65010C */  jal        func_8005977C
+/* 299E0 8007ACB0 DF65010C */  jal        sprintf
 /* 299E4 8007ACB4 21304000 */   addu      $a2, $v0, $zero
 /* 299E8 8007ACB8 21380000 */  addu       $a3, $zero, $zero
 /* 299EC 8007ACBC 43101300 */  sra        $v0, $s3, 1
@@ -150,7 +150,7 @@ glabel func_title_8007AB24
 /* 29A50 8007AD20 0000848C */  lw         $a0, 0x0($a0)
 .Ltitle_8007AD24:
 /* 29A54 8007AD24 2130E002 */  addu       $a2, $s7, $zero
-/* 29A58 8007AD28 B780000C */  jal        func_800202DC
+/* 29A58 8007AD28 B780000C */  jal        DrawStringCentered
 /* 29A5C 8007AD2C 0200E734 */   ori       $a3, $a3, 0x2
 /* 29A60 8007AD30 20002226 */  addiu      $v0, $s1, 0x20
 /* 29A64 8007AD34 21885300 */  addu       $s1, $v0, $s3
