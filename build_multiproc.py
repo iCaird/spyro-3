@@ -525,7 +525,10 @@ def link_files():
         fix_checksums()
     else:
         if (nonmatching):
+            print("exiting with exit code 1")
             exit(1)
+
+        print("exiting with exit code 0")
         exit(0)
 
 object_files = []
