@@ -1,19 +1,26 @@
-name: Build and verify checksums NO ANTIPIRACY
+name: Build and verify checksums
 
-on: pull_request
+on:
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        antipiracy: [true, false]
+
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules:  recursive
+          submodules: recursive
 
       - name: Build Docker image
         run: docker build -t s3_dev_env .
 
       - name: Run build
-        run: docker run --rm -v "$PWD:/s3" s3_dev_env python3 build_multiproc.py
+        run: |
+          docker run --rm -v "$PWD:/s3" s3_dev_env \
+            python3 build.py ${{ matrix.antipiracy && '--antipiracy' || '' }}
 
