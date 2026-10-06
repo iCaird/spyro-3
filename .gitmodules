@@ -1,3 +1,9 @@
 [submodule "tools/maspsx"]
 	path = tools/maspsx
 	url = https://github.com/mkst/maspsx.git
+[submodule "tools/wadtool"]
+	path = tools/wadtool
+	url = https://github.com/altro50/wadtool
+[submodule "tools/mkpsxiso"]
+	path = tools/mkpsxiso
+	url = https://github.com/Lameguy64/mkpsxiso

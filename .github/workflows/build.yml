@@ -1,0 +1,19 @@
+name: Build and verify checksums NO ANTIPIRACY
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules:  recursive
+
+      - name: Build Docker image
+        run: docker build -t s3_dev_env
+
+      - name: Run build
+        run: docker run --rm -v "$PWD:/s3" s3_dev_env python3 build_multiproc.py
+
