@@ -1,9 +1,18 @@
 from multiprocessing import Pool
+import argparse
 import os
 import subprocess
 import hashlib
 import colorama
 colorama.init()
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+        "--antipiracy",
+        action="store_true"
+        )
+
+args = parser.parse_args()
 
 CC         = "./tools/gcc2.7.2/cc1"
 GCC         = "mips-linux-gnu-cpp"
@@ -14,7 +23,7 @@ MASPSX      = "./tools/maspsx/maspsx.py"
 
 # Antipiracy
 COMPILE_DRAGONBREATH = False # Set to True if it's your first time including the antipiracy
-FIX_CHECKSUMS = False
+FIX_CHECKSUMS = args.antipiracy
 DRAGONBREATH = "./tools/dragonbreath/dragonbreath.exe"
 # TODO: Probably add something to output whether AP was in the latest build so that a warning can be output when running build_cd!
 
@@ -338,15 +347,15 @@ final_hash_map = {
 
 #######################################################################################################
 
-def get_address(symbol):
-    # We do some horrible manipulation to get it in the right format
-    addr = subprocess.check_output("grep '" + symbol + "' build/psx.map | head -n 1 | cut -dx -f2 | cut -d' ' -f1", shell=True)
-    return str(hex(int(addr, 16)))[2:]
-
-def get_address_offset(symbol, offset):
-    # We do some horrible manipulation (again) to get it in the right format
-    addr = subprocess.check_output("grep '" + symbol + "' build/psx.map | head -n 1 | cut -dx -f2 | cut -d' ' -f1", shell=True)
-    return str(hex(int(addr, 16) + offset))[2:]
+def get_address(symbol, offset=0):
+    addr = subprocess.check_output(
+        f"grep '{symbol}' build/psx.map"
+        " | head -n 1"
+        " | cut -dx -f2"
+        " | cut -d' ' -f1",
+        shell=True
+    )
+    return f"{int(addr, 16) + offset:x}" #hex string
 
 def fix_checksums():
     print_info("[4] Fixing checksums")
@@ -359,23 +368,24 @@ def fix_checksums():
     address_map["ovlHeader"]       = get_address("ovlHeader")
 
     # Get level addresses
-    levels = [10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50]
+    levels = [10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+              30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50]
     for id in range(10, 51):
         if id % 10 == 9:
             continue
-        address_map["level_" + str(id) + "_check"]      = get_address("level_" + str(id) + "_check")
-        address_map["level_" + str(id) + "_text_start"] = get_address("level_" + str(id) + "_text_start")
-        address_map["level_" + str(id) + "_data_start"] = get_address("level_" + str(id) + "_data_start")
+        address_map[f"level_{id}_check"]      = get_address(f"level_{id}_check")
+        address_map[f"level_{id}_text_start"] = get_address(f"level_{id}_text_start")
+        address_map[f"level_{id}_data_start"] = get_address(f"level_{id}_data_start")
 
     # Get secondary addresses
     secondary_levels = [16, 17, 26, 27, 36, 37, 46, 47]
     function_starts  = ["func_8002CA50", "func_8003A40C", "func_8002CA50", "func_8003A40C", "func_8002CA50", "func_8002AB38", "func_8002CA50", "func_8002AB38"]
     function_ends    = ["func_8002D044", "func_8003A584", "func_8002D044", "func_8003A584", "func_8002D044", "func_8002AE00", "func_8002D044", "func_8002AE00"]
     function_offsets = [0, 0, 1, 0, 2, 0, 3, 0]
-    for i in range(8):
-        address_map["level_" + str(secondary_levels[i]) + "_secondary_check"] = get_address("level_" + str(secondary_levels[i]) + "_secondary_check")
-        address_map["level_" + str(secondary_levels[i]) + "_secondary_start"] = get_address_offset(function_starts[i], function_offsets[i]) # name this differently to avoid clashes
-        address_map["level_" + str(secondary_levels[i]) + "_secondary_end"]   = get_address_offset(function_ends[i], function_offsets[i])   # name this differently to avoid clashes
+    for level, start, end, offset in zip(secondary_levels, function_starts, function_ends, function_offsets):
+        address_map[f"level_{level}_secondary_check"] = get_address(f"level_{level}_secondary_check")
+        address_map[f"level_{level}_secondary_start"] = get_address(start, offset) # name this differently to avoid clashes
+        address_map[f"level_{level}_secondary_end"]   = get_address(end, offset)   # name this differently to avoid clashes
 
     # Loading and title addresses
     address_map["exe_check"]          = get_address("exe_check")
@@ -387,27 +397,48 @@ def fix_checksums():
     address_map["title_text_end"]     = get_address("title_text_end")
 
     # Run dragonbreath
-    command = DRAGONBREATH + " ./build/PSX.EXE ./build/wad/"
-    common_args = "-W -q -s " + address_map.get("ovlHeader") + " "
-    exe_args = "-E " + address_map.get("main_TEXT_START") + " " + address_map.get("main_TEXT_END") + " "
+    command = f"{DRAGONBREATH} ./build/PSX.EXE ./build/wad/"
+    common_args = f"-W -q -s {address_map["ovlHeader"]}"
+    exe_args = f"-E {address_map.get("main_TEXT_START")} {address_map.get("main_TEXT_END")}"
 
     # Title
     print_info("Updating primary check for title.ovl")
-    system(command + "title.ovl -c title " + common_args + exe_args + "-O " + address_map.get("title_text_start") + " " + address_map.get("title_text_end") + " -C " + address_map.get("title_check") + " -X " + address_map.get("exe_check") + " -Z")
+    system(
+            f"{command}title.ovl -c title {common_args} {exe_args} "
+            f"-O {address_map['title_text_start']} {address_map['title_text_end']} "
+            f"-C {address_map['title_check']} "
+            f"-X {address_map['exe_check']} "
+            f"-Z"
+            )
 
     # Loading
     print_info("Updating primary check for loading.ovl")
-    system(command + "loading.ovl -c loading " + common_args + exe_args + "-O " + address_map.get("loading_text_start") + " " + address_map.get("loading_text_end") + " -C " + address_map.get("loading_check"))
+    system(
+            f"{command}loading.ovl -c loading {common_args} {exe_args} "
+            f"-O {address_map['loading_text_start']} {address_map['loading_text_end']} "
+            f"-C {address_map['loading_check']} "
+            f"-X {address_map['exe_check']} "
+            )
 
     # Levels
-    for i in range(37):
+    for i, level in enumerate(levels):
         print_info("Updating primary check for level_" + str(levels[i]) + ".ovl")
-        system(command + "level_" + str(levels[i]) + ".ovl -c level " + common_args + exe_args + "-O " + address_map.get("level_" + str(levels[i]) + "_text_start") + " " + address_map.get("level_" + str(levels[i]) + "_data_start") + " -C " + address_map.get("level_" + str(levels[i]) + "_check") + " -L " + str(i) + " -e")
+        system(
+                f"{command}level_{level}.ovl -c level {common_args} {exe_args} "
+                f"-O {address_map[f'level_{level}_text_start']} {address_map[f'level_{level}_data_start']} "
+                f"-C {address_map[f'level_{level}_check']} "
+                f"-L {i} -e"
+                )
 
     # Secondaries
-    for i in range(8):
-        print_info("Updating secondary check for level_" + str(secondary_levels[i]) + ".ovl")
-        system(command + "level_" + str(secondary_levels[i]) + ".ovl -c secondary " + common_args + "-E " + address_map.get("level_" + str(secondary_levels[i]) + "_secondary_start") + " " + address_map.get("level_" + str(secondary_levels[i]) + "_secondary_end") + " -O " + address_map.get("level_" + str(secondary_levels[i]) + "_text_start") + " " + address_map.get("level_" + str(secondary_levels[i]) + "_data_start") + " -C " + address_map.get("level_" + str(secondary_levels[i]) + "_secondary_check"))
+    for level in secondary_levels:
+        print_info(f"Updating secondary check for level_{level}.ovl")
+        system(
+                f"{command}level_{level}.ovl -c secondary {common_args} "
+                f"-E {address_map[f'level_{level}_secondary_start']} {address_map[f'level_{level}_secondary_end']} "
+                f"-O {address_map[f'level_{level}_text_start']} {address_map[f'level_{level}_data_start']} "
+                f"-C {address_map[f'level_{level}_secondary_check']}"
+                      )
 
     # Verify the SHA-256 of the PSX.EXE
     print_info("Verifying SHA-256 of PSX.EXE")
@@ -433,9 +464,11 @@ def fix_checksums():
         logfile.close()
 
     if (nonmatching):
-        print_warning("At least one overlay did not match - see overlay_corrected_hash_output.txt for more details")
+        print_warning("At least one overlay did not match (antipiracy) - see overlay_corrected_hash_output.txt for more details")
+        exit(1)
     else:
-        print_success("All overlays found to be matching")
+        print_success("All overlays found to be matching (antipiracy)")
+        exit(0)
 
 # LET'S GET LINKING
 def link_files():
@@ -490,6 +523,10 @@ def link_files():
             os.system('g++ tools/dragonbreath/src/Dragonbreath.cpp -o ' + DRAGONBREATH)
             print_info("Built Dragonbreath.exe") # I should probably put a condition on this
         fix_checksums()
+    else:
+        if (nonmatching):
+            exit(1)
+        exit(0)
 
 object_files = []
 
