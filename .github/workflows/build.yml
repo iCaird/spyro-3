@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: "Build and verify checksums (antipiracy = ${{ matrix.antipiracy }})"
     runs-on: ubuntu-latest
 
     strategy:
