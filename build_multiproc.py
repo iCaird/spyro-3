@@ -12,6 +12,10 @@ parser.add_argument(
         "--antipiracy",
         action="store_true"
         )
+parse.add_argument(
+        "--compile-dragonbreath",
+        action="store_true"
+        )
 args = parser.parse_args()
 
 CC         = "./tools/gcc2.7.2/cc1"
@@ -22,7 +26,7 @@ OBJCOPY     = "mips-linux-gnu-objcopy"
 MASPSX      = "./tools/maspsx/maspsx.py"
 
 # Antipiracy
-COMPILE_DRAGONBREATH = False # Set to True if it's your first time including the antipiracy
+COMPILE_DRAGONBREATH = args.compile_dragonbreath # Set to True if it's your first time including the antipiracy
 FIX_CHECKSUMS = args.antipiracy
 DRAGONBREATH = "./tools/dragonbreath/dragonbreath.exe"
 # TODO: Probably add something to output whether AP was in the latest build so that a warning can be output when running build_cd!
