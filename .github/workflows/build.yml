@@ -19,12 +19,14 @@ jobs:
           submodules: recursive
       
       - name: Install dependencies
-        sudo apt update
-        sudo apt install -y binutils-mips-linux-gnu cpp-mips-linux-gnu python3
-        python3 -m pip install colorama
+        run: |
+          sudo apt update
+          sudo apt install -y binutils-mips-linux-gnu cpp-mips-linux-gnu python3
+          python3 -m pip install colorama
 
       - name: Run build
-        python3 build_multiproc.py ${{ matrix.antipiracy && '--antipiracy --compile-dragonbreath' || '' }}
+        run: |
+          python3 build_multiproc.py ${{ matrix.antipiracy && '--antipiracy --compile-dragonbreath' || '' }}
 
       # - name: Build Docker image
       #   run: docker build -t s3_dev_env .
