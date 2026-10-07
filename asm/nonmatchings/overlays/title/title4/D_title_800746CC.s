@@ -2,7 +2,7 @@
 
 .align 2
 dlabel D_title_800746CC
-/* 233FC 800746CC */ .asciz "PRESS HEART"
+/* 233FC 800746CC */ .asciz "PRESS START"
 .align 2
 .align 2
 dlabel D_title_800746D8

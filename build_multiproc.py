@@ -1,4 +1,5 @@
 from multiprocessing import Pool
+from pathlib import Path
 import argparse
 import os
 import subprocess
@@ -11,7 +12,6 @@ parser.add_argument(
         "--antipiracy",
         action="store_true"
         )
-
 args = parser.parse_args()
 
 CC         = "./tools/gcc2.7.2/cc1"
@@ -56,8 +56,8 @@ def print_error(message):
 def print_warning(message):
     print(colorama.Fore.YELLOW + message + colorama.Style.RESET_ALL)
 
-def print_info(message):
-    print(colorama.Fore.CYAN + message + colorama.Style.RESET_ALL)
+def print_info(message, end="\n"):
+    print(colorama.Fore.CYAN + message + colorama.Style.RESET_ALL, end=end)
 
 def print_success(message):
     print(colorama.Fore.GREEN + message + colorama.Style.RESET_ALL)
@@ -379,8 +379,10 @@ def fix_checksums():
 
     # Get secondary addresses
     secondary_levels = [16, 17, 26, 27, 36, 37, 46, 47]
-    function_starts  = ["func_8002CA50", "func_8003A40C", "func_8002CA50", "func_8003A40C", "func_8002CA50", "func_8002AB38", "func_8002CA50", "func_8002AB38"]
-    function_ends    = ["func_8002D044", "func_8003A584", "func_8002D044", "func_8003A584", "func_8002D044", "func_8002AE00", "func_8002D044", "func_8002AE00"]
+    function_starts  = ["func_8002CA50", "func_8003A40C", "func_8002CA50", "func_8003A40C",
+                        "func_8002CA50", "func_8002AB38", "func_8002CA50", "func_8002AB38"]
+    function_ends    = ["func_8002D044", "func_8003A584", "func_8002D044", "func_8003A584",
+                        "func_8002D044", "func_8002AE00", "func_8002D044", "func_8002AE00"]
     function_offsets = [0, 0, 1, 0, 2, 0, 3, 0]
     for level, start, end, offset in zip(secondary_levels, function_starts, function_ends, function_offsets):
         address_map[f"level_{level}_secondary_check"] = get_address(f"level_{level}_secondary_check")
@@ -421,37 +423,40 @@ def fix_checksums():
             )
 
     # Levels
+    print_info("Updating primary check for level_xx.ovl:")
     for i, level in enumerate(levels):
-        print_info("Updating primary check for level_" + str(levels[i]) + ".ovl")
+        print_info(f"{level} ",end="")
         system(
                 f"{command}level_{level}.ovl -c level {common_args} {exe_args} "
                 f"-O {address_map[f'level_{level}_text_start']} {address_map[f'level_{level}_data_start']} "
                 f"-C {address_map[f'level_{level}_check']} "
                 f"-L {i} -e"
                 )
+    print("")
 
     # Secondaries
+    print_info(f"Updating secondary check for level_xx.ovl:")
     for level in secondary_levels:
-        print_info(f"Updating secondary check for level_{level}.ovl")
+        print_info(f"{level} ",end="")
         system(
-                f"{command}level_{level}.ovl -c secondary {common_args} "
-                f"-E {address_map[f'level_{level}_secondary_start']} {address_map[f'level_{level}_secondary_end']} "
-                f"-O {address_map[f'level_{level}_text_start']} {address_map[f'level_{level}_data_start']} "
-                f"-C {address_map[f'level_{level}_secondary_check']}"
-                      )
-
+            f"{command}level_{level}.ovl -c secondary {common_args} "
+            f"-E {address_map[f'level_{level}_secondary_start']} {address_map[f'level_{level}_secondary_end']} "
+            f"-O {address_map[f'level_{level}_text_start']} {address_map[f'level_{level}_data_start']} "
+            f"-C {address_map[f'level_{level}_secondary_check']}"
+              )
+    print("")
     # Verify the SHA-256 of the PSX.EXE
-    print_info("Verifying SHA-256 of PSX.EXE")
+    print_info("Verifying SHA-256 of PSX.EXE (antipiracy)")
     sum = sha256sum("build/PSX.EXE")
 
     if sum.upper() != final_exe_hash:
-        print_warning("BUILT NON-MATCHING EXECUTABLE")
+        print_warning("BUILT NON-MATCHING EXECUTABLE (antipiracy)")
         print_warning("PSX.EXE SHA-256: " + sum)
     else:
-        print_success("Successfully built a matching executable")
+        print_success("Successfully built a matching executable (antipiracy)")
         print_success("PSX.EXE SHA-256: " + sum)
     
-    print_info("Verifying SHA-256 of overlays")
+    print_info("Verifying SHA-256 of overlays (antipiracy)")
     nonmatching = False
     with open('overlay_corrected_hash_output.txt', 'w') as logfile:
         for file, ovlhash in final_hash_map.items():
@@ -461,7 +466,6 @@ def fix_checksums():
                 nonmatching = True
             else:
                 logfile.write(file + ': matching (' + sum + ')\n')
-        logfile.close()
 
     if (nonmatching):
         print_warning("At least one overlay did not match (antipiracy) - see overlay_corrected_hash_output.txt for more details")
@@ -487,7 +491,7 @@ def link_files():
     print_info("[3] Extracting overlays")
 
     for section, overlay in overlay_map.items():
-        system(OBJCOPY + " --only-section=" + section + " -O binary build/psx.elf build/wad/" + overlay)
+        system(f"{OBJCOPY} --only-section={section} -O binary build/psx.elf build/wad/{overlay}")
 
     # Verify the SHA-256 of the PSX.EXE
     print_info("Verifying SHA-256 of PSX.EXE")
@@ -506,11 +510,10 @@ def link_files():
         for file, ovlhash in base_hash_map.items():
             sum = sha256sum("build/wad/" + file)
             if sum.upper() != ovlhash:
-                logfile.write(file + ': NON-MATCHING (' + sum + ')\n')
+                logfile.write(f"{file}: NON-MATCHING ({sum})\n")
                 nonmatching = True
             else:
-                logfile.write(file + ': matching (' + sum + ')\n')
-        logfile.close()
+                logfile.write(f"{file}: matching ({sum})\n")
     
     if (nonmatching):
         print_warning("At least one overlay did not match - see overlay_hash_output.txt for more details")
@@ -525,13 +528,10 @@ def link_files():
         fix_checksums()
     else:
         if (nonmatching):
-            print("exiting with code 1")
             exit(1)
 
-        print("exiting with code 0")
         exit(0)
 
-object_files = []
 
 def assemble_file(file):
     # Remove .s from the file name
@@ -540,7 +540,7 @@ def assemble_file(file):
     # Create the output directory if it doesn't exist
     os.makedirs(os.path.dirname("build/" + out), exist_ok=True)
 
-    system(AS + " " + AS_FLAGS + " -o build/" + out + " " + file)
+    system(f"{AS} {AS_FLAGS} -o build/{out} {file}")
 
     return "build/" + out
 
@@ -557,50 +557,44 @@ def build_file(file):
 
     debug_build = os.environ.get("DEBUG")
 
-    system(GCC + ("" if not debug_build else " -DDEBUG") + " " + GCC_FLAGS + " build/" + file + ".o.d " + file + ".c | " + CC + " " + C_FLAGS + " " + fileFlags + " | python3 " + MASPSX + " " + MASPSX_FLAGS + " | python3 ./tools/fix_str_align.py | python3 ./tools/fix_jtbl_align.py > build/" + out_s)
-    system(AS + " " + AS_FLAGS + " -o build/" + out + " build/" + out_s)
+    system(
+        f"{GCC} {'-DDEBUG' if debug_build else ''} {GCC_FLAGS} build/{file}.o.d {file}.c"
+        f" | {CC} {C_FLAGS} {fileFlags}"
+        f" | python3 {MASPSX} {MASPSX_FLAGS}"
+        " | python3 ./tools/fix_str_align.py"
+        " | python3 ./tools/fix_jtbl_align.py"
+        f" > build/{out_s}"
+        )
+    system(f"{AS} {AS_FLAGS} -o build/{out} build/{out_s}")
 
-    return"build/" + out
+    return f"build/{out}"
 
 def collect_c_files():
-    files = []
-    for root, _, filenames in os.walk("src"):
-        for filename in filenames:
-                if filename.endswith(".c"):
-                    files.append(os.path.join(root, filename))
-    return files
+    return [str(path) for path in Path("src").rglob("*.c")]
 
 def collect_asm_files():
-    files = []
-    for root, _, filenames in os.walk("asm"):
-        if "nonmatchings" in root:
-            continue
-        for filename in filenames:
-            if filename.endswith(".s"):
-                files.append(os.path.join(root, filename))
-    return files
+    return [str(path) for path in Path("asm").rglob("*.s") if "nonmatchings" not in path.parts]
 
+def main():
 # Make sure the build/ and build/wad/ directories exist
-os.makedirs("build/wad", exist_ok=True)
+    os.makedirs("build/wad", exist_ok=True)
 
 # You can skip compiling the source code and only link the files by calling LINK_ONLY=1 python build.py
-if not os.environ.get("LINK_ONLY"):
-    asm_files = collect_asm_files()
-    c_files = collect_c_files()
-
-    c_objects = []
-    asm_objects = []
-
-    with Pool() as pool:
-        for i, result in enumerate(pool.imap_unordered(build_file, c_files), 1):
-            print_info(f"Compiled {i}/{len(c_files)}: {result}")
-            c_objects.append(result)
-
-        for i, result in enumerate(pool.imap_unordered(assemble_file, asm_files), 1):
-            print_info(f"Assembled {i}/{len(asm_files)}: {result}")
-            asm_objects.append(result)
+    if not os.environ.get("LINK_ONLY"):
+        asm_files = collect_asm_files()
+        c_files = collect_c_files()
 
 
-    object_files = c_objects + asm_objects
+        with Pool() as pool:
+            for i, result in enumerate(pool.imap_unordered(build_file, c_files), 1):
+                print_info(f"Compiled {i}/{len(c_files)}: {result}")
 
-link_files()
+            for i, result in enumerate(pool.imap_unordered(assemble_file, asm_files), 1):
+                print_info(f"Assembled {i}/{len(asm_files)}: {result}")
+
+
+
+    link_files()
+
+if __name__ == "__main__":
+    main()
