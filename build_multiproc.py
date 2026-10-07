@@ -12,7 +12,7 @@ parser.add_argument(
         "--antipiracy",
         action="store_true"
         )
-parse.add_argument(
+parser.add_argument(
         "--compile-dragonbreath",
         action="store_true"
         )
